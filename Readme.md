@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Катерина](https://up.htmlacademy.ru/react/16/user/2547343).
-* Наставник: `Arthur Litovko` (https://htmlacademy.ru/profile/id6927).
+* Наставник: [Arthur Litovko](https://htmlacademy.ru/profile/id6927).
 
 ---
 
