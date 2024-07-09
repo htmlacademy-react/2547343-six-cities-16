@@ -1,15 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './components/App';
+import App from './components/app';
+import { data } from './components/settings/settings';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const placeCardsCount = 5;
-
 root.render(
   <React.StrictMode>
-    <App placeCardsCount={placeCardsCount} />
+    <App
+      placeCardsCount={data.placeCardsCount}
+      cities={data.cities}
+      isNavigation={data.isNavigation}
+    />
   </React.StrictMode>
 );
