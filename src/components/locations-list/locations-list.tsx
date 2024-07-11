@@ -5,11 +5,11 @@ type LocationItemProps = {
 }
 
 function LocationsList({ cities }: LocationItemProps) {
-  const List = cities.map((item: string) => <LocationItem city={item} key={item} />);
+  const list = cities.map((item: string) => <LocationItem city={item} key={item} />);
   return (
     <section className="locations container">
       <ul className="locations__list tabs__list">
-        {List}
+        {list}
       </ul>
     </section>
   );

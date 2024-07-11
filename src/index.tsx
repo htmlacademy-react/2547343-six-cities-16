@@ -12,7 +12,7 @@ root.render(
     <App
       placeCardsCount={data.placeCardsCount}
       cities={data.cities}
-      isNavigation={data.isNavigation}
+      hasNavigation={data.hasNavigation}
     />
   </React.StrictMode>
 );
