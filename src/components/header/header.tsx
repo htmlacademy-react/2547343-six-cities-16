@@ -1,8 +1,8 @@
 type HeaderProps = {
-  isNavigation: boolean;
+  hasNavigation: boolean;
 }
 
-function Header({ isNavigation }: HeaderProps) {
+function Header({ hasNavigation }: HeaderProps) {
   return (
     <header className="header">
       <div className="container">
@@ -12,7 +12,7 @@ function Header({ isNavigation }: HeaderProps) {
               <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
             </a>
           </div>
-          {isNavigation &&
+          {hasNavigation &&
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">

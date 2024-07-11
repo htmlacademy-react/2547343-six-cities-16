@@ -1,18 +1,18 @@
 import Header from '../components/header/header.tsx';
-import PlaceCard from '../components/place-card.tsx';
+import PlaceCard from '../components/place-card/place-card.tsx';
 import LocationsList from '../components/locations-list/locations-list.tsx';
 
 type MainScreenProps = {
   placeCardsCount: number;
   cities: string[];
-  isNavigation: boolean;
+  hasNavigation: boolean;
 }
 
-function MainScreen({ placeCardsCount, cities, isNavigation }: MainScreenProps): JSX.Element {
+function MainScreen({ placeCardsCount, cities, hasNavigation }: MainScreenProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
 
-      <Header isNavigation={isNavigation} />
+      <Header hasNavigation={hasNavigation} />
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
