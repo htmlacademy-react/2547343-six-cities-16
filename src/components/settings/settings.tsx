@@ -1,5 +1,5 @@
 export const data = {
   placeCardsCount: 5,
-  cities: ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'],
+  cities: ['paris', 'cologne', 'brussels', 'amsterdam', 'hamburg', 'dusseldorf'],
   hasNavigation: true
 };
