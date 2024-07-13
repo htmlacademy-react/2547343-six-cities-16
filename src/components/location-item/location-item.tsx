@@ -1,14 +1,18 @@
+import { Link } from 'react-router-dom';
+
 type LocationItemProps = {
   city: string;
+  activeCity: string;
 }
 
-function LocationItem({ city }: LocationItemProps) {
+function LocationItem({ city, activeCity }: LocationItemProps) {
+
   return (
     <li className="locations__item">
-      <a className="locations__item-link tabs__item" href="#">
+      <Link className={`locations__item-link tabs__item ${activeCity === `:${city}` ? 'tabs__item tabs__item--active' : ''}`} to={`/:${city}`}>
         <span>{city}</span>
-      </a>
-    </li>
+      </Link>
+    </li >
   );
 }
 

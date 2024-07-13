@@ -2,15 +2,15 @@ import PlaceCard from '../components/place-card/place-card.tsx';
 import PlaceReview from '../components/place-review/place-review.tsx';
 import Header from '../components/header/header.tsx';
 import OfferImage from '../components/offer-image/offer-image.tsx';
+import HeaderNavigation from './header-navigation/header-navigation.tsx';
 
-type OfferScreenProps = {
-  hasNavigation: boolean;
-}
+function OfferScreen(): JSX.Element {
 
-function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
   return (
     <div className="page">
-      <Header hasNavigation={hasNavigation} />
+      <Header >
+        <HeaderNavigation />
+      </Header>
       <main className="page__main page__main--offer">
         <section className="offer">
           <div className="offer__gallery-container container">
