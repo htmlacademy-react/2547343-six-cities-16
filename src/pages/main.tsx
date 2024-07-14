@@ -1,24 +1,21 @@
 import Header from '../components/header/header.tsx';
 import PlaceCard from '../components/place-card/place-card.tsx';
 import LocationsList from '../components/locations-list/locations-list.tsx';
-import HeaderNavigation from './header-navigation/header-navigation.tsx';
 import { useParams } from 'react-router-dom';
 
 type MainScreenProps = {
   placeCardsCount: number;
-  cities: string[];
-  // activeCity: string;
+  cities: { id: string; name: string }[];
+  hasNavigation: boolean;
 }
 
-function MainScreen({ placeCardsCount, cities }: MainScreenProps): JSX.Element {
+function MainScreen({ placeCardsCount, cities, hasNavigation }: MainScreenProps): JSX.Element {
   const params = useParams();
 
   return (
     <div className="page page--gray page--main">
 
-      <Header >
-        <HeaderNavigation />
-      </Header>
+      <Header hasNavigation={hasNavigation} />
 
       <main className="page__main page__main--index">
         <h1 className="visually-hidden">Cities</h1>
