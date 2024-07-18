@@ -12,7 +12,7 @@ import PrivateRoute from './private-route/private-route';
 
 type AppProps = {
   placeCardsCount: number;
-  cities: string[];
+  cities: { id: string; name: string }[];
 }
 
 function App({ placeCardsCount, cities }: AppProps): JSX.Element {
@@ -20,13 +20,13 @@ function App({ placeCardsCount, cities }: AppProps): JSX.Element {
     {
       path: AppRoute.Main,
       element:
-        <MainScreen placeCardsCount={placeCardsCount} cities={cities} />,
+        <MainScreen placeCardsCount={placeCardsCount} cities={cities} hasNavigation />,
       errorElement: <ErrorScreen />,
     },
     {
       path: AppRoute.Login,
       element:
-        <LoginScreen />
+        <LoginScreen hasNavigation={false} />
     },
     {
       path: AppRoute.Favorites,
@@ -38,17 +38,12 @@ function App({ placeCardsCount, cities }: AppProps): JSX.Element {
     {
       path: AppRoute.Offer,
       element:
-        <OfferScreen />
+        <OfferScreen hasNavigation />
     }
   ]);
 
   return <RouterProvider router={router} />;
 
 }
-// function App({ placeCardsCount, cities, hasNavigation }: AppProps): JSX.Element {
-//   return (
-//     <MainScreen placeCardsCount={placeCardsCount} cities={cities} hasNavigation={hasNavigation} />
-//   );
-// }
 
 export default App;

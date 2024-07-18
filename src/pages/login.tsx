@@ -1,6 +1,10 @@
 import Header from '../components/header/header.tsx';
 
-function LoginScreen(): JSX.Element {
+type LoginScreenProps = {
+  hasNavigation: boolean;
+}
+
+function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
   return (
 
     <div className="page page--gray page--login">

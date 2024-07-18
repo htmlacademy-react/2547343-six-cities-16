@@ -1,12 +1,11 @@
-import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../constants';
 
-type ChildrenType = {
-  children?: ReactNode;
+type HeaderProps = {
+  hasNavigation: boolean;
 }
 
-function Header({ children }: ChildrenType): JSX.Element {
+function Header({ hasNavigation }: HeaderProps): JSX.Element {
   return (
     <header className="header">
       <div className="container">
