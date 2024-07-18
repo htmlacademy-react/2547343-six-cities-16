@@ -1,16 +1,15 @@
 import Header from '../components/header/header.tsx';
 import FavoritesCard from '../components/favorites-card/favorites-card.tsx';
 import Footer from '../components/footer/footer';
-import HeaderNavigation from './header-navigation/header-navigation.tsx';
 
-function FavoritesScreen(): JSX.Element {
+type FavoriteScreenProps = {
+  hasNavigation: boolean;
+}
+function FavoritesScreen({ hasNavigation }: FavoriteScreenProps): JSX.Element {
   return (
 
     <div className="page">
-
-      <Header>
-        <HeaderNavigation />
-      </Header>
+      <Header hasNavigation={hasNavigation} />
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">

@@ -1,12 +1,12 @@
-import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../constants';
+import HeaderNavigation from '../header-navigation/header-navigation';
 
-type ChildrenType = {
-  children?: ReactNode;
+type HeaderProps = {
+  hasNavigation: boolean;
 }
 
-function Header({ children }: ChildrenType): JSX.Element {
+function Header({ hasNavigation }: HeaderProps): JSX.Element {
   return (
     <header className="header">
       <div className="container">
@@ -16,7 +16,7 @@ function Header({ children }: ChildrenType): JSX.Element {
               <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
             </Link>
           </div>
-          {children}
+          {hasNavigation && <HeaderNavigation />}
         </div>
       </div>
     </header>

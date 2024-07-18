@@ -7,7 +7,7 @@ function ErrorScreen(): JSX.Element {
   return (
 
     <div className="page page--gray page--login">
-      <Header />
+      <Header hasNavigation={false} />
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <div>
@@ -21,7 +21,6 @@ function ErrorScreen(): JSX.Element {
               fontSize: '19px',
               fontWeight: '700',
               fontStyle: 'oblique',
-              // transform: 'skew(-15deg)',
               borderRadius: '3px'
             }}
             >
