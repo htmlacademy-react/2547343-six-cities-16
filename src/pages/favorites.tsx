@@ -1,7 +1,7 @@
 import Header from '../components/header/header.tsx';
 import FavoritesCard from '../components/favorites-card/favorites-card.tsx';
 import Footer from '../components/footer/footer';
-import HeaderNavigation from './header-navigation/header-navigation.tsx';
+import HeaderNavigation from '../components/header-navigation/header-navigation.tsx';
 
 function FavoritesScreen(): JSX.Element {
   return (
