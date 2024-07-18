@@ -46,5 +46,4 @@ function App({ placeCardsCount, cities }: AppProps): JSX.Element {
 
 }
 
-
 export default App;
