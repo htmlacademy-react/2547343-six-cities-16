@@ -32,7 +32,7 @@ function App({ placeCardsCount, cities }: AppProps): JSX.Element {
       path: AppRoute.Favorites,
       element:
         <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-          <FavoritesScreen />
+          <FavoritesScreen hasNavigation />
         </PrivateRoute>
     },
     {

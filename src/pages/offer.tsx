@@ -2,7 +2,6 @@ import PlaceCard from '../components/place-card/place-card.tsx';
 import PlaceReview from '../components/place-review/place-review.tsx';
 import Header from '../components/header/header.tsx';
 import OfferImage from '../components/offer-image/offer-image.tsx';
-import HeaderNavigation from '../components/header-navigation/header-navigation.tsx';
 
 type OfferScreenProps = {
   hasNavigation: boolean;
