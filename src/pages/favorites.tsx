@@ -1,11 +1,13 @@
 import Header from '../components/header/header.tsx';
 import FavoritesCard from '../components/favorites-card/favorites-card.tsx';
 import Footer from '../components/footer/footer';
+import { FavoritesDataType, OfferCardType } from '../types.ts';
 
 type FavoriteScreenProps = {
+  favoritesData: FavoritesDataType[];
   hasNavigation: boolean;
 }
-function FavoritesScreen({ hasNavigation }: FavoriteScreenProps): JSX.Element {
+function FavoritesScreen({ favoritesData, hasNavigation }: FavoriteScreenProps): JSX.Element {
   return (
 
     <div className="page">
@@ -16,32 +18,25 @@ function FavoritesScreen({ hasNavigation }: FavoriteScreenProps): JSX.Element {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              <li className="favorites__locations-items">
-                <div className="favorites__locations locations locations--current">
-                  <div className="locations__item">
-                    <a className="locations__item-link" href="#">
-                      <span>Amsterdam</span>
-                    </a>
-                  </div>
-                </div>
-                <div className="favorites__places">
-                  <FavoritesCard />
-                  <FavoritesCard />
-                </div>
-              </li>
 
-              <li className="favorites__locations-items">
-                <div className="favorites__locations locations locations--current">
-                  <div className="locations__item">
-                    <a className="locations__item-link" href="#">
-                      <span>Cologne</span>
-                    </a>
+              {favoritesData.map((data: FavoritesDataType) => (
+                <li className="favorites__locations-items" key={data.city}>
+                  <div className="favorites__locations locations locations--current">
+                    <div className="locations__item">
+                      <a className="locations__item-link" href="#">
+                        <span>{data.city}</span>
+                      </a>
+                    </div>
                   </div>
-                </div>
-                <div className="favorites__places">
-                  <FavoritesCard />
-                </div>
-              </li>
+                  <div className="favorites__places">
+                    {data.offers.map((offer: OfferCardType) => (
+
+                      <FavoritesCard offerData={offer} key={offer.id} />
+                    ))}
+                  </div>
+                </li>
+              )
+              )}
             </ul>
           </section>
         </div>

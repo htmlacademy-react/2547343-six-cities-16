@@ -1,5 +1,4 @@
 export const data = {
-  placeCardsCount: 5,
   cities: [
     { id: 'paris', name: 'Paris' },
     { id: 'cologne', name: 'cologne' },

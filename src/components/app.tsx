@@ -9,18 +9,20 @@ import OfferScreen from '../pages/offer';
 import ErrorScreen from '../pages/error';
 import { AppRoute, AuthorizationStatus } from '../constants';
 import PrivateRoute from './private-route/private-route';
+import { OfferCardType, FavoritesDataType } from '../types';
 
 type AppProps = {
-  placeCardsCount: number;
   cities: { id: string; name: string }[];
+  offersData: OfferCardType[];
+  favoritesData: FavoritesDataType[];
 }
 
-function App({ placeCardsCount, cities }: AppProps): JSX.Element {
+function App({ cities, offersData, favoritesData }: AppProps): JSX.Element {
   const router = createBrowserRouter([
     {
       path: AppRoute.Main,
       element:
-        <MainScreen placeCardsCount={placeCardsCount} cities={cities} hasNavigation />,
+        <MainScreen cities={cities} hasNavigation offersData={offersData} />,
       errorElement: <ErrorScreen />,
     },
     {
@@ -31,8 +33,8 @@ function App({ placeCardsCount, cities }: AppProps): JSX.Element {
     {
       path: AppRoute.Favorites,
       element:
-        <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-          <FavoritesScreen hasNavigation />
+        <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+          <FavoritesScreen favoritesData={favoritesData} hasNavigation />
         </PrivateRoute>
     },
     {
