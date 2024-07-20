@@ -1,17 +1,19 @@
 import { OfferCardType } from '../../types';
 import { Link } from 'react-router-dom';
 
+
 type OfferCardProps = {
   offerData: OfferCardType;
   setActiveOffer: (id: string) => void;
+  activeOffer: boolean;
 }
-
-function OfferCard({ offerData, setActiveOffer }: OfferCardProps): JSX.Element {
+// удалить пропс activeOffer
+function OfferCard({ offerData, setActiveOffer, activeOffer }: OfferCardProps): JSX.Element {
   const ratingInStarsFormat: string = String(parseInt(offerData.rating, 10) * 20);
   const isPremium: boolean = (/true/i).test(offerData.premium);
 
   return (
-    <article className="cities__card place-card" onMouseEnter={() => setActiveOffer(offerData.id)}>
+    <article className={`cities__card place-card ${activeOffer ? '' : 'place-card--active'}`} onMouseEnter={() => setActiveOffer(offerData.id)}>
       {isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
