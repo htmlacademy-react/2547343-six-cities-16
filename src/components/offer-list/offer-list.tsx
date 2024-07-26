@@ -23,4 +23,5 @@ function OfferList({ offersData }: OfferListProps) {
   );
 }
 
+
 export default OfferList;

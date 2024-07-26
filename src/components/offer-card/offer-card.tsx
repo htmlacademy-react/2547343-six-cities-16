@@ -1,6 +1,7 @@
 import { OfferCardType } from '../../types';
 import { Link } from 'react-router-dom';
 
+
 type OfferCardProps = {
   offerData: OfferCardType;
   setActiveOffer: (id: string) => void;
