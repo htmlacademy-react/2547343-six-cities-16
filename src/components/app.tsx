@@ -41,7 +41,7 @@ function App({ cities, offersData, favoritesData, mapData }: AppProps): JSX.Elem
     {
       path: AppRoute.Offer,
       element:
-        <OfferScreen hasNavigation />
+        <OfferScreen hasNavigation mapData={mapData} />
     }
   ]);
 

@@ -5,14 +5,16 @@ import { useRef, useEffect } from 'react';
 import useMap from '../../hooks/use-map';
 import { MapDataType, OfferCardType } from '../../types';
 import { URL_MARKER_DEFAULT, URL_MARKER_ACTIVE } from '../../constants';
+import cn from 'classnames';
 
 type MapProps = {
   mapData: MapDataType;
+  mapType: string;
   points: OfferCardType[];
   selectedPoint: string;
 }
 
-function Map({ mapData, points, selectedPoint }: MapProps): JSX.Element {
+function Map({ mapData, mapType, points, selectedPoint }: MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, mapData);
 
@@ -48,14 +50,15 @@ function Map({ mapData, points, selectedPoint }: MapProps): JSX.Element {
   }, [map, points, selectedPoint]);
 
   return (
-    <div className="cities__right-section">
-      <section
-        className="cities__map map"
-        ref={mapRef}
-      >
-
-      </section>
-    </div>
+    <section
+      className={cn(
+        'map',
+        { 'cities__map': mapType === 'main' },
+        { 'offer__map': mapType === 'offer' },
+      )}
+      ref={mapRef}
+    >
+    </section>
 
 
   );

@@ -5,6 +5,7 @@ import Map from '../components/map/map.tsx';
 import { useParams } from 'react-router-dom';
 import { MapDataType, OfferCardType } from '../types.ts';
 import { useState } from 'react';
+import { MapType } from '../constants.ts';
 
 type MainScreenProps = {
   cities: { id: string; name: string }[];
@@ -57,8 +58,11 @@ function MainScreen({ cities, hasNavigation, offersData, mapData }: MainScreenPr
                 <OfferList offersData={offersData} setActiveOffer={setActiveOffer} />
 
               </section>
-              <Map mapData={mapData} points={offersData} selectedPoint={activeOffer} />
 
+              <div className="cities__right-section">
+                <Map mapData={mapData} mapType={MapType.Main} points={offersData} selectedPoint={activeOffer} />
+
+              </div>
             </div>
           </div>}
 

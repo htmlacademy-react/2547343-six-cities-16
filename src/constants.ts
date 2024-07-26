@@ -11,6 +11,11 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN'
 }
 
+export enum MapType {
+  Main = 'main',
+  Offer = 'offer'
+}
+
 export const URL_MARKER_DEFAULT =
   '../public/img/pin.svg';
 
