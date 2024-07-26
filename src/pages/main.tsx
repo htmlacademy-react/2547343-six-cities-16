@@ -1,18 +1,22 @@
 import Header from '../components/header/header.tsx';
 import OfferList from '../components/offer-list/offer-list.tsx';
 import LocationsList from '../components/locations-list/locations-list.tsx';
+import Map from '../components/map/map.tsx';
 import { useParams } from 'react-router-dom';
-import { OfferCardType } from '../types.ts';
+import { MapDataType, OfferCardType } from '../types.ts';
+import { useState } from 'react';
 
 type MainScreenProps = {
   cities: { id: string; name: string }[];
   hasNavigation: boolean;
   offersData: OfferCardType[];
+  mapData: MapDataType;
 }
 
-function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX.Element {
+function MainScreen({ cities, hasNavigation, offersData, mapData }: MainScreenProps): JSX.Element {
   const params = useParams();
   const hasOfferData: boolean = offersData.length > 0;
+  const [activeOffer, setActiveOffer] = useState('');
 
   return (
     <div className="page page--gray page--main">
@@ -50,12 +54,11 @@ function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX
                   </ul>
                 </form>
 
-                <OfferList offersData={offersData} />
+                <OfferList offersData={offersData} setActiveOffer={setActiveOffer} />
 
               </section>
-              <div className="cities__right-section">
-                <section className="cities__map map"></section>
-              </div>
+              <Map mapData={mapData} points={offersData} selectedPoint={activeOffer} />
+
             </div>
           </div>}
 
