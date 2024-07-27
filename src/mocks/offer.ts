@@ -7,7 +7,9 @@ export const offerMocks: OfferCardType[] = [
     price: '€120',
     rating: '4',
     type: 'Apartment',
-    premium: 'true'
+    premium: 'true',
+    lat: 52.3909553943508,
+    lng: 4.85309666406198
   },
   {
     id: '002',
@@ -15,7 +17,9 @@ export const offerMocks: OfferCardType[] = [
     price: '€80',
     rating: '4',
     type: 'Room',
-    premium: 'false'
+    premium: 'false',
+    lat: 52.3609553943508,
+    lng: 4.85309666406198
   },
   {
     id: '003',
@@ -23,7 +27,9 @@ export const offerMocks: OfferCardType[] = [
     price: '€132',
     rating: '3',
     type: 'Apartment',
-    premium: 'false'
+    premium: 'false',
+    lat: 52.3909553943508,
+    lng: 4.929309666406198
   },
   {
     id: '004',
@@ -31,6 +37,8 @@ export const offerMocks: OfferCardType[] = [
     price: '€180',
     rating: '5',
     type: 'Apartment',
-    premium: 'true'
+    premium: 'true',
+    lat: 52.3809553943508,
+    lng: 4.929309666406198
   },
 ];

@@ -5,9 +5,18 @@ export type OfferCardType = {
   rating: string;
   type: string;
   premium: string;
+  lat?: number;
+  lng?: number;
 };
 
 export type FavoritesDataType = {
   city: string;
   offers: OfferCardType[];
 };
+
+export type MapDataType = {
+  name: string;
+  lat: number;
+  lng: number;
+  zoom: number;
+}
