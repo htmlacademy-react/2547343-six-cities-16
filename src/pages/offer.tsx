@@ -1,23 +1,21 @@
-import { useState } from 'react';
 import OfferList from '../components/offer-list/offer-list.tsx';
-import PlaceReview from '../components/place-review/place-review.tsx';
+import ReviewList from '../components/review-list/review-list.tsx';
 import Header from '../components/header/header.tsx';
 import OfferImage from '../components/offer-image/offer-image.tsx';
 import Map from '../components/map/map.tsx';
 import { useParams } from 'react-router-dom';
 import { offerMocks } from '../mocks/offer.ts';
-import { OfferCardType, MapDataType } from '../types.ts';
-import CommentForm from '../components/comment-form/comment-form.tsx';
+import { OfferCardType, ReviewItemType } from '../types.ts';
 import { MapType } from '../constants.ts';
+import { cityCoordinatesMocks } from '../mocks/city-coordinates.ts';
 
 type OfferScreenProps = {
   hasNavigation: boolean;
-  mapData: MapDataType;
+  reviewsData: ReviewItemType[];
 }
 
-function OfferScreen({ hasNavigation, mapData }: OfferScreenProps): JSX.Element {
+function OfferScreen({ hasNavigation, reviewsData }: OfferScreenProps): JSX.Element {
   const params = useParams();
-  const [activeOffer, setActiveOffer] = useState('');
 
   const offerData: OfferCardType = offerMocks.filter((el: OfferCardType) => {
     if (el.id === params.id) {
@@ -30,6 +28,8 @@ function OfferScreen({ hasNavigation, mapData }: OfferScreenProps): JSX.Element 
       return el;
     }
   });
+
+  const currentCityData = cityCoordinatesMocks.find((city) => city.id === offerData.city);
 
   const ratingInStarsFormat: string = String(parseInt(offerData.rating, 10) * 20);
   const isPremium: boolean = (/true/i).test(offerData.premium);
@@ -148,23 +148,17 @@ function OfferScreen({ hasNavigation, mapData }: OfferScreenProps): JSX.Element 
                   </p>
                 </div>
               </div>
-              <section className="offer__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">1</span></h2>
-                <ul className="reviews__list">
-                  <PlaceReview />
-                </ul>
-                <CommentForm />
-              </section>
+              <ReviewList reviewsData={reviewsData} />
             </div>
           </div>
-          <Map mapData={mapData} mapType={MapType.Offer} points={restOfferData} selectedPoint={activeOffer} />
+          <Map cityData={currentCityData} mapType={MapType.Offer} points={offerMocks} selectedPoint={params.id!} />
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
 
-              <OfferList offersData={restOfferData} setActiveOffer={setActiveOffer} />
+              <OfferList offersData={restOfferData} />
             </div>
           </section>
         </div>

@@ -3,21 +3,29 @@ import OfferList from '../components/offer-list/offer-list.tsx';
 import LocationsList from '../components/locations-list/locations-list.tsx';
 import Map from '../components/map/map.tsx';
 import { useParams } from 'react-router-dom';
-import { MapDataType, OfferCardType } from '../types.ts';
+import { CityDataType, OfferCardType } from '../types.ts';
 import { useState } from 'react';
 import { MapType } from '../constants.ts';
+import { data } from '../components/settings/settings.tsx';
 
 type MainScreenProps = {
   cities: { id: string; name: string }[];
   hasNavigation: boolean;
   offersData: OfferCardType[];
-  mapData: MapDataType;
+  citiesData: CityDataType[];
 }
 
-function MainScreen({ cities, hasNavigation, offersData, mapData }: MainScreenProps): JSX.Element {
+// Не понимаю как сделать обновление положения карты при выборе другого города,
+// данные о городе обновляются, метки переставляются, но фокус остается
+// на исходном городе
+
+function MainScreen({ cities, hasNavigation, offersData, citiesData }: MainScreenProps): JSX.Element {
   const params = useParams();
   const hasOfferData: boolean = offersData.length > 0;
   const [activeOffer, setActiveOffer] = useState('');
+  const selectedCity = params.city || 'amsterdam';
+  const selectedCityData = data.cities.find((city) => city.id === selectedCity);
+  const cityLabel = selectedCityData !== undefined ? selectedCityData.name : 'Amsterdam';
 
   return (
     <div className="page page--gray page--main">
@@ -28,7 +36,8 @@ function MainScreen({ cities, hasNavigation, offersData, mapData }: MainScreenPr
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
 
-          <LocationsList cities={cities} activeCity={params.city || 'amsterdam'} />
+          <LocationsList cities={cities} activeCity={selectedCity} />
+
 
         </div>
 
@@ -38,7 +47,7 @@ function MainScreen({ cities, hasNavigation, offersData, mapData }: MainScreenPr
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">312 places to stay in Amsterdam</b>
+                <b className="places__found">312 places to stay in {cityLabel}</b>
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by</span>
                   <span className="places__sorting-type" tabIndex={0}>
@@ -60,7 +69,7 @@ function MainScreen({ cities, hasNavigation, offersData, mapData }: MainScreenPr
               </section>
 
               <div className="cities__right-section">
-                <Map mapData={mapData} mapType={MapType.Main} points={offersData} selectedPoint={activeOffer} />
+                <Map cityData={citiesData.find((city) => city.id === selectedCity)} mapType={MapType.Main} points={offersData} selectedPoint={activeOffer} />
 
               </div>
             </div>
@@ -73,7 +82,7 @@ function MainScreen({ cities, hasNavigation, offersData, mapData }: MainScreenPr
               <section className="cities__no-places">
                 <div className="cities__status-wrapper tabs__content">
                   <b className="cities__status">No places to stay available</b>
-                  <p className="cities__status-description">We could not find any property available at the moment in Dusseldorf</p>
+                  <p className="cities__status-description">We could not find any property available at the moment in {cityLabel}</p>
                 </div>
               </section>
               <div className="cities__right-section"></div>

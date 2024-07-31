@@ -4,6 +4,7 @@ export const offerMocks: OfferCardType[] = [
   {
     id: '001',
     name: 'Beautiful & luxurious apartment at great location',
+    city: 'amsterdam',
     price: '€120',
     rating: '4',
     type: 'Apartment',
@@ -14,6 +15,7 @@ export const offerMocks: OfferCardType[] = [
   {
     id: '002',
     name: 'Wood and stone place',
+    city: 'amsterdam',
     price: '€80',
     rating: '4',
     type: 'Room',
@@ -24,6 +26,7 @@ export const offerMocks: OfferCardType[] = [
   {
     id: '003',
     name: 'Canal View Prinsengracht',
+    city: 'amsterdam',
     price: '€132',
     rating: '3',
     type: 'Apartment',
@@ -34,6 +37,7 @@ export const offerMocks: OfferCardType[] = [
   {
     id: '004',
     name: 'Nice, cozy, warm big bed apartment',
+    city: 'amsterdam',
     price: '€180',
     rating: '5',
     type: 'Apartment',
