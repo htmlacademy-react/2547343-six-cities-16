@@ -6,6 +6,7 @@ export const favoritesMocks: FavoritesDataType[] = [
     offers: [{
       id: '015',
       name: 'Nice, cozy, warm big bed apartment',
+      city: 'amstrdam',
       price: '180',
       rating: '5',
       type: 'Apartment',
@@ -14,6 +15,7 @@ export const favoritesMocks: FavoritesDataType[] = [
     {
       id: '012',
       name: 'Wood and stone place',
+      city: 'amstrdam',
       price: '€80',
       rating: '4',
       type: 'Room',
@@ -25,6 +27,7 @@ export const favoritesMocks: FavoritesDataType[] = [
     offers: [{
       id: '011',
       name: 'White castle',
+      city: 'cologne',
       price: '€180',
       rating: '5',
       type: 'Apartment',

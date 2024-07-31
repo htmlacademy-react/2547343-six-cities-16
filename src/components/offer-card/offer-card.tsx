@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 type OfferCardProps = {
   offerData: OfferCardType;
-  setActiveOffer: (id: string) => void;
+  setActiveOffer?: (id: string) => void;
 }
 
 function OfferCard({ offerData, setActiveOffer }: OfferCardProps): JSX.Element {
@@ -12,10 +12,10 @@ function OfferCard({ offerData, setActiveOffer }: OfferCardProps): JSX.Element {
   const isPremium: boolean = (/true/i).test(offerData.premium);
 
   const handleOfferHover = () => {
-    setActiveOffer(offerData.id);
+    setActiveOffer?.(offerData.id);
   };
   const handleOfferLeave = () => {
-    setActiveOffer('');
+    setActiveOffer?.('');
   };
 
   return (
