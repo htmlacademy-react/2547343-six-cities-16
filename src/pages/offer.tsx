@@ -1,18 +1,23 @@
+import { useState } from 'react';
 import OfferList from '../components/offer-list/offer-list.tsx';
 import PlaceReview from '../components/place-review/place-review.tsx';
 import Header from '../components/header/header.tsx';
 import OfferImage from '../components/offer-image/offer-image.tsx';
+import Map from '../components/map/map.tsx';
 import { useParams } from 'react-router-dom';
 import { offerMocks } from '../mocks/offer.ts';
-import { OfferCardType } from '../types.ts';
+import { OfferCardType, MapDataType } from '../types.ts';
 import CommentForm from '../components/comment-form/comment-form.tsx';
+import { MapType } from '../constants.ts';
 
 type OfferScreenProps = {
   hasNavigation: boolean;
+  mapData: MapDataType;
 }
 
-function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
+function OfferScreen({ hasNavigation, mapData }: OfferScreenProps): JSX.Element {
   const params = useParams();
+  const [activeOffer, setActiveOffer] = useState('');
 
   const offerData: OfferCardType = offerMocks.filter((el: OfferCardType) => {
     if (el.id === params.id) {
@@ -152,14 +157,14 @@ function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
               </section>
             </div>
           </div>
-          <section className="offer__map map"></section>
+          <Map mapData={mapData} mapType={MapType.Offer} points={restOfferData} selectedPoint={activeOffer} />
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
 
-              <OfferList offersData={restOfferData} />
+              <OfferList offersData={restOfferData} setActiveOffer={setActiveOffer} />
             </div>
           </section>
         </div>
