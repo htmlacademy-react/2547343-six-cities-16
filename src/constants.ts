@@ -21,3 +21,9 @@ export const URL_MARKER_DEFAULT =
 
 export const URL_MARKER_ACTIVE =
   '../public/img/pin-active.svg';
+
+export const DEFAULT_CITY = {
+  name: 'Paris',
+  value: 'paris'
+};
+
