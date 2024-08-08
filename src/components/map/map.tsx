@@ -2,33 +2,35 @@ import { Icon } from 'leaflet';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useRef, useEffect } from 'react';
-import useMap from '../../hooks/use-map';
-import { MapDataType, OfferCardType } from '../../types';
+import useLeafletMap from './use-map';
+import { CityDataType, OfferCardType } from '../../types';
 import { URL_MARKER_DEFAULT, URL_MARKER_ACTIVE } from '../../constants';
+import { defaultCityCoordinates } from '../../mocks/city-coordinates';
 import cn from 'classnames';
 
 type MapProps = {
-  mapData: MapDataType;
+  cityData: CityDataType | undefined;
   mapType: string;
   points: OfferCardType[];
   selectedPoint: string;
 }
 
-function Map({ mapData, mapType, points, selectedPoint }: MapProps): JSX.Element {
+const defaultCustomIcon = new Icon({
+  iconUrl: URL_MARKER_DEFAULT,
+  iconSize: [27, 39],
+  iconAnchor: [20, 40]
+});
+
+const activeCustomIcon = new Icon({
+  iconUrl: URL_MARKER_ACTIVE,
+  iconSize: [27, 39],
+  iconAnchor: [20, 40]
+});
+
+function Map({ cityData, mapType, points, selectedPoint }: MapProps): JSX.Element {
+  cityData = cityData === undefined ? defaultCityCoordinates : cityData;
   const mapRef = useRef(null);
-  const map = useMap(mapRef, mapData);
-
-  const defaultCustomIcon = new Icon({
-    iconUrl: URL_MARKER_DEFAULT,
-    iconSize: [27, 39],
-    iconAnchor: [20, 40]
-  });
-
-  const activeCustomIcon = new Icon({
-    iconUrl: URL_MARKER_ACTIVE,
-    iconSize: [27, 39],
-    iconAnchor: [20, 40]
-  });
+  const map = useLeafletMap(mapRef, cityData.location);
 
   useEffect(() => {
     if (map) {

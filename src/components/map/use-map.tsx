@@ -1,19 +1,14 @@
 import leaflet from 'leaflet';
-import { Map } from 'leaflet';
+import { Map as LeafletMap } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useRef, useState, useEffect } from 'react';
-import { MapDataType } from '../types';
+import { CityLocationType } from '../../types';
 
-// type UseMapProps = {
-//   mapRef: React.MutableRefObject<null>;
-//   city: MapDataType;
-// }
 
-function useMap(mapRef: React.MutableRefObject<null>, city: MapDataType): Map | null {
+function useLeafletMap(mapRef: React.MutableRefObject<null>, city: CityLocationType): LeafletMap | null {
 
-  const [map, setMap] = useState<Map | null>(null);
+  const [map, setMap] = useState<LeafletMap | null>(null);
   const isRenderedRef = useRef<boolean>(false);
-
   useEffect(() => {
 
     if (mapRef.current !== null && !isRenderedRef.current && city.lat && city.lng) {
@@ -28,10 +23,8 @@ function useMap(mapRef: React.MutableRefObject<null>, city: MapDataType): Map | 
       leaflet
         .tileLayer(
           'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-          // 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
           {
             attribution: '&amp;copy; &lt;a href="https://www.openstreetmap.org/copyright"&gt;OpenStreetMap&lt;/a&gt; contributors',
-            // attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
           },
         )
         .addTo(instance);
@@ -47,4 +40,4 @@ function useMap(mapRef: React.MutableRefObject<null>, city: MapDataType): Map | 
   return map;
 }
 
-export default useMap;
+export default useLeafletMap;

@@ -1,11 +1,11 @@
 export const data = {
   cities: [
     { id: 'paris', name: 'Paris' },
-    { id: 'cologne', name: 'cologne' },
-    { id: 'brussels', name: 'brussels' },
-    { id: 'amsterdam', name: 'amsterdam' },
-    { id: 'hamburg', name: 'hamburg' },
-    { id: 'dusseldorf', name: 'dusseldorf' }]
+    { id: 'cologne', name: 'Cologne' },
+    { id: 'brussels', name: 'Brussels' },
+    { id: 'amsterdam', name: 'Amsterdam' },
+    { id: 'hamburg', name: 'Hamburg' },
+    { id: 'dusseldorf', name: 'Dusseldorf' }]
   ,
   hasNavigation: true
 };

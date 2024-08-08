@@ -9,21 +9,22 @@ import OfferScreen from '../pages/offer';
 import ErrorScreen from '../pages/error';
 import { AppRoute, AuthorizationStatus } from '../constants';
 import PrivateRoute from './private-route/private-route';
-import { OfferCardType, FavoritesDataType, MapDataType } from '../types';
+import { OfferCardType, FavoritesDataType, CityDataType, ReviewItemType } from '../types';
 
 type AppProps = {
   cities: { id: string; name: string }[];
   offersData: OfferCardType[];
   favoritesData: FavoritesDataType[];
-  mapData: MapDataType;
+  citiesData: CityDataType[];
+  reviewData: ReviewItemType[];
 }
 
-function App({ cities, offersData, favoritesData, mapData }: AppProps): JSX.Element {
+function App({ cities, offersData, favoritesData, citiesData, reviewData }: AppProps): JSX.Element {
   const router = createBrowserRouter([
     {
       path: AppRoute.Main,
       element:
-        <MainScreen cities={cities} hasNavigation offersData={offersData} mapData={mapData} />,
+        <MainScreen cities={cities} hasNavigation offersData={offersData} citiesData={citiesData} />,
       errorElement: <ErrorScreen />,
     },
     {
@@ -41,7 +42,7 @@ function App({ cities, offersData, favoritesData, mapData }: AppProps): JSX.Elem
     {
       path: AppRoute.Offer,
       element:
-        <OfferScreen hasNavigation mapData={mapData} />
+        <OfferScreen hasNavigation reviewsData={reviewData} />
     }
   ]);
 

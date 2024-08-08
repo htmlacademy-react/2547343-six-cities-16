@@ -4,6 +4,7 @@ import App from './components/app';
 import { data } from './components/settings/settings';
 import { offerMocks } from './mocks/offer';
 import { favoritesMocks } from './mocks/favorites';
+import { reviewMocks } from './mocks/reviews';
 import { cityCoordinatesMocks } from './mocks/city-coordinates';
 
 const root = ReactDOM.createRoot(
@@ -16,7 +17,8 @@ root.render(
       cities={data.cities}
       offersData={offerMocks}
       favoritesData={favoritesMocks}
-      mapData={cityCoordinatesMocks}
+      citiesData={cityCoordinatesMocks}
+      reviewData={reviewMocks}
     />
   </React.StrictMode>
 );

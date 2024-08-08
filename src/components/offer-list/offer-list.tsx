@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction } from 'react';
 
 type OfferListProps = {
   offersData: OfferCardType[];
-  setActiveOffer: Dispatch<SetStateAction<string>>;
+  setActiveOffer?: Dispatch<SetStateAction<string>>;
 }
 
 function OfferList({ offersData, setActiveOffer }: OfferListProps) {
