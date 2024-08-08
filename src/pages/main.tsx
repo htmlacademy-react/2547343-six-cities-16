@@ -7,6 +7,7 @@ import { CityDataType, OfferCardType } from '../types.ts';
 import { useState } from 'react';
 import { MapType } from '../constants.ts';
 import { data } from '../components/settings/settings.tsx';
+import { DEFAULT_CITY } from '../constants.ts';
 
 type MainScreenProps = {
   cities: { id: string; name: string }[];
@@ -15,17 +16,15 @@ type MainScreenProps = {
   citiesData: CityDataType[];
 }
 
-// Не понимаю как сделать обновление положения карты при выборе другого города,
-// данные о городе обновляются, метки переставляются, но фокус остается
-// на исходном городе
-
 function MainScreen({ cities, hasNavigation, offersData, citiesData }: MainScreenProps): JSX.Element {
   const params = useParams();
-  const hasOfferData: boolean = offersData.length > 0;
   const [activeOffer, setActiveOffer] = useState('');
-  const selectedCity = params.city || 'amsterdam';
+  const selectedCity = params.city || DEFAULT_CITY.value;
   const selectedCityData = data.cities.find((city) => city.id === selectedCity);
-  const cityLabel = selectedCityData !== undefined ? selectedCityData.name : 'Amsterdam';
+  const cityLabel = selectedCityData !== undefined ? selectedCityData.name : DEFAULT_CITY.name;
+
+  const filteredOffers = offersData.filter((offer) => offer.city === selectedCity);
+  const hasOfferData: boolean = filteredOffers.length > 0;
 
   return (
     <div className="page page--gray page--main">
@@ -47,7 +46,7 @@ function MainScreen({ cities, hasNavigation, offersData, citiesData }: MainScree
             <div className="cities__places-container container">
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
-                <b className="places__found">312 places to stay in {cityLabel}</b>
+                <b className="places__found">{filteredOffers.length} places to stay in {cityLabel}</b>
                 <form className="places__sorting" action="#" method="get">
                   <span className="places__sorting-caption">Sort by</span>
                   <span className="places__sorting-type" tabIndex={0}>
