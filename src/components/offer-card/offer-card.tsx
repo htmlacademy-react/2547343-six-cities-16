@@ -1,15 +1,14 @@
-import { OfferCardType } from '../../types';
+import { OfferType } from '../../types';
 import { Link } from 'react-router-dom';
 
 
 type OfferCardProps = {
-  offerData: OfferCardType;
+  offerData: OfferType;
   setActiveOffer?: (id: string) => void;
 }
 
 function OfferCard({ offerData, setActiveOffer }: OfferCardProps): JSX.Element {
-  const ratingInStarsFormat: string = String(parseInt(offerData.rating, 10) * 20);
-  const isPremium: boolean = (/true/i).test(offerData.premium);
+  const ratingInStarsFormat: string = String(offerData.rating * 20);
 
   const handleOfferHover = () => {
     setActiveOffer?.(offerData.id);
@@ -20,7 +19,7 @@ function OfferCard({ offerData, setActiveOffer }: OfferCardProps): JSX.Element {
 
   return (
     <article className='cities__card place-card' onMouseEnter={handleOfferHover} onMouseLeave={handleOfferLeave}>
-      {isPremium &&
+      {offerData.isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
         </div>}
@@ -49,7 +48,7 @@ function OfferCard({ offerData, setActiveOffer }: OfferCardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`/offer/${offerData.id}`}>{offerData.name}</Link>
+          <Link to={`/offer/${offerData.id}`}>{offerData.title}</Link>
         </h2>
         <p className="place-card__type">{offerData.type}</p>
       </div>

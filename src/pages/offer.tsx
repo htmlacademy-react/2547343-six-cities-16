@@ -151,7 +151,7 @@ function OfferScreen({ hasNavigation, reviewsData }: OfferScreenProps): JSX.Elem
               <ReviewList reviewsData={reviewsData} />
             </div>
           </div>
-          <Map cityData={currentCityData} mapType={MapType.Offer} points={offerMocks} selectedPoint={params.id!} />
+          <Map cityData={currentCityData} mapType={MapType.Offer} offers={offerMocks} selectedPoint={params.id!} />
         </section>
         <div className="container">
           <section className="near-places places">

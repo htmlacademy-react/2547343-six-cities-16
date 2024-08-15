@@ -3,7 +3,7 @@ import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useRef, useEffect } from 'react';
 import useLeafletMap from './use-map';
-import { CityDataType, OfferCardType } from '../../types';
+import { CityDataType, OfferType } from '../../types';
 import { URL_MARKER_DEFAULT, URL_MARKER_ACTIVE } from '../../constants';
 import { defaultCityCoordinates } from '../../mocks/city-coordinates';
 import cn from 'classnames';
@@ -11,7 +11,7 @@ import cn from 'classnames';
 type MapProps = {
   cityData: CityDataType | undefined;
   mapType: string;
-  points: OfferCardType[];
+  offers: OfferType[];
   selectedPoint: string;
 }
 
@@ -27,21 +27,22 @@ const activeCustomIcon = new Icon({
   iconAnchor: [20, 40]
 });
 
-function Map({ cityData, mapType, points, selectedPoint }: MapProps): JSX.Element {
+function Map({ cityData, mapType, offers, selectedPoint }: MapProps): JSX.Element {
   cityData = cityData === undefined ? defaultCityCoordinates : cityData;
   const mapRef = useRef(null);
   const map = useLeafletMap(mapRef, cityData.location);
 
   useEffect(() => {
     if (map) {
-      points.forEach((point: OfferCardType) => {
-        if (point.lat && point.lng) {
+      offers.forEach((offer: OfferType) => {
+        const point = offer.location;
+        if (point.latitude && point.longitude) {
           leaflet
             .marker({
-              lat: point.lat,
-              lng: point.lng,
+              lat: point.latitude,
+              lng: point.longitude,
             }, {
-              icon: (point.id === selectedPoint)
+              icon: (offer.id === selectedPoint)
                 ? activeCustomIcon
                 : defaultCustomIcon,
             })
@@ -49,7 +50,7 @@ function Map({ cityData, mapType, points, selectedPoint }: MapProps): JSX.Elemen
         }
       });
     }
-  }, [map, points, selectedPoint]);
+  }, [map, offers, selectedPoint]);
 
   return (
     <section

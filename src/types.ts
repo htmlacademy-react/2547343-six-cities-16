@@ -10,6 +10,30 @@ export type OfferCardType = {
   lng?: number;
 };
 
+export type OfferType = {
+  id: string;
+  title: string;
+  type: string;
+  price: number;
+  priviewImage: string;
+  city: {
+    name: string;
+    location: {
+      latitude: number;
+      longitude: number;
+      zoom: number;
+    };
+  };
+  location: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  };
+  isFavorite: boolean;
+  isPremium: boolean;
+  rating: number;
+}
+
 export type FavoritesDataType = {
   city: string;
   offers: OfferCardType[];
