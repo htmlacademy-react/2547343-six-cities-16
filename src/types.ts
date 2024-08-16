@@ -23,10 +23,18 @@ export type OfferType = {
   isPremium: boolean;
   rating: number;
 }
-
+export type FavoriteOffer = {
+  id: string;
+  title: string;
+  city: string;
+  price: string;
+  rating: number;
+  type: string;
+  isPremium: boolean;
+}
 export type FavoritesDataType = {
   city: string;
-  offers: OfferType[];
+  offers: FavoriteOffer[];
 };
 
 export type CityDataType = {

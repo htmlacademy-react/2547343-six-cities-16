@@ -1,7 +1,7 @@
 import Header from '../components/header/header.tsx';
 import FavoritesCard from '../components/favorites-card/favorites-card.tsx';
 import Footer from '../components/footer/footer';
-import { FavoritesDataType, OfferType } from '../types.ts';
+import { FavoritesDataType, FavoriteOffer } from '../types.ts';
 
 type FavoriteScreenProps = {
   favoritesData: FavoritesDataType[];
@@ -29,7 +29,7 @@ function FavoritesScreen({ favoritesData, hasNavigation }: FavoriteScreenProps):
                     </div>
                   </div>
                   <div className="favorites__places">
-                    {data.offers.map((offer: OfferType) => (
+                    {data.offers.map((offer: FavoriteOffer) => (
 
                       <FavoritesCard offerData={offer} key={offer.id} />
                     ))}

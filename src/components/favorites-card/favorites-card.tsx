@@ -1,7 +1,7 @@
-import { OfferType } from '../../types';
+import { FavoriteOffer } from '../../types';
 
 type FavoritesCardType = {
-  offerData: OfferType;
+  offerData: FavoriteOffer;
 }
 
 function FavoritesCard({ offerData }: FavoritesCardType): JSX.Element {
