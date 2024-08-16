@@ -2,13 +2,13 @@ import OfferCard from '../offer-card/offer-card.tsx';
 import { OfferType } from '../../types.ts';
 import { Dispatch, SetStateAction } from 'react';
 
-type OfferListProps = {
+type MainOffersProps = {
   offersData: OfferType[];
   setActiveOffer?: Dispatch<SetStateAction<string>>;
   activeCity: string;
 }
 
-function OfferList({ offersData, setActiveOffer, activeCity }: OfferListProps) {
+function MainOffers({ offersData, setActiveOffer, activeCity }: MainOffersProps) {
   return (
 
     <section className="cities__places places">
@@ -43,5 +43,4 @@ function OfferList({ offersData, setActiveOffer, activeCity }: OfferListProps) {
   );
 }
 
-
-export default OfferList;
+export default MainOffers;

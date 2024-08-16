@@ -1,5 +1,5 @@
 import Header from '../components/header/header.tsx';
-import OfferList from '../components/offer-list/offer-list.tsx';
+import MainOffers from '../components/main-offers/main-offers.tsx';
 import LocationsList from '../components/locations-list/locations-list.tsx';
 import Map from '../components/map/map.tsx';
 import { useParams } from 'react-router-dom';
@@ -74,7 +74,7 @@ function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX
           <div className="cities">
             <div className="cities__places-container container">
 
-              <OfferList offersData={filteredOffers} setActiveOffer={setActiveOffer} activeCity={selectedCity} />
+              <MainOffers offersData={filteredOffers} setActiveOffer={setActiveOffer} activeCity={selectedCity} />
 
               <div className="cities__right-section">
                 <Map cityData={selectedCityData} mapType={MapType.Main} offers={filteredOffers} selectedPoint={activeOffer} />

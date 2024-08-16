@@ -1,4 +1,4 @@
-// import OfferList from '../components/offer-list/offer-list.tsx';
+import NearOffers from '../components/near-offers/near-offers.tsx';
 import ReviewList from '../components/review-list/review-list.tsx';
 import Header from '../components/header/header.tsx';
 import OfferImage from '../components/offer-image/offer-image.tsx';
@@ -151,16 +151,12 @@ function OfferScreen({ hasNavigation, reviewsData }: OfferScreenProps): JSX.Elem
                 <ReviewList reviewsData={reviewsData} />
               </div>
             </div>
-            <Map cityData={currentCityData} mapType={MapType.Offer} offers={restOfferData} selectedPoint={params.id!} />
+            <Map cityData={currentCityData} mapType={MapType.Offer} offers={restOfferData} selectedPoint={offerData.id} />
           </section>
           <div className="container">
-            <section className="near-places places">
-              <h2 className="near-places__title">Other places in the neighbourhood</h2>
-              <div className="near-places__list places__list">
 
-                {/* <OfferList offersData={restOfferData} /> */}
-              </div>
-            </section>
+            <NearOffers offersData={restOfferData} />
+
           </div>
         </main>
       </div>
