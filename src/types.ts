@@ -5,7 +5,6 @@ export type CityLocationType = {
     longitude: number;
     zoom: number;
   };
-
 }
 
 export type OfferType = {

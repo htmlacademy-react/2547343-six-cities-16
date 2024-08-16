@@ -29,7 +29,6 @@ const activeCustomIcon = new Icon({
 function Map({ cityData, mapType, offers, selectedPoint }: MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useLeafletMap(mapRef, cityData);
-  console.log('selectedP ', selectedPoint)
 
   useEffect(() => {
     if (map) {
