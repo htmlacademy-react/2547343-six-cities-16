@@ -11,9 +11,15 @@ function OfferCard({ offerData, setActiveOffer }: OfferCardProps): JSX.Element {
   const ratingInStarsFormat: string = String(offerData.rating * 20);
 
   const handleOfferHover = () => {
+    if (!offerData.id) {
+      return;
+    }
     setActiveOffer?.(offerData.id);
   };
   const handleOfferLeave = () => {
+    if (!offerData.id) {
+      return;
+    }
     setActiveOffer?.('');
   };
 
@@ -24,9 +30,9 @@ function OfferCard({ offerData, setActiveOffer }: OfferCardProps): JSX.Element {
           <span>Premium</span>
         </div>}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
-          <img className="place-card__image" src="img/apartment-01.jpg" width="260" height="200" alt="Place image" />
-        </a>
+        <Link to={`/offer/${offerData.id}`}>
+          <img className="place-card__image" src={offerData.previewImage} width="260" height="200" alt="Place image" />
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">

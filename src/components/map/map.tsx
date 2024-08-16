@@ -3,13 +3,12 @@ import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useRef, useEffect } from 'react';
 import useLeafletMap from './use-map';
-import { CityDataType, OfferType } from '../../types';
+import { CityLocationType, OfferType } from '../../types';
 import { URL_MARKER_DEFAULT, URL_MARKER_ACTIVE } from '../../constants';
-import { defaultCityCoordinates } from '../../mocks/city-coordinates';
 import cn from 'classnames';
 
 type MapProps = {
-  cityData: CityDataType | undefined;
+  cityData: CityLocationType;
   mapType: string;
   offers: OfferType[];
   selectedPoint: string;
@@ -28,9 +27,8 @@ const activeCustomIcon = new Icon({
 });
 
 function Map({ cityData, mapType, offers, selectedPoint }: MapProps): JSX.Element {
-  cityData = cityData === undefined ? defaultCityCoordinates : cityData;
   const mapRef = useRef(null);
-  const map = useLeafletMap(mapRef, cityData.location);
+  const map = useLeafletMap(mapRef, cityData);
 
   useEffect(() => {
     if (map) {
@@ -62,8 +60,6 @@ function Map({ cityData, mapType, offers, selectedPoint }: MapProps): JSX.Elemen
       ref={mapRef}
     >
     </section>
-
-
   );
 }
 
