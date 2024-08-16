@@ -29,7 +29,7 @@ export const offersSlice = createSlice({
 });
 
 export const isOfferLoadingSlice = createSlice({
-  name: 'isOfferLoaded',
+  name: 'isOfferLoading',
   initialState: initialState.isOfferLoading,
   reducers: {
     setOffersLoadingStatus: (_, action: PayloadAction<boolean>) => action.payload

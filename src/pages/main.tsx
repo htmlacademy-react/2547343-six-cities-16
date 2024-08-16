@@ -10,6 +10,7 @@ import { DEFAULT_CITY, CITIES_NAME_MAP } from '../constants.ts';
 import { defaultCityCoordinates } from '../mocks/city-coordinates.ts';
 import { setCity, selectOffersLoadingStatus } from '../store/index.ts';
 import { useAppDispatch, useAppSelector } from '../hooks/index.ts';
+import Loading from '../components/loading/loading.tsx';
 
 type MainScreenProps = {
   cities: { id: string; name: string }[];
@@ -28,10 +29,30 @@ function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX
   dispatch(setCity(selectedCity));
   const filteredOffers = offersData.filter((offer) => offer.city.name === selectedCity);
   const hasOfferData: boolean = filteredOffers.length > 0;
-  console.log('filteredOffers ', filteredOffers)
-  // const isOffersLoaded = useAppSelector(selectOffersLoadingStatus);
-  // console.log('isOffersLoaded ', isOffersLoaded)
 
+  const isOffersLoading = useAppSelector(selectOffersLoadingStatus);
+
+  if (isOffersLoading) {
+    return (
+      <div className="page page--gray page--main">
+
+        <Header hasNavigation={hasNavigation} />
+
+        <main className="page__main page__main--index page__main--index-empty">
+          <h1 className="visually-hidden">Cities</h1>
+          <div className="tabs">
+
+            <LocationsList cities={cities} activeCity={selectedCity} />
+
+          </div>
+
+          <Loading />
+
+        </main>
+      </div >
+    );
+
+  }
   if (hasOfferData) {
 
     const selectedCityLocation = filteredOffers.find((offer) => offer.city.name === selectedCity);
@@ -48,7 +69,6 @@ function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX
 
             <LocationsList cities={cities} activeCity={selectedCity} />
 
-
           </div>
 
           <div className="cities">
@@ -56,14 +76,12 @@ function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX
 
               <OfferList offersData={filteredOffers} setActiveOffer={setActiveOffer} activeCity={selectedCity} />
 
-
               <div className="cities__right-section">
                 <Map cityData={selectedCityData} mapType={MapType.Main} offers={filteredOffers} selectedPoint={activeOffer} />
 
               </div>
             </div>
           </div>
-
         </main>
       </div >
     );
