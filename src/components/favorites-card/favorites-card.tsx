@@ -1,16 +1,15 @@
-import { OfferCardType } from '../../types';
+import { FavoriteOffer } from '../../types';
 
 type FavoritesCardType = {
-  offerData: OfferCardType;
+  offerData: FavoriteOffer;
 }
 
 function FavoritesCard({ offerData }: FavoritesCardType): JSX.Element {
-  const ratingInStarsFormat: string = String(parseInt(offerData.rating, 10) * 20);
-  const isPremium: boolean = (/true/i).test(offerData.premium);
+  const ratingInStarsFormat: string = String(offerData.rating * 20);
 
   return (
     <article className="favorites__card place-card">
-      {isPremium &&
+      {offerData.isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
         </div>}
@@ -39,7 +38,7 @@ function FavoritesCard({ offerData }: FavoritesCardType): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{offerData.name}</a>
+          <a href="#">{offerData.title}</a>
         </h2>
         <p className="place-card__type">{offerData.type}</p>
       </div>

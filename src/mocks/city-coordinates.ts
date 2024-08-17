@@ -54,12 +54,11 @@ export const cityCoordinatesMocks = [
   },];
 
 export const defaultCityCoordinates = {
-  id:
-    'amsterdam',
+  name: 'Paris',
   location: {
-    name: 'Amsterdam',
-    lat: 52.368179,
-    lng: 4.904084,
-    zoom: 12
+    latitude: 48.85661,
+    longitude: 2.351499,
+    zoom: 13
   }
 };
+
