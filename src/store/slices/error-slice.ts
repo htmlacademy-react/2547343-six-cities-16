@@ -10,9 +10,13 @@ export const errorSlice = createSlice({
   initialState: errorState.error,
   reducers: {
     setError: (_, action: PayloadAction<string>) => action.payload
+  },
+  selectors: {
+    selectError: (state) => state,
   }
 });
 
 export const { setError } = errorSlice.actions;
-export const selectError = (state: ErrorType) => state.error;
+
+export const { selectError } = errorSlice.selectors;
 

@@ -10,9 +10,13 @@ export const citySlice = createSlice({
   initialState: cityState.city,
   reducers: {
     setCity: (_, action: PayloadAction<string>) => action.payload
+  },
+  selectors: {
+    selectCity: (state) => state,
   }
 });
 
 export const { setCity } = citySlice.actions;
 
-export const selectCity = (state: CityStateType) => state.city;
+export const { selectCity } = citySlice.selectors;
+

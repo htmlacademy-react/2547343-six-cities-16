@@ -2,26 +2,28 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { AuthorizationStatus } from '../../constants';
 import { AuthorizationType } from '../types';
 
-export const AuthorizationState: AuthorizationType = {
+export const authorizationState: AuthorizationType = {
   authorizationStatus: AuthorizationStatus.Unknown,
   userEmail: null,
 };
 
 export const authorizationSlice = createSlice({
   name: 'authorization',
-  initialState: AuthorizationState,
+  initialState: authorizationState,
   reducers: {
     setAuthorizationStatus: (state, action: PayloadAction<AuthorizationStatus>) => {
       state.authorizationStatus = action.payload;
     },
-    setUserEmail: (state, action: PayloadAction<string>) => {
+    setUserEmail: (state, action: PayloadAction<string | null>) => {
       state.userEmail = action.payload;
     },
-  }
+  },
+  selectors: {
+    selectAutorizationStatus: (state) => state.authorizationStatus,
+    selectUserEmail: (state) => state.userEmail,
+  },
 });
 
 export const { setAuthorizationStatus, setUserEmail } = authorizationSlice.actions;
 
-export const selectAutorizationStatus = (state: AuthorizationType) =>
-  state.authorization.authorizationStatus;
-export const selectUserEmail = (state: AuthorizationType) => state.authorization.userEmail;
+export const { selectAutorizationStatus, selectUserEmail } = authorizationSlice.selectors;

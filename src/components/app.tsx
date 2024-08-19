@@ -8,7 +8,7 @@ import LoginScreen from '../pages/login';
 import FavoritesScreen from '../pages/favorites';
 import OfferScreen from '../pages/offer';
 import ErrorScreen from '../pages/error';
-import { AppRoute, AuthorizationStatus } from '../constants';
+import { AppRoute } from '../constants';
 import PrivateRoute from './private-route/private-route';
 import { FavoritesDataType, ReviewItemType } from '../types';
 import { useAppDispatch, useAppSelector } from '../hooks';
@@ -31,32 +31,30 @@ function App({ cities, favoritesData, reviewData }: AppProps): JSX.Element {
   }, [dispatch]);
   const offers = useAppSelector(selectOffers);
   const authStatus = useAppSelector(selectAutorizationStatus);
-  console.log('authStatus ', authStatus)
-  const isAutorized = authStatus === AuthorizationStatus.Auth;
 
   const router = createBrowserRouter([
     {
       path: AppRoute.Main,
       element:
-        <MainScreen cities={cities} hasNavigation offersData={offers} isAuthorized={isAutorized} />,
-      errorElement: <ErrorScreen isAuthorized={isAutorized} />,
+        <MainScreen cities={cities} hasNavigation offersData={offers} />,
+      errorElement: <ErrorScreen />,
     },
     {
       path: AppRoute.Login,
       element:
-        <LoginScreen hasNavigation={false} isAuthorized={isAutorized} />
+        <LoginScreen hasNavigation={false} />
     },
     {
       path: AppRoute.Favorites,
       element:
         <PrivateRoute authorizationStatus={authStatus}>
-          <FavoritesScreen favoritesData={favoritesData} hasNavigation isAuthorized={isAutorized} />
+          <FavoritesScreen favoritesData={favoritesData} hasNavigation />
         </PrivateRoute>
     },
     {
       path: AppRoute.Offer,
       element:
-        <OfferScreen hasNavigation reviewsData={reviewData} isAuthorized={isAutorized} />
+        <OfferScreen hasNavigation reviewsData={reviewData} />
     }
   ]);
 

@@ -4,7 +4,7 @@ import LocationsList from '../components/locations-list/locations-list.tsx';
 import Map from '../components/map/map.tsx';
 import { useParams } from 'react-router-dom';
 import { OfferType } from '../types.ts';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MapType } from '../constants.ts';
 import { DEFAULT_CITY, CITIES_NAME_MAP } from '../constants.ts';
 import { defaultCityCoordinates } from '../mocks/city-coordinates.ts';
@@ -17,10 +17,9 @@ type MainScreenProps = {
   cities: { id: string; name: string }[];
   hasNavigation: boolean;
   offersData: OfferType[];
-  isAuthorized: boolean;
 }
 
-function MainScreen({ cities, hasNavigation, offersData, isAuthorized }: MainScreenProps): JSX.Element {
+function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX.Element {
   const params = useParams();
   const [activeOffer, setActiveOffer] = useState('');
   let selectedCity = DEFAULT_CITY.name;
@@ -28,7 +27,9 @@ function MainScreen({ cities, hasNavigation, offersData, isAuthorized }: MainScr
     selectedCity = CITIES_NAME_MAP.get(params.city) || selectedCity;
   }
   const dispatch = useAppDispatch();
-  dispatch(setCity(selectedCity));
+  useEffect(() => {
+    dispatch(setCity(selectedCity));
+  }, [selectedCity]);
   const filteredOffers = offersData.filter((offer) => offer.city.name === selectedCity);
   const hasOfferData: boolean = filteredOffers.length > 0;
 
@@ -38,7 +39,7 @@ function MainScreen({ cities, hasNavigation, offersData, isAuthorized }: MainScr
     return (
       <div className="page page--gray page--main">
 
-        <Header hasNavigation={hasNavigation} isAuthorized={isAuthorized} />
+        <Header hasNavigation={hasNavigation} />
 
         <main className="page__main page__main--index page__main--index-empty">
           <h1 className="visually-hidden">Cities</h1>
@@ -63,7 +64,7 @@ function MainScreen({ cities, hasNavigation, offersData, isAuthorized }: MainScr
     return (
       <div className="page page--gray page--main">
 
-        <Header hasNavigation={hasNavigation} isAuthorized={isAuthorized} />
+        <Header hasNavigation={hasNavigation} />
 
         <main className="page__main page__main--index">
           <h1 className="visually-hidden">Cities</h1>
@@ -93,7 +94,7 @@ function MainScreen({ cities, hasNavigation, offersData, isAuthorized }: MainScr
     return (
       <div className="page page--gray page--main">
 
-        <Header hasNavigation={hasNavigation} isAuthorized={isAuthorized} />
+        <Header hasNavigation={hasNavigation} />
 
         <main className="page__main page__main--index">
           <h1 className="visually-hidden">Cities</h1>

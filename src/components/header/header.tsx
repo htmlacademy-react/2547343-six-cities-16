@@ -4,10 +4,9 @@ import HeaderNavigation from '../header-navigation/header-navigation';
 
 type HeaderProps = {
   hasNavigation: boolean;
-  isAuthorized: boolean;
 }
 
-function Header({ hasNavigation, isAuthorized }: HeaderProps): JSX.Element {
+function Header({ hasNavigation }: HeaderProps): JSX.Element {
   return (
     <header className="header">
       <div className="container">
@@ -17,7 +16,7 @@ function Header({ hasNavigation, isAuthorized }: HeaderProps): JSX.Element {
               <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
             </Link>
           </div>
-          {hasNavigation && <HeaderNavigation isAuthorized={isAuthorized} />}
+          {hasNavigation && <HeaderNavigation />}
         </div>
       </div>
     </header>

@@ -14,10 +14,9 @@ import { formatRating } from '../utils.ts';
 type OfferScreenProps = {
   hasNavigation: boolean;
   reviewsData: ReviewItemType[];
-  isAuthorized: boolean;
 }
 
-function OfferScreen({ hasNavigation, reviewsData, isAuthorized }: OfferScreenProps): JSX.Element {
+function OfferScreen({ hasNavigation, reviewsData }: OfferScreenProps): JSX.Element {
   const params = useParams();
 
   const offersData = useAppSelector(selectOffers);
@@ -39,7 +38,7 @@ function OfferScreen({ hasNavigation, reviewsData, isAuthorized }: OfferScreenPr
     return (
       <div className="page">
 
-        <Header hasNavigation={hasNavigation} isAuthorized={isAuthorized} />
+        <Header hasNavigation={hasNavigation} />
 
         <main className="page__main page__main--offer">
           <section className="offer">

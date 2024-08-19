@@ -1,23 +1,44 @@
-import { useRef, FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { useRef, FormEvent, ChangeEvent, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Header from '../components/header/header.tsx';
 import { useAppSelector, useAppDispatch } from '../hooks/index.ts';
 import { selectCity } from '../store/slices/city-slice.ts';
 import { loginAction } from '../services/api-actions.ts';
 import { AppRoute } from '../constants.ts';
 
+const warningNoteStyle: React.CSSProperties = {
+  position: 'absolute',
+  left: '2px',
+  marginTop: '-20px',
+  color: '#b06758',
+  fontSize: '13px',
+};
+
 type LoginScreenProps = {
   hasNavigation: boolean;
-  isAuthorized: boolean;
 }
 
-function LoginScreen({ hasNavigation, isAuthorized }: LoginScreenProps): JSX.Element {
+const regex = new RegExp(/(?=.*[0-9])(?=.*[a-z])/);
+
+function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
   const currentCity = useAppSelector(selectCity);
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
   const dispatch = useAppDispatch();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [warningVisible, setWarningVisible] = useState(false);
+
+  const handlePasswordChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const value = evt.target.value.replace(/\s+/g, '');
+
+    evt.target.value = value;
+    if (value.length <= 0 || !regex.test(value)) {
+      setWarningVisible(true);
+    } else {
+      setWarningVisible(false);
+    }
+  };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
@@ -27,12 +48,13 @@ function LoginScreen({ hasNavigation, isAuthorized }: LoginScreenProps): JSX.Ele
         email: loginRef.current.value,
         password: passwordRef.current.value
       }));
+      navigate(AppRoute.Main);
     }
   };
 
   return (
     <div className="page page--gray page--login">
-      <Header hasNavigation={hasNavigation} isAuthorized={isAuthorized} />
+      <Header hasNavigation={hasNavigation} />
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <section className="login">
@@ -64,12 +86,13 @@ function LoginScreen({ hasNavigation, isAuthorized }: LoginScreenProps): JSX.Ele
                   placeholder="Password"
                   id="password"
                   required
+                  onChange={handlePasswordChange}
                 />
+                {warningVisible && <div style={warningNoteStyle}>Введите пароль (буквы и цифры без пробелов)</div>}
               </div>
               <button
                 className="login__submit form__submit button"
                 type="submit"
-              // onClick={() => navigate(AppRoute.Main)}
               >Sign in
               </button>
             </form>

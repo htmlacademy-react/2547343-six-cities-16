@@ -9,22 +9,22 @@ export const offerState: OfferStateType = {
 
 export const offersSlice = createSlice({
   name: 'offers',
-  initialState: offerState.offers,
+  initialState: offerState,
   reducers: {
-    setOffers: (_, action: PayloadAction<OfferType[]>) => action.payload
-  }
+    setOffers: (state, action: PayloadAction<OfferType[]>) => {
+      state.offers = action.payload;
+    },
+    setOffersLoadingStatus: (state, action: PayloadAction<boolean>) => {
+      state.isOfferLoading = action.payload;
+    },
+  },
+  selectors: {
+    selectOffers: (state) => state.offers,
+    selectOffersLoadingStatus: (state) => state.isOfferLoading,
+  },
 });
 
-export const isOfferLoadingSlice = createSlice({
-  name: 'isOfferLoading',
-  initialState: offerState.isOfferLoading,
-  reducers: {
-    setOffersLoadingStatus: (_, action: PayloadAction<boolean>) => action.payload
-  }
-});
+export const { setOffers, setOffersLoadingStatus } = offersSlice.actions;
 
-export const { setOffers } = offersSlice.actions;
-export const { setOffersLoadingStatus } = isOfferLoadingSlice.actions;
+export const { selectOffers, selectOffersLoadingStatus } = offersSlice.selectors;
 
-export const selectOffers = (state: OfferStateType) => state.offers;
-export const selectOffersLoadingStatus = (state: OfferStateType) => state.isOfferLoading;
