@@ -28,7 +28,9 @@ export const DEFAULT_CITY = {
 };
 
 export enum APIRoute {
-  Offers = '/offers'
+  Offers = '/offers',
+  Login = '/login',
+  Logout = '/logout'
 }
 
 export const CITIES_NAME_MAP = new Map([

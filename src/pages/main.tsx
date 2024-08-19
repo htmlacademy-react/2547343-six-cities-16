@@ -8,7 +8,8 @@ import { useState } from 'react';
 import { MapType } from '../constants.ts';
 import { DEFAULT_CITY, CITIES_NAME_MAP } from '../constants.ts';
 import { defaultCityCoordinates } from '../mocks/city-coordinates.ts';
-import { setCity, selectOffersLoadingStatus } from '../store/index.ts';
+import { setCity } from '../store/slices/city-slice.ts';
+import { selectOffersLoadingStatus } from '../store/slices/offer-slices.ts';
 import { useAppDispatch, useAppSelector } from '../hooks/index.ts';
 import Loading from '../components/loading/loading.tsx';
 
@@ -16,9 +17,10 @@ type MainScreenProps = {
   cities: { id: string; name: string }[];
   hasNavigation: boolean;
   offersData: OfferType[];
+  isAuthorized: boolean;
 }
 
-function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX.Element {
+function MainScreen({ cities, hasNavigation, offersData, isAuthorized }: MainScreenProps): JSX.Element {
   const params = useParams();
   const [activeOffer, setActiveOffer] = useState('');
   let selectedCity = DEFAULT_CITY.name;
@@ -36,7 +38,7 @@ function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX
     return (
       <div className="page page--gray page--main">
 
-        <Header hasNavigation={hasNavigation} />
+        <Header hasNavigation={hasNavigation} isAuthorized={isAuthorized} />
 
         <main className="page__main page__main--index page__main--index-empty">
           <h1 className="visually-hidden">Cities</h1>
@@ -61,7 +63,7 @@ function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX
     return (
       <div className="page page--gray page--main">
 
-        <Header hasNavigation={hasNavigation} />
+        <Header hasNavigation={hasNavigation} isAuthorized={isAuthorized} />
 
         <main className="page__main page__main--index">
           <h1 className="visually-hidden">Cities</h1>
@@ -91,7 +93,7 @@ function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX
     return (
       <div className="page page--gray page--main">
 
-        <Header hasNavigation={hasNavigation} />
+        <Header hasNavigation={hasNavigation} isAuthorized={isAuthorized} />
 
         <main className="page__main page__main--index">
           <h1 className="visually-hidden">Cities</h1>

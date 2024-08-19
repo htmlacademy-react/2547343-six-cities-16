@@ -1,5 +1,6 @@
 import { OfferType } from '../../types';
 import { Link } from 'react-router-dom';
+import { formatRating } from '../../utils';
 
 
 type OfferCardProps = {
@@ -8,7 +9,7 @@ type OfferCardProps = {
 }
 
 function OfferCard({ offerData, setActiveOffer }: OfferCardProps): JSX.Element {
-  const ratingInStarsFormat: string = String(offerData.rating * 20);
+  const ratingInStarsFormat: string = formatRating(offerData.rating);
 
   const handleOfferHover = () => {
     if (!offerData.id) {

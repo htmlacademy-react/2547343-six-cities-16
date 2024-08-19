@@ -1,4 +1,5 @@
 import { ReviewItemType } from '../../types';
+import { formatRating } from '../../utils';
 
 
 type ReviewItemProps = {
@@ -7,7 +8,7 @@ type ReviewItemProps = {
 
 
 function ReviewItem({ reviewData }: ReviewItemProps): JSX.Element {
-  const ratingInStarsFormat: string = String(parseInt(reviewData.rating, 10) * 20);
+  const ratingInStarsFormat: string = formatRating(reviewData.rating);
 
   return (
     <li className="reviews__item">

@@ -2,12 +2,16 @@ import Header from '../components/header/header.tsx';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../constants';
 
+type ErrorScreenProps = {
+  isAuthorized: boolean;
+}
 
-function ErrorScreen(): JSX.Element {
+
+function ErrorScreen({ isAuthorized }: ErrorScreenProps): JSX.Element {
   return (
 
     <div className="page page--gray page--login">
-      <Header hasNavigation={false} />
+      <Header hasNavigation={false} isAuthorized={isAuthorized} />
       <main className="page__main page__main--login">
         <div className="page__login-container container">
           <div>

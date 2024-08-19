@@ -6,12 +6,13 @@ import { FavoritesDataType, FavoriteOffer } from '../types.ts';
 type FavoriteScreenProps = {
   favoritesData: FavoritesDataType[];
   hasNavigation: boolean;
+  isAuthorized: boolean;
 }
-function FavoritesScreen({ favoritesData, hasNavigation }: FavoriteScreenProps): JSX.Element {
+function FavoritesScreen({ favoritesData, hasNavigation, isAuthorized }: FavoriteScreenProps): JSX.Element {
   return (
 
     <div className="page">
-      <Header hasNavigation={hasNavigation} />
+      <Header hasNavigation={hasNavigation} isAuthorized={isAuthorized} />
 
       <main className="page__main page__main--favorites">
         <div className="page__favorites-container container">
