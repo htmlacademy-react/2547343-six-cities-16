@@ -45,7 +45,7 @@ export type CityDataType = {
 export type ReviewItemType = {
   id: string;
   name: string;
-  rating: string;
+  rating: number;
   text: string;
   dateTime: string;
   dateLabel: string;
