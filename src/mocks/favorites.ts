@@ -5,33 +5,33 @@ export const favoritesMocks: FavoritesDataType[] = [
     city: 'Amsterdam',
     offers: [{
       id: '015',
-      name: 'Nice, cozy, warm big bed apartment',
+      title: 'Nice, cozy, warm big bed apartment',
       city: 'amstrdam',
       price: '180',
-      rating: '5',
+      rating: 5,
       type: 'Apartment',
-      premium: 'true'
+      isPremium: true
     },
     {
       id: '012',
-      name: 'Wood and stone place',
+      title: 'Wood and stone place',
       city: 'amstrdam',
       price: '€80',
-      rating: '4',
+      rating: 4,
       type: 'Room',
-      premium: 'false'
+      isPremium: false
     }]
   },
   {
     city: 'Cologne',
     offers: [{
       id: '011',
-      name: 'White castle',
+      title: 'White castle',
       city: 'cologne',
       price: '€180',
-      rating: '5',
+      rating: 5,
       type: 'Apartment',
-      premium: 'false'
+      isPremium: false
     }]
   },
 ];

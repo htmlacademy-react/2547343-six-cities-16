@@ -9,32 +9,31 @@ import OfferScreen from '../pages/offer';
 import ErrorScreen from '../pages/error';
 import { AppRoute, AuthorizationStatus } from '../constants';
 import PrivateRoute from './private-route/private-route';
-import { FavoritesDataType, CityDataType, ReviewItemType } from '../types';
-import { setOffers, selectOffers } from '../store';
+import { FavoritesDataType, ReviewItemType } from '../types';
+import { selectOffers } from '../store';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { offerMocks } from '../mocks/offer';
 import { useEffect } from 'react';
+import { fetchOffersAction } from '../services/api-actions';
 
 type AppProps = {
   cities: { id: string; name: string }[];
   favoritesData: FavoritesDataType[];
-  citiesData: CityDataType[];
   reviewData: ReviewItemType[];
 }
 
-function App({ cities, favoritesData, citiesData, reviewData }: AppProps): JSX.Element {
+function App({ cities, favoritesData, reviewData }: AppProps): JSX.Element {
 
   const dispatch = useAppDispatch();
-
   useEffect(() => {
-    dispatch(setOffers(offerMocks));
-  });
+    dispatch(fetchOffersAction());
+  }, [dispatch]);
+  const offers = useAppSelector(selectOffers);
 
   const router = createBrowserRouter([
     {
       path: AppRoute.Main,
       element:
-        <MainScreen cities={cities} hasNavigation offersData={useAppSelector(selectOffers)} citiesData={citiesData} />,
+        <MainScreen cities={cities} hasNavigation offersData={offers} />,
       errorElement: <ErrorScreen />,
     },
     {

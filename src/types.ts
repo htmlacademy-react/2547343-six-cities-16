@@ -1,27 +1,41 @@
-export type OfferCardType = {
-  id: string;
-  name: string;
-  city: string;
-  price: string;
-  rating: string;
-  type: string;
-  premium: string;
-  lat?: number;
-  lng?: number;
-};
-
-export type FavoritesDataType = {
-  city: string;
-  offers: OfferCardType[];
-};
-
 export type CityLocationType = {
   name: string;
-  lat: number;
-  lng: number;
-  zoom: number;
-};
+  location: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  };
+}
 
+export type OfferType = {
+  id: string;
+  title: string;
+  type: string;
+  price: number;
+  previewImage: string;
+  city: CityLocationType;
+  location: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  };
+  isFavorite: boolean;
+  isPremium: boolean;
+  rating: number;
+}
+export type FavoriteOffer = {
+  id: string;
+  title: string;
+  city: string;
+  price: string;
+  rating: number;
+  type: string;
+  isPremium: boolean;
+}
+export type FavoritesDataType = {
+  city: string;
+  offers: FavoriteOffer[];
+};
 
 export type CityDataType = {
   id: string;

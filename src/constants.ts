@@ -27,3 +27,15 @@ export const DEFAULT_CITY = {
   value: 'paris'
 };
 
+export enum APIRoute {
+  Offers = '/offers'
+}
+
+export const CITIES_NAME_MAP = new Map([
+  ['paris', 'Paris'],
+  ['cologne', 'Cologne'],
+  ['brussels', 'Brussels'],
+  ['amsterdam', 'Amsterdam'],
+  ['hamburg', 'Hamburg'],
+  ['dusseldorf', 'Dusseldorf']
+]);

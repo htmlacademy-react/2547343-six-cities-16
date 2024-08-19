@@ -1,33 +1,38 @@
-import { OfferCardType } from '../../types';
+import { OfferType } from '../../types';
 import { Link } from 'react-router-dom';
 
 
 type OfferCardProps = {
-  offerData: OfferCardType;
+  offerData: OfferType;
   setActiveOffer?: (id: string) => void;
 }
 
 function OfferCard({ offerData, setActiveOffer }: OfferCardProps): JSX.Element {
-  const ratingInStarsFormat: string = String(parseInt(offerData.rating, 10) * 20);
-  const isPremium: boolean = (/true/i).test(offerData.premium);
+  const ratingInStarsFormat: string = String(offerData.rating * 20);
 
   const handleOfferHover = () => {
+    if (!offerData.id) {
+      return;
+    }
     setActiveOffer?.(offerData.id);
   };
   const handleOfferLeave = () => {
+    if (!offerData.id) {
+      return;
+    }
     setActiveOffer?.('');
   };
 
   return (
     <article className='cities__card place-card' onMouseEnter={handleOfferHover} onMouseLeave={handleOfferLeave}>
-      {isPremium &&
+      {offerData.isPremium &&
         <div className="place-card__mark">
           <span>Premium</span>
         </div>}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
-          <img className="place-card__image" src="img/apartment-01.jpg" width="260" height="200" alt="Place image" />
-        </a>
+        <Link to={`/offer/${offerData.id}`}>
+          <img className="place-card__image" src={offerData.previewImage} width="260" height="200" alt="Place image" />
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -49,7 +54,7 @@ function OfferCard({ offerData, setActiveOffer }: OfferCardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`/offer/${offerData.id}`}>{offerData.name}</Link>
+          <Link to={`/offer/${offerData.id}`}>{offerData.title}</Link>
         </h2>
         <p className="place-card__type">{offerData.type}</p>
       </div>
