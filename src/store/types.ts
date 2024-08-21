@@ -1,5 +1,5 @@
 import { AuthorizationStatus } from '../constants';
-import { CommentType, FavoriteType, OfferInDetailType, OfferType, SortingType } from '../types';
+import { CommentType, OfferInDetailType, OfferType, SortingType } from '../types';
 
 export type AuthorizationType = {
   authorizationStatus: AuthorizationStatus;
@@ -27,15 +27,9 @@ export type CityStateType = {
   city: string;
 }
 
-export type FavoriteStateType = {
-  favorite: FavoriteType[];
-  isFavoriteLoading: boolean;
-}
-
 export type StateType =
   OffersStateType
   | OfferStateType
   | AuthorizationType
   | ErrorType
-  | CityStateType
-  | FavoriteStateType;
+  | CityStateType;

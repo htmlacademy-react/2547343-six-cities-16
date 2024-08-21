@@ -54,14 +54,11 @@ export type OfferInDetailType = {
 export type FavoriteOffer = {
   id: string;
   title: string;
-  type: string;
-  price: number;
-  city: CityLocationType;
-  location: LocationType;
-  isFavorite: boolean;
-  isPremium: boolean;
+  city: string;
+  price: string;
   rating: number;
-  previewImage: string;
+  type: string;
+  isPremium: boolean;
 }
 
 export type FavoritesDataType = {
