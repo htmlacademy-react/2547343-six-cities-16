@@ -49,7 +49,7 @@ function CommentForm() {
   };
 
   const params = useParams();
-  const offerId = params.id;
+  const offerId = params.id || '';
   const dispatch = useAppDispatch();
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {

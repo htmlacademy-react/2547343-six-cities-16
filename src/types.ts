@@ -91,9 +91,15 @@ export type SortingType = {
 };
 
 export type CommentType = {
-  id?: string;
-  date?: string;
-  user?: PersonDataType;
+  id: string;
+  date: string;
+  user: PersonDataType;
+  comment: string;
+  rating: number;
+}
+
+export type CommentToSendType = {
+  id: string;
   comment: string;
   rating: number;
 }
