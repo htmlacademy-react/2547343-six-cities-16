@@ -7,8 +7,9 @@ import { useParams, Navigate } from 'react-router-dom';
 import { OfferType, ReviewItemType } from '../types.ts';
 import { MapType } from '../constants.ts';
 import { useAppSelector } from '../hooks/index.ts';
-import { selectOffers } from '../store';
+import { selectOffers } from '../store/slices/offer-slices.ts';
 import { AppRoute } from '../constants.ts';
+import { formatRating } from '../utils.ts';
 
 type OfferScreenProps = {
   hasNavigation: boolean;
@@ -31,7 +32,7 @@ function OfferScreen({ hasNavigation, reviewsData }: OfferScreenProps): JSX.Elem
 
     const currentCityData = offerData.city;
 
-    const ratingInStarsFormat: string = String(offerData.rating * 20);
+    const ratingInStarsFormat: string = formatRating(offerData.rating);
 
 
     return (

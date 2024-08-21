@@ -2,18 +2,19 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from 'react-router-dom';
+import { useEffect } from 'react';
 import MainScreen from '../pages/main';
 import LoginScreen from '../pages/login';
 import FavoritesScreen from '../pages/favorites';
 import OfferScreen from '../pages/offer';
 import ErrorScreen from '../pages/error';
-import { AppRoute, AuthorizationStatus } from '../constants';
+import { AppRoute } from '../constants';
 import PrivateRoute from './private-route/private-route';
 import { FavoritesDataType, ReviewItemType } from '../types';
-import { selectOffers } from '../store';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { useEffect } from 'react';
-import { fetchOffersAction } from '../services/api-actions';
+import { selectOffers } from '../store/slices/offer-slices';
+import { selectAutorizationStatus } from '../store/slices/authorization-slice';
+import { fetchOffersAction, checkAuthAction } from '../services/api-actions';
 
 type AppProps = {
   cities: { id: string; name: string }[];
@@ -26,8 +27,10 @@ function App({ cities, favoritesData, reviewData }: AppProps): JSX.Element {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchOffersAction());
+    dispatch(checkAuthAction());
   }, [dispatch]);
   const offers = useAppSelector(selectOffers);
+  const authStatus = useAppSelector(selectAutorizationStatus);
 
   const router = createBrowserRouter([
     {
@@ -44,7 +47,7 @@ function App({ cities, favoritesData, reviewData }: AppProps): JSX.Element {
     {
       path: AppRoute.Favorites,
       element:
-        <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+        <PrivateRoute authorizationStatus={authStatus}>
           <FavoritesScreen favoritesData={favoritesData} hasNavigation />
         </PrivateRoute>
     },

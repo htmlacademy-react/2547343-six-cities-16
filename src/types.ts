@@ -45,8 +45,19 @@ export type CityDataType = {
 export type ReviewItemType = {
   id: string;
   name: string;
-  rating: string;
+  rating: number;
   text: string;
   dateTime: string;
   dateLabel: string;
 }
+
+export type AuthData = {
+  email: string;
+  password: string;
+};
+
+export type UserData = {
+  id: number;
+  email: string;
+  token: string;
+};

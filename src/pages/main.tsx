@@ -4,11 +4,12 @@ import LocationsList from '../components/locations-list/locations-list.tsx';
 import Map from '../components/map/map.tsx';
 import { useParams } from 'react-router-dom';
 import { OfferType } from '../types.ts';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MapType } from '../constants.ts';
 import { DEFAULT_CITY, CITIES_NAME_MAP } from '../constants.ts';
 import { defaultCityCoordinates } from '../mocks/city-coordinates.ts';
-import { setCity, selectOffersLoadingStatus } from '../store/index.ts';
+import { setCity } from '../store/slices/city-slice.ts';
+import { selectOffersLoadingStatus } from '../store/slices/offer-slices.ts';
 import { useAppDispatch, useAppSelector } from '../hooks/index.ts';
 import Loading from '../components/loading/loading.tsx';
 
@@ -26,7 +27,9 @@ function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX
     selectedCity = CITIES_NAME_MAP.get(params.city) || selectedCity;
   }
   const dispatch = useAppDispatch();
-  dispatch(setCity(selectedCity));
+  useEffect(() => {
+    dispatch(setCity(selectedCity));
+  }, [selectedCity]);
   const filteredOffers = offersData.filter((offer) => offer.city.name === selectedCity);
   const hasOfferData: boolean = filteredOffers.length > 0;
 
