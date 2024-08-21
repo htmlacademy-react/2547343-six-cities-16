@@ -33,7 +33,9 @@ export const DEFAULT_CITY = {
 export enum APIRoute {
   Offers = '/offers',
   Login = '/login',
-  Logout = '/logout'
+  Logout = '/logout',
+  Offer = '/offers/',
+  Comments = '/comments/',
 }
 export const CITIES_NAME_MAP = {
   'paris': 'Paris',

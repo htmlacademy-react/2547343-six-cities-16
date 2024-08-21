@@ -1,21 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { createAPI } from '../services/api';
-import { offersSlice } from './slices/offer-slices';
+import { offersSlice } from './slices/offer-slice';
 import { citySlice } from './slices/city-slice';
 import { authorizationSlice } from './slices/authorization-slice';
 import { errorSlice } from './slices/error-slice';
-import { AuthorizationStatus } from '../constants';
-import { StateType } from './types';
-import { offerSlice } from './slices/offer-in-detail-slices';
-
-export const initialState: StateType = {
-  city: 'Paris',
-  offers: [],
-  isOfferLoading: false,
-  authorizationStatus: AuthorizationStatus.Unknown,
-  userEmail: null,
-  error: null,
-};
+import { offerSlice } from './slices/offer-in-detail-slice';
 
 export const api = createAPI();
 

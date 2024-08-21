@@ -9,7 +9,7 @@ import { MapType } from '../constants.ts';
 import { DEFAULT_CITY, CITIES_NAME_MAP } from '../constants.ts';
 import { defaultCityCoordinates } from '../mocks/city-coordinates.ts';
 import { setCity } from '../store/slices/city-slice.ts';
-import { selectOffersLoadingStatus, selectSortingMode } from '../store/slices/offer-slices.ts';
+import { selectOffersLoadingStatus, selectSortingMode } from '../store/slices/offer-slice.ts';
 import { useAppDispatch, useAppSelector } from '../hooks/index.ts';
 import Loading from '../components/loading/loading.tsx';
 
@@ -18,8 +18,8 @@ type MainScreenProps = {
   hasNavigation: boolean;
   offersData: OfferType[];
 }
-type CityKey = keyof typeof CITIES_NAME_MAP;
 
+type CityKey = keyof typeof CITIES_NAME_MAP;
 const OFFERS_FALLBACK = [] as OfferType[];
 
 const filterOffers = (offers: OfferType[], city: string) => offers.filter((offer) => offer.city.name === city);

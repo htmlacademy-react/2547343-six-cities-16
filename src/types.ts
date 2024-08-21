@@ -7,6 +7,12 @@ export type CityLocationType = {
   };
 }
 
+type LocationType = {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+}
+
 export type OfferType = {
   id: string;
   title: string;
@@ -14,11 +20,7 @@ export type OfferType = {
   price: number;
   previewImage: string;
   city: CityLocationType;
-  location: {
-    latitude: number;
-    longitude: number;
-    zoom: number;
-  };
+  location: LocationType;
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;
@@ -37,11 +39,7 @@ export type OfferInDetailType = {
   price: number;
   previewImage: string;
   city: CityLocationType;
-  location: {
-    latitude: number;
-    longitude: number;
-    zoom: number;
-  };
+  location: LocationType;
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;
@@ -56,12 +54,16 @@ export type OfferInDetailType = {
 export type FavoriteOffer = {
   id: string;
   title: string;
-  city: string;
-  price: string;
-  rating: number;
   type: string;
+  price: number;
+  city: CityLocationType;
+  location: LocationType;
+  isFavorite: boolean;
   isPremium: boolean;
+  rating: number;
+  previewImage: string;
 }
+
 export type FavoritesDataType = {
   city: string;
   offers: FavoriteOffer[];

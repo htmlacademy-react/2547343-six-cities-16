@@ -60,10 +60,6 @@ function CommentForm() {
         rating: form.rating,
         comment: form.comment
       }));
-      setForm({
-        rating: null,
-        comment: '',
-      });
     }
   };
   return (

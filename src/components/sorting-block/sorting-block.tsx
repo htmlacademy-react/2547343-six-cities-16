@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { SortingArray } from '../../constants';
 import { SortingType } from '../../types';
 import { useAppDispatch } from '../../hooks';
-import { setSortingMode } from '../../store/slices/offer-slices';
+import { setSortingMode } from '../../store/slices/offer-slice';
 
 function SortingBlock() {
   const [isBlockOpened, setBlockState] = useState(false);

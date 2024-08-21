@@ -12,9 +12,8 @@ import { AppRoute } from '../constants';
 import PrivateRoute from './private-route/private-route';
 import { FavoritesDataType } from '../types';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { selectOffers } from '../store/slices/offer-slices';
-import { selectAutorizationStatus } from '../store/slices/authorization-slice';
-import { fetchOffersAction, checkAuthAction } from '../services/api-actions';
+import { selectOffers } from '../store/slices/offer-slice';
+import { fetchOffersAction } from '../services/api-actions';
 
 type AppProps = {
   cities: { id: string; name: string }[];
@@ -26,10 +25,8 @@ function App({ cities, favoritesData }: AppProps): JSX.Element {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchOffersAction());
-    dispatch(checkAuthAction());
   }, [dispatch]);
   const offers = useAppSelector(selectOffers);
-  const authStatus = useAppSelector(selectAutorizationStatus);
 
   const router = createBrowserRouter([
     {
@@ -46,7 +43,7 @@ function App({ cities, favoritesData }: AppProps): JSX.Element {
     {
       path: AppRoute.Favorites,
       element:
-        <PrivateRoute authorizationStatus={authStatus}>
+        <PrivateRoute>
           <FavoritesScreen favoritesData={favoritesData} hasNavigation />
         </PrivateRoute>
     },

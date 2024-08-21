@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from '../hooks/index.ts';
 import { formatRating } from '../utils.ts';
 import { useEffect } from 'react';
 import { fetchCommentsAction, fetchNearbyOffersAction, fetchOfferInDetailAction } from '../services/api-actions.ts';
-import { selectComments, selectNearbyOffers, selectOffer, selectOfferLoadingStatus } from '../store/slices/offer-in-detail-slices.ts';
+import { selectComments, selectNearbyOffers, selectOffer, selectOfferLoadingStatus } from '../store/slices/offer-in-detail-slice.ts';
 import cn from 'classnames';
 import OfferLoading from '../components/offer-loading/offer-loading.tsx';
 

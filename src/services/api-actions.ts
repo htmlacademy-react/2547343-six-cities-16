@@ -3,12 +3,13 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, RootState } from '../store';
 import { OfferType, AuthData, UserData, OfferInDetailType, CommentType } from '../types';
 import { APIRoute } from '../constants';
-import { setOffers, setOffersLoadingStatus } from '../store/slices/offer-slices';
+import { setOffers, setOffersLoadingStatus } from '../store/slices/offer-slice';
 import { AuthorizationStatus } from '../constants';
 import { setAuthorizationStatus } from '../store/slices/authorization-slice';
 import { setUserEmail } from '../store/slices/authorization-slice';
 import { saveToken, dropToken } from './token';
-import { setComments, setNearbyOffers, setOffer, setOfferLoadingStatus } from '../store/slices/offer-in-detail-slices';
+import { setComments, setNearbyOffers, setOffer, setOfferLoadingStatus } from '../store/slices/offer-in-detail-slice';
+
 
 type AsyncThunkType = {
   dispatch: AppDispatch;
@@ -59,7 +60,6 @@ export const postCommentAction = createAsyncThunk<void, CommentType, AsyncThunkT
     dispatch(fetchCommentsAction(id));
   },
 );
-
 
 export const checkAuthAction = createAsyncThunk<void, undefined, AsyncThunkType>(
   'user/login',
