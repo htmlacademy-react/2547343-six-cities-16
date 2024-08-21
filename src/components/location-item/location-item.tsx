@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { setCity } from '../../store';
+import { setCity } from '../../store/slices/city-slice';
 import { useAppDispatch } from '../../hooks';
 
 type LocationItemProps = {

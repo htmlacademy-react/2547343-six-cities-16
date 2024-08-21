@@ -1,11 +1,12 @@
 import { FavoriteOffer } from '../../types';
+import { formatRating } from '../../utils';
 
 type FavoritesCardType = {
   offerData: FavoriteOffer;
 }
 
 function FavoritesCard({ offerData }: FavoritesCardType): JSX.Element {
-  const ratingInStarsFormat: string = String(offerData.rating * 20);
+  const ratingInStarsFormat: string = formatRating(offerData.rating);
 
   return (
     <article className="favorites__card place-card">

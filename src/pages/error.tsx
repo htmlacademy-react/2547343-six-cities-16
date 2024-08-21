@@ -4,6 +4,7 @@ import { AppRoute } from '../constants';
 
 
 function ErrorScreen(): JSX.Element {
+
   return (
 
     <div className="page page--gray page--login">

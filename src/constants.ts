@@ -28,8 +28,21 @@ export const DEFAULT_CITY = {
 };
 
 export enum APIRoute {
-  Offers = '/offers'
+  Offers = '/offers',
+  Login = '/login',
+  Logout = '/logout'
 }
+// Это оверкилл, но если я меняю на объект, то в main.tsx на 27 строчке
+// у линтера начинается истерика и я пока не знаю что с ней делать
+
+// export const CITIES_NAME_MAP = {
+//   'paris': 'Paris',
+//   'cologne': 'Cologne',
+//   'brussels': 'Brussels',
+//   'amsterdam': 'Amsterdam',
+//   'hamburg': 'Hamburg',
+//   'dusseldorf': 'Dusseldorf'
+// };
 
 export const CITIES_NAME_MAP = new Map([
   ['paris', 'Paris'],
