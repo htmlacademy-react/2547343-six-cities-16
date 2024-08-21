@@ -23,6 +23,36 @@ export type OfferType = {
   isPremium: boolean;
   rating: number;
 }
+
+export type PersonDataType = {
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
+}
+
+export type OfferInDetailType = {
+  id: string;
+  title: string;
+  type: string;
+  price: number;
+  previewImage: string;
+  city: CityLocationType;
+  location: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  };
+  isFavorite: boolean;
+  isPremium: boolean;
+  rating: number;
+  description: string;
+  bedrooms: number;
+  goods: string[];
+  host: PersonDataType;
+  images: string[];
+  maxAdults: number;
+}
+
 export type FavoriteOffer = {
   id: string;
   title: string;
@@ -42,15 +72,6 @@ export type CityDataType = {
   location: CityLocationType;
 }
 
-export type ReviewItemType = {
-  id: string;
-  name: string;
-  rating: number;
-  text: string;
-  dateTime: string;
-  dateLabel: string;
-}
-
 export type AuthData = {
   email: string;
   password: string;
@@ -65,4 +86,12 @@ export type UserData = {
 export type SortingType = {
   name: string;
   value: string;
+};
+
+export type CommentType = {
+  id?: string;
+  date?: string;
+  user?: PersonDataType;
+  comment: string;
+  rating: number;
 }

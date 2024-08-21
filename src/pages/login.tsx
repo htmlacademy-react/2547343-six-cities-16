@@ -11,7 +11,7 @@ const warningNoteStyle: React.CSSProperties = {
   left: '2px',
   marginTop: '-20px',
   color: '#b06758',
-  fontSize: '13px',
+  fontSize: '12px',
 };
 
 type LoginScreenProps = {
@@ -88,7 +88,7 @@ function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
                   required
                   onChange={handlePasswordChange}
                 />
-                {warningVisible && <div style={warningNoteStyle}>Введите пароль (буквы и цифры без пробелов)</div>}
+                {warningVisible && <div style={warningNoteStyle}>Please enter  password (letters and numbers without spaces)</div>}
               </div>
               <button
                 className="login__submit form__submit button"

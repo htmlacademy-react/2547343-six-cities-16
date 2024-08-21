@@ -6,6 +6,7 @@ import { authorizationSlice } from './slices/authorization-slice';
 import { errorSlice } from './slices/error-slice';
 import { AuthorizationStatus } from '../constants';
 import { StateType } from './types';
+import { offerSlice } from './slices/offer-in-detail-slices';
 
 export const initialState: StateType = {
   city: 'Paris',
@@ -21,6 +22,7 @@ export const api = createAPI();
 export const store = configureStore({
   reducer: {
     [offersSlice.name]: offersSlice.reducer,
+    [offerSlice.name]: offerSlice.reducer,
     [citySlice.name]: citySlice.reducer,
     [authorizationSlice.name]: authorizationSlice.reducer,
     [errorSlice.name]: errorSlice.reducer,

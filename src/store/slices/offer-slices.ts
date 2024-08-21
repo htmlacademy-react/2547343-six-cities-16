@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { OfferType, SortingType } from '../../types';
-import { OfferStateType } from '../types';
+import { OffersStateType } from '../types';
 
-export const offerState: OfferStateType = {
+export const offersState: OffersStateType = {
   offers: [],
   isOfferLoading: false,
   sortingMode: {
@@ -13,7 +13,7 @@ export const offerState: OfferStateType = {
 
 export const offersSlice = createSlice({
   name: 'offers',
-  initialState: offerState,
+  initialState: offersState,
   reducers: {
     setOffers: (state, action: PayloadAction<OfferType[]>) => {
       state.offers = action.payload;
@@ -32,7 +32,15 @@ export const offersSlice = createSlice({
   },
 });
 
-export const { setOffers, setOffersLoadingStatus, setSortingMode } = offersSlice.actions;
+export const {
+  setOffers,
+  setOffersLoadingStatus,
+  setSortingMode,
+} = offersSlice.actions;
 
-export const { selectOffers, selectOffersLoadingStatus, selectSortingMode } = offersSlice.selectors;
+export const {
+  selectOffers,
+  selectOffersLoadingStatus,
+  selectSortingMode,
+} = offersSlice.selectors;
 

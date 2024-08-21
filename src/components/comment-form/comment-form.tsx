@@ -1,123 +1,111 @@
+import React, { FormEvent } from 'react';
 import { useState, ChangeEvent } from 'react';
+import { useAppDispatch } from '../../hooks';
+import { useParams } from 'react-router-dom';
+import { postCommentAction } from '../../services/api-actions';
+
 interface FormType {
-  rating: string | null;
-  review: string;
+  rating: number | null;
+  comment: string;
 }
+
+const ratingArray = [5, 4, 3, 2, 1];
+
 function CommentForm() {
   const [form, setForm] = useState<FormType>({
     rating: null,
-    review: '',
+    comment: '',
   });
-  const ratingChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setForm({
-      ...form,
-      rating: e.target.defaultValue
-    });
+  const [submitIsValid, setSubmitValidation] = useState(false);
+
+  const checkSubmitValidation = (text: string, rating: number | null) => {
+    if (text.length >= 50 && rating !== null) {
+      setSubmitValidation(true);
+    } else {
+      setSubmitValidation(false);
+    }
   };
 
+  const ratingChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const rating = +e.target.value;
+
+    setForm({
+      ...form,
+      rating: rating
+    });
+
+    checkSubmitValidation(form.comment, rating);
+  };
+
+  const handleCommentChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
+    const value = evt.target.value;
+
+    setForm({
+      ...form,
+      comment: value
+    });
+
+    checkSubmitValidation(value, form.rating);
+  };
+
+  const params = useParams();
+  const offerId = params.id;
+  const dispatch = useAppDispatch();
+
+  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    if (form.rating !== null && form.comment !== '') {
+      dispatch(postCommentAction({
+        id: offerId,
+        rating: form.rating,
+        comment: form.comment
+      }));
+      setForm({
+        rating: null,
+        comment: '',
+      });
+    }
+  };
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form
+      className="reviews__form form"
+      action=""
+      method="post"
+      onSubmit={handleSubmit}
+    >
       <label className="reviews__label form__label" htmlFor="review">
         Your review
       </label>
       <div className="reviews__rating-form form__rating">
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          defaultValue={5}
-          id="5-stars"
-          type="radio"
-          onChange={ratingChangeHandler}
-        />
-        <label
-          htmlFor="5-stars"
-          className="reviews__rating-label form__rating-label"
-          title="perfect"
-        >
-          <svg className="form__star-image" width={37} height={33}>
-            <use xlinkHref="#icon-star" />
-          </svg>
-        </label>
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          defaultValue={4}
-          id="4-stars"
-          type="radio"
-          onChange={ratingChangeHandler}
-        />
-        <label
-          htmlFor="4-stars"
-          className="reviews__rating-label form__rating-label"
-          title="good"
-        >
-          <svg className="form__star-image" width={37} height={33}>
-            <use xlinkHref="#icon-star" />
-          </svg>
-        </label>
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          defaultValue={3}
-          id="3-stars"
-          type="radio"
-          onChange={ratingChangeHandler}
-        />
-        <label
-          htmlFor="3-stars"
-          className="reviews__rating-label form__rating-label"
-          title="not bad"
-        >
-          <svg className="form__star-image" width={37} height={33}>
-            <use xlinkHref="#icon-star" />
-          </svg>
-        </label>
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          defaultValue={2}
-          id="2-stars"
-          type="radio"
-          onChange={ratingChangeHandler}
-        />
-        <label
-          htmlFor="2-stars"
-          className="reviews__rating-label form__rating-label"
-          title="badly"
-        >
-          <svg className="form__star-image" width={37} height={33}>
-            <use xlinkHref="#icon-star" />
-          </svg>
-        </label>
-        <input
-          className="form__rating-input visually-hidden"
-          name="rating"
-          defaultValue={1}
-          id="1-star"
-          type="radio"
-          onChange={ratingChangeHandler}
-        />
-        <label
-          htmlFor="1-star"
-          className="reviews__rating-label form__rating-label"
-          title="terribly"
-        >
-          <svg className="form__star-image" width={37} height={33}>
-            <use xlinkHref="#icon-star" />
-          </svg>
-        </label>
+        {
+          ratingArray.map((rating) => (
+            <React.Fragment key={rating}>
+              <input
+                className="form__rating-input visually-hidden"
+                name="rating"
+                defaultValue={rating}
+                id={`${rating}-stars`}
+                type="radio"
+                onChange={ratingChangeHandler}
+              />
+              <label
+                htmlFor={`${rating}-stars`}
+                className="reviews__rating-label form__rating-label"
+                title="perfect"
+              >
+                <svg className="form__star-image" width={37} height={33}>
+                  <use xlinkHref="#icon-star" />
+                </svg>
+              </label>
+            </React.Fragment>))
+        }
       </div>
       <textarea
         className="reviews__textarea form__textarea"
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
-        onChange={(e) => {
-          setForm({
-            ...form,
-            review: e.target.value
-          });
-        }}
+        onChange={handleCommentChange}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -126,7 +114,7 @@ function CommentForm() {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled
+          disabled={!submitIsValid}
         >
           Submit
         </button>

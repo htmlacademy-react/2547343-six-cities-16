@@ -4,7 +4,8 @@ export enum AppRoute {
   Main = '/:city?',
   Login = '/login',
   Favorites = '/favorites',
-  Offer = '/offer/:id'
+  Offer = '/offer/:id',
+  Error = '/error'
 }
 
 export enum AuthorizationStatus {
