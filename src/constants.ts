@@ -1,3 +1,5 @@
+import { SortingType } from './types';
+
 export enum AppRoute {
   Main = '/:city?',
   Login = '/login',
@@ -32,23 +34,30 @@ export enum APIRoute {
   Login = '/login',
   Logout = '/logout'
 }
-// Это оверкилл, но если я меняю на объект, то в main.tsx на 27 строчке
-// у линтера начинается истерика и я пока не знаю что с ней делать
+export const CITIES_NAME_MAP = {
+  'paris': 'Paris',
+  'cologne': 'Cologne',
+  'brussels': 'Brussels',
+  'amsterdam': 'Amsterdam',
+  'hamburg': 'Hamburg',
+  'dusseldorf': 'Dusseldorf'
+} as const;
 
-// export const CITIES_NAME_MAP = {
-//   'paris': 'Paris',
-//   'cologne': 'Cologne',
-//   'brussels': 'Brussels',
-//   'amsterdam': 'Amsterdam',
-//   'hamburg': 'Hamburg',
-//   'dusseldorf': 'Dusseldorf'
-// };
-
-export const CITIES_NAME_MAP = new Map([
-  ['paris', 'Paris'],
-  ['cologne', 'Cologne'],
-  ['brussels', 'Brussels'],
-  ['amsterdam', 'Amsterdam'],
-  ['hamburg', 'Hamburg'],
-  ['dusseldorf', 'Dusseldorf']
-]);
+export const SortingArray: SortingType[] = [
+  {
+    name: 'Popular',
+    value: 'Popular'
+  },
+  {
+    name: 'PriceLTH',
+    value: 'Price: low to high'
+  },
+  {
+    name: 'PriceHTL',
+    value: 'Price: high to low'
+  },
+  {
+    name: 'Rating',
+    value: 'Top rated first'
+  }
+];

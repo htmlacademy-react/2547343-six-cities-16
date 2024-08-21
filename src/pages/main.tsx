@@ -3,13 +3,13 @@ import MainOffers from '../components/main-offers/main-offers.tsx';
 import LocationsList from '../components/locations-list/locations-list.tsx';
 import Map from '../components/map/map.tsx';
 import { useParams } from 'react-router-dom';
-import { OfferType } from '../types.ts';
+import { OfferType, SortingType } from '../types.ts';
 import { useState, useEffect } from 'react';
 import { MapType } from '../constants.ts';
 import { DEFAULT_CITY, CITIES_NAME_MAP } from '../constants.ts';
 import { defaultCityCoordinates } from '../mocks/city-coordinates.ts';
 import { setCity } from '../store/slices/city-slice.ts';
-import { selectOffersLoadingStatus } from '../store/slices/offer-slices.ts';
+import { selectOffersLoadingStatus, selectSortingMode } from '../store/slices/offer-slices.ts';
 import { useAppDispatch, useAppSelector } from '../hooks/index.ts';
 import Loading from '../components/loading/loading.tsx';
 
@@ -18,22 +18,48 @@ type MainScreenProps = {
   hasNavigation: boolean;
   offersData: OfferType[];
 }
+type CityKey = keyof typeof CITIES_NAME_MAP;
+
+const OFFERS_FALLBACK = [] as OfferType[];
+
+const filterOffers = (offers: OfferType[], city: string) => offers.filter((offer) => offer.city.name === city);
+
+const sortOffersBySortingMode = (offers: OfferType[], sortMode: SortingType) => {
+  switch (sortMode.name) {
+    case 'Popular':
+      return offers;
+    case 'PriceLTH':
+      return offers.toSorted((a, b) => a.price - b.price);
+    case 'PriceHTL':
+      return offers.toSorted((a, b) => b.price - a.price);
+    case 'Rating':
+      return offers.toSorted((a, b) => b.rating - a.rating);
+  }
+};
 
 function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX.Element {
   const params = useParams();
+  const cityFromParams = params.city as CityKey;
   const [activeOffer, setActiveOffer] = useState('');
+
   let selectedCity = DEFAULT_CITY.name;
   if (params.city !== undefined) {
-    selectedCity = CITIES_NAME_MAP.get(params.city) || selectedCity;
+    selectedCity = CITIES_NAME_MAP[cityFromParams] || selectedCity;
   }
+
+  const sortingMode = useAppSelector(selectSortingMode);
+  const isOffersLoading = useAppSelector(selectOffersLoadingStatus);
+
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(setCity(selectedCity));
   }, [selectedCity]);
-  const filteredOffers = offersData.filter((offer) => offer.city.name === selectedCity);
+
+  const filteredOffers = filterOffers(offersData, selectedCity);
   const hasOfferData: boolean = filteredOffers.length > 0;
 
-  const isOffersLoading = useAppSelector(selectOffersLoadingStatus);
+  const sortedOffers = sortOffersBySortingMode(filteredOffers, sortingMode) ?? OFFERS_FALLBACK;
+
 
   if (isOffersLoading) {
     return (
@@ -77,10 +103,10 @@ function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX
           <div className="cities">
             <div className="cities__places-container container">
 
-              <MainOffers offersData={filteredOffers} setActiveOffer={setActiveOffer} activeCity={selectedCity} />
+              <MainOffers offersData={sortedOffers} setActiveOffer={setActiveOffer} activeCity={selectedCity} />
 
               <div className="cities__right-section">
-                <Map cityData={selectedCityData} mapType={MapType.Main} offers={filteredOffers} selectedPoint={activeOffer} />
+                <Map cityData={selectedCityData} mapType={MapType.Main} offers={sortedOffers} selectedPoint={activeOffer} />
 
               </div>
             </div>

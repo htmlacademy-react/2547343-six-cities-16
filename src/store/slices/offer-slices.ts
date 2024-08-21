@@ -1,10 +1,14 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { OfferType } from '../../types';
+import { OfferType, SortingType } from '../../types';
 import { OfferStateType } from '../types';
 
 export const offerState: OfferStateType = {
   offers: [],
   isOfferLoading: false,
+  sortingMode: {
+    name: 'Popular',
+    value: 'Popular'
+  }
 };
 
 export const offersSlice = createSlice({
@@ -17,14 +21,18 @@ export const offersSlice = createSlice({
     setOffersLoadingStatus: (state, action: PayloadAction<boolean>) => {
       state.isOfferLoading = action.payload;
     },
+    setSortingMode: (state, action: PayloadAction<SortingType>) => {
+      state.sortingMode = action.payload;
+    },
   },
   selectors: {
     selectOffers: (state) => state.offers,
     selectOffersLoadingStatus: (state) => state.isOfferLoading,
+    selectSortingMode: (state) => state.sortingMode,
   },
 });
 
-export const { setOffers, setOffersLoadingStatus } = offersSlice.actions;
+export const { setOffers, setOffersLoadingStatus, setSortingMode } = offersSlice.actions;
 
-export const { selectOffers, selectOffersLoadingStatus } = offersSlice.selectors;
+export const { selectOffers, selectOffersLoadingStatus, selectSortingMode } = offersSlice.selectors;
 

@@ -61,3 +61,8 @@ export type UserData = {
   email: string;
   token: string;
 };
+
+export type SortingType = {
+  name: string;
+  value: string;
+}
