@@ -1,14 +1,17 @@
-import { ReviewItemType } from '../../types';
+
+import { CommentType } from '../../types';
 import { formatRating } from '../../utils';
 
-
-type ReviewItemProps = {
-  reviewData: ReviewItemType;
+type CommentItemProps = {
+  commentData: CommentType;
 }
 
+const formatDateToString = (date: Date) => `${date.toLocaleString('en', { month: 'long' })} ${date.getFullYear()}`;
 
-function ReviewItem({ reviewData }: ReviewItemProps): JSX.Element {
-  const ratingInStarsFormat: string = formatRating(reviewData.rating);
+function CommentItem({ commentData }: CommentItemProps): JSX.Element {
+  const ratingInStarsFormat: string = formatRating(commentData.rating);
+  const commentDate = new Date(commentData.date);
+  const dateLabel = formatDateToString(commentDate);
 
   return (
     <li className="reviews__item">
@@ -17,7 +20,7 @@ function ReviewItem({ reviewData }: ReviewItemProps): JSX.Element {
           <img className="reviews__avatar user__avatar" src="img/avatar-max.jpg" width="54" height="54" alt="Reviews avatar" />
         </div>
         <span className="reviews__user-name">
-          {reviewData.name}
+          {commentData.user.name}
         </span>
       </div>
       <div className="reviews__info">
@@ -28,12 +31,12 @@ function ReviewItem({ reviewData }: ReviewItemProps): JSX.Element {
           </div>
         </div>
         <p className="reviews__text">
-          {reviewData.text}
+          {commentData.comment}
         </p>
-        <time className="reviews__time" dateTime={reviewData.dateTime}>{reviewData.dateLabel}</time>
+        <time className="reviews__time" dateTime={commentData.date}>{dateLabel}</time>
       </div>
     </li>
   );
 }
 
-export default ReviewItem;
+export default CommentItem;

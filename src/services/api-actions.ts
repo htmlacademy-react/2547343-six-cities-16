@@ -1,20 +1,23 @@
 import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, RootState } from '../store';
-import { OfferType, AuthData, UserData } from '../types';
+import { OfferType, AuthData, UserData, OfferInDetailType, CommentType, CommentToSendType } from '../types';
 import { APIRoute } from '../constants';
-import { setOffers, setOffersLoadingStatus } from '../store/slices/offer-slices';
+import { setOffers, setOffersLoadingStatus } from '../store/slices/offer-slice';
 import { AuthorizationStatus } from '../constants';
 import { setAuthorizationStatus } from '../store/slices/authorization-slice';
 import { setUserEmail } from '../store/slices/authorization-slice';
 import { saveToken, dropToken } from './token';
+import { setComments, setNearbyOffers, setOffer, setOfferLoadingStatus } from '../store/slices/offer-in-detail-slice';
 
 
-export const fetchOffersAction = createAsyncThunk<void, undefined, {
+type AsyncThunkType = {
   dispatch: AppDispatch;
   state: RootState;
   extra: AxiosInstance;
-}>(
+};
+
+export const fetchOffersAction = createAsyncThunk<void, undefined, AsyncThunkType>(
   '/six-cities/offers',
   async (_arg, { dispatch, extra: api }) => {
     dispatch(setOffersLoadingStatus(true));
@@ -24,11 +27,41 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
   },
 );
 
-export const checkAuthAction = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch;
-  state: RootState;
-  extra: AxiosInstance;
-}>(
+export const fetchOfferInDetailAction = createAsyncThunk<void, string | undefined, AsyncThunkType>(
+  '/six-cities/offers/id',
+  async (id, { dispatch, extra: api }) => {
+    dispatch(setOfferLoadingStatus(true));
+    const { data } = await api.get<OfferInDetailType>(`${APIRoute.Offer}${id}`);
+    dispatch(setOffer(data));
+    dispatch(setOfferLoadingStatus(false));
+  },
+);
+
+export const fetchNearbyOffersAction = createAsyncThunk<void, string | undefined, AsyncThunkType>(
+  '/six-cities/offers/id/nearby',
+  async (id, { dispatch, extra: api }) => {
+    const { data } = await api.get<OfferType[]>(`${APIRoute.Offer}${id}/nearby`);
+    dispatch(setNearbyOffers(data));
+  },
+);
+
+export const fetchCommentsAction = createAsyncThunk<void, string | undefined, AsyncThunkType>(
+  '/six-cities/offers/id',
+  async (id, { dispatch, extra: api }) => {
+    const { data } = await api.get<CommentType[]>(`${APIRoute.Comments}${id}`);
+    dispatch(setComments(data));
+  },
+);
+
+export const postCommentAction = createAsyncThunk<void, CommentToSendType, AsyncThunkType>(
+  '/six-cities/offers/id',
+  async ({ id, comment, rating }, { dispatch, extra: api }) => {
+    await api.post<CommentToSendType[]>(`${APIRoute.Comments}${id}`, { comment, rating });
+    dispatch(fetchCommentsAction(id));
+  },
+);
+
+export const checkAuthAction = createAsyncThunk<void, undefined, AsyncThunkType>(
   'user/login',
   async (_arg, { dispatch, extra: api }) => {
     try {

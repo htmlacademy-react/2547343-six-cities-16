@@ -9,7 +9,6 @@ type LocationItemProps = {
 
 function LocationItem({ city, activeCity }: LocationItemProps) {
   const dispatch = useAppDispatch();
-
   const onClickHandler = () => {
     dispatch(setCity(activeCity));
   };
@@ -17,7 +16,7 @@ function LocationItem({ city, activeCity }: LocationItemProps) {
   return (
     <li className="locations__item">
       <Link
-        className={`locations__item-link tabs__item ${activeCity === `${city.id}`
+        className={`locations__item-link tabs__item ${activeCity === `${city.name}`
           ? 'tabs__item tabs__item--active'
           : ''}`}
         onClick={onClickHandler}

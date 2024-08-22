@@ -1,12 +1,21 @@
+import { useEffect } from 'react';
 import { AppRoute, AuthorizationStatus } from '../../constants';
 import { Navigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { checkAuthAction } from '../../services/api-actions';
+import { selectAutorizationStatus } from '../../store/slices/authorization-slice';
 
 type PrivateRouteProps = {
-  authorizationStatus: AuthorizationStatus;
   children: JSX.Element;
 }
 
-function PrivateRoute({ authorizationStatus, children }: PrivateRouteProps) {
+function PrivateRoute({ children }: PrivateRouteProps) {
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(checkAuthAction());
+  }, [dispatch]);
+  const authorizationStatus = useAppSelector(selectAutorizationStatus);
 
   return (
     authorizationStatus === AuthorizationStatus.Auth

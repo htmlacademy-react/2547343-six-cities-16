@@ -7,6 +7,12 @@ export type CityLocationType = {
   };
 }
 
+type LocationType = {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+}
+
 export type OfferType = {
   id: string;
   title: string;
@@ -14,15 +20,37 @@ export type OfferType = {
   price: number;
   previewImage: string;
   city: CityLocationType;
-  location: {
-    latitude: number;
-    longitude: number;
-    zoom: number;
-  };
+  location: LocationType;
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;
 }
+
+export type PersonDataType = {
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
+}
+
+export type OfferInDetailType = {
+  id: string;
+  title: string;
+  type: string;
+  price: number;
+  previewImage: string;
+  city: CityLocationType;
+  location: LocationType;
+  isFavorite: boolean;
+  isPremium: boolean;
+  rating: number;
+  description: string;
+  bedrooms: number;
+  goods: string[];
+  host: PersonDataType;
+  images: string[];
+  maxAdults: number;
+}
+
 export type FavoriteOffer = {
   id: string;
   title: string;
@@ -32,6 +60,7 @@ export type FavoriteOffer = {
   type: string;
   isPremium: boolean;
 }
+
 export type FavoritesDataType = {
   city: string;
   offers: FavoriteOffer[];
@@ -40,15 +69,6 @@ export type FavoritesDataType = {
 export type CityDataType = {
   id: string;
   location: CityLocationType;
-}
-
-export type ReviewItemType = {
-  id: string;
-  name: string;
-  rating: number;
-  text: string;
-  dateTime: string;
-  dateLabel: string;
 }
 
 export type AuthData = {
@@ -61,3 +81,22 @@ export type UserData = {
   email: string;
   token: string;
 };
+
+export type SortingType = {
+  name: string;
+  value: string;
+};
+
+export type CommentType = {
+  id: string;
+  date: string;
+  user: PersonDataType;
+  comment: string;
+  rating: number;
+}
+
+export type CommentToSendType = {
+  id: string;
+  comment: string;
+  rating: number;
+}
