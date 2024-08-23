@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import App from './components/app';
 import { data } from './components/settings/settings';
 import { favoritesMocks } from './mocks/favorites';
-import { reviewMocks } from './mocks/reviews';
 import { Provider } from 'react-redux';
 import { store } from './store';
 
@@ -18,7 +17,6 @@ root.render(
       <App
         cities={data.cities}
         favoritesData={favoritesMocks}
-        reviewData={reviewMocks}
       />
     </Provider>
   </React.StrictMode>

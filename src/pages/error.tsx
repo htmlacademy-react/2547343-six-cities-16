@@ -10,7 +10,10 @@ function ErrorScreen(): JSX.Element {
     <div className="page page--gray page--login">
       <Header hasNavigation={false} />
       <main className="page__main page__main--login">
-        <div className="page__login-container container">
+        <div
+          style={{ textAlign: 'center', }}
+          className="page__login-container container"
+        >
           <div>
             <h1>404. Page not found</h1>
             <p style={{
