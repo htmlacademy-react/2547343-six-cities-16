@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../constants';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { selectUserEmail, selectAutorizationStatus } from '../../store/slices/authorization-slice';
 import { AuthorizationStatus } from '../../constants';
-import { logoutAction } from '../../services/api-actions';
+import { fetchFavoriteAction, logoutAction } from '../../services/api-actions';
+import { selectFavorite } from '../../store/slices/favorite-slice';
 
 function HeaderNavigation(): JSX.Element {
 
@@ -12,7 +13,18 @@ function HeaderNavigation(): JSX.Element {
   const authStatus = useAppSelector(selectAutorizationStatus);
   const isAuthorized = authStatus === AuthorizationStatus.Auth;
 
+  console.log('HeaderNavigation');
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (isAuthorized) {
+      console.log('1111111111111111111111111111111');
+      dispatch(fetchFavoriteAction());
+    }
+  }, [isAuthorized]);
+
+  const favoritesCount = useAppSelector(selectFavorite).length;
+  console.log('favoritesCount ', favoritesCount);
+
   const handleClick = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault();
     dispatch(logoutAction());
@@ -29,8 +41,8 @@ function HeaderNavigation(): JSX.Element {
               <a className="header__nav-link header__nav-link--profile" href="#">
                 <div className="header__avatar-wrapper user__avatar-wrapper">
                 </div>
-                <span className="header__user-name user__name">{email}</span>
-                <span className="header__favorite-count">3</span>
+                <Link to={AppRoute.Favorites} className="header__user-name user__name">{email}</Link>
+                <span className="header__favorite-count">{favoritesCount}</span>
               </a>
             </li>
             <li className="header__nav-item">

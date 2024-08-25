@@ -1,8 +1,8 @@
-import { FavoriteOffer } from '../../types';
+import { OfferType } from '../../types';
 import { formatRating } from '../../utils';
 
 type FavoritesCardType = {
-  offerData: FavoriteOffer;
+  offerData: OfferType;
 }
 
 function FavoritesCard({ offerData }: FavoritesCardType): JSX.Element {

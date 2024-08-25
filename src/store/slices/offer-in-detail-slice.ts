@@ -25,6 +25,11 @@ export const offerSlice = createSlice({
     setComments: (state, action: PayloadAction<CommentType[]>) => {
       state.comments = action.payload;
     },
+    toggleFavoriteInOffer: (state) => {
+      if (state.offer !== null) {
+        state.offer = { ...state.offer, isFavorite: !state.offer.isFavorite };
+      }
+    }
   },
   selectors: {
     selectOffer: (state) => state.offer,
@@ -38,7 +43,8 @@ export const {
   setOffer,
   setOfferLoadingStatus,
   setNearbyOffers,
-  setComments
+  setComments,
+  toggleFavoriteInOffer
 } = offerSlice.actions;
 
 export const {

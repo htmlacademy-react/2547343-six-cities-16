@@ -10,17 +10,15 @@ import OfferScreen from '../pages/offer';
 import ErrorScreen from '../pages/error';
 import { AppRoute } from '../constants';
 import PrivateRoute from './private-route/private-route';
-import { FavoritesDataType } from '../types';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { selectOffers } from '../store/slices/offer-slice';
 import { fetchOffersAction } from '../services/api-actions';
 
 type AppProps = {
   cities: { id: string; name: string }[];
-  favoritesData: FavoritesDataType[];
 }
 
-function App({ cities, favoritesData }: AppProps): JSX.Element {
+function App({ cities }: AppProps): JSX.Element {
 
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -44,7 +42,7 @@ function App({ cities, favoritesData }: AppProps): JSX.Element {
       path: AppRoute.Favorites,
       element:
         <PrivateRoute>
-          <FavoritesScreen favoritesData={favoritesData} hasNavigation />
+          <FavoritesScreen hasNavigation />
         </PrivateRoute>
     },
     {

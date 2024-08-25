@@ -5,6 +5,7 @@ import { citySlice } from './slices/city-slice';
 import { authorizationSlice } from './slices/authorization-slice';
 import { errorSlice } from './slices/error-slice';
 import { offerSlice } from './slices/offer-in-detail-slice';
+import { favoriteSlice } from './slices/favorite-slice';
 
 export const api = createAPI();
 
@@ -15,6 +16,7 @@ export const store = configureStore({
     [citySlice.name]: citySlice.reducer,
     [authorizationSlice.name]: authorizationSlice.reducer,
     [errorSlice.name]: errorSlice.reducer,
+    [favoriteSlice.name]: favoriteSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

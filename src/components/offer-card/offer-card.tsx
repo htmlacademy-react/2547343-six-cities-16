@@ -2,6 +2,11 @@ import { OfferType } from '../../types';
 import { Link } from 'react-router-dom';
 import { formatRating } from '../../utils';
 import cn from 'classnames';
+import { toggleFavoriteAction } from '../../services/api-actions';
+import { useAppDispatch } from '../../hooks';
+import { toggleFavoriteInOffers } from '../../store/slices/offer-slice';
+import { useState } from 'react';
+import { toggleFavoriteProperty } from '../../store/slices/favorite-slice';
 
 
 type OfferCardProps = {
@@ -11,6 +16,7 @@ type OfferCardProps = {
 
 function OfferCard({ offerData, setActiveOffer }: OfferCardProps): JSX.Element {
   const ratingInStarsFormat: string = formatRating(offerData.rating);
+  const [isFavorite, setFavorite] = useState(offerData.isFavorite);
 
   const handleOfferHover = () => {
     if (!offerData.id) {
@@ -23,6 +29,17 @@ function OfferCard({ offerData, setActiveOffer }: OfferCardProps): JSX.Element {
       return;
     }
     setActiveOffer?.('');
+  };
+
+  const dispatch = useAppDispatch();
+  const handleToggleFavorite = () => {
+    dispatch(toggleFavoriteAction({
+      id: offerData.id,
+      status: offerData.isFavorite ? 0 : 1,
+    }));
+    dispatch(toggleFavoriteProperty(offerData));
+    dispatch(toggleFavoriteInOffers(offerData.id));
+    setFavorite((prev) => !prev);
   };
 
   return (
@@ -43,10 +60,11 @@ function OfferCard({ offerData, setActiveOffer }: OfferCardProps): JSX.Element {
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button
+            onClick={handleToggleFavorite}
             className={cn(
               'place-card__bookmark-button',
               'button',
-              { 'place-card__bookmark-button--active': offerData.isFavorite }
+              { 'place-card__bookmark-button--active': isFavorite }
             )}
             type="button"
           >

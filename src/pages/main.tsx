@@ -4,7 +4,7 @@ import LocationsList from '../components/locations-list/locations-list.tsx';
 import Map from '../components/map/map.tsx';
 import { useParams } from 'react-router-dom';
 import { OfferType, SortingType } from '../types.ts';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { MapType } from '../constants.ts';
 import { DEFAULT_CITY, CITIES_NAME_MAP } from '../constants.ts';
 import { defaultCityCoordinates } from '../mocks/city-coordinates.ts';
@@ -12,6 +12,7 @@ import { setCity } from '../store/slices/city-slice.ts';
 import { selectOffersLoadingStatus, selectSortingMode } from '../store/slices/offer-slice.ts';
 import { useAppDispatch, useAppSelector } from '../hooks/index.ts';
 import Loading from '../components/loading/loading.tsx';
+import { selectAutorizationStatus } from '../store/slices/authorization-slice.ts';
 
 type MainScreenProps = {
   cities: { id: string; name: string }[];
@@ -41,6 +42,7 @@ function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX
   const params = useParams();
   const cityFromParams = params.city as CityKey;
   const [activeOffer, setActiveOffer] = useState('');
+  const authStatus = useAppSelector(selectAutorizationStatus);
 
   let selectedCity = DEFAULT_CITY.name;
   if (params.city !== undefined) {
@@ -53,14 +55,17 @@ function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(setCity(selectedCity));
-  }, [selectedCity]);
+  }, [selectedCity, authStatus]);
 
-  const filteredOffers = filterOffers(offersData, selectedCity);
+  const filteredOffers = useMemo(
+    () => filterOffers(offersData, selectedCity),
+    [offersData, selectedCity]
+  );
   const hasOfferData: boolean = filteredOffers.length > 0;
 
   const sortedOffers = sortOffersBySortingMode(filteredOffers, sortingMode) ?? OFFERS_FALLBACK;
 
-
+  console.log(filteredOffers)
   if (isOffersLoading) {
     return (
       <div className="page page--gray page--main">

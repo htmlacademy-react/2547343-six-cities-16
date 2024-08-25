@@ -7,11 +7,13 @@ import { useParams, Navigate } from 'react-router-dom';
 import { MapType, AppRoute } from '../constants.ts';
 import { useAppDispatch, useAppSelector } from '../hooks/index.ts';
 import { formatRating } from '../utils.ts';
-import { useEffect } from 'react';
-import { fetchCommentsAction, fetchNearbyOffersAction, fetchOfferInDetailAction } from '../services/api-actions.ts';
-import { selectComments, selectNearbyOffers, selectOffer, selectOfferLoadingStatus } from '../store/slices/offer-in-detail-slice.ts';
+import { useEffect, useState } from 'react';
+import { fetchCommentsAction, fetchNearbyOffersAction, fetchOfferInDetailAction, toggleFavoriteAction } from '../services/api-actions.ts';
+import { selectComments, selectNearbyOffers, selectOffer, selectOfferLoadingStatus, toggleFavoriteInOffer } from '../store/slices/offer-in-detail-slice.ts';
 import cn from 'classnames';
 import OfferLoading from '../components/offer-loading/offer-loading.tsx';
+import { toggleFavoriteProperty } from '../store/slices/favorite-slice.ts';
+import { selectError } from '../store/slices/error-slice.ts';
 
 type OfferScreenProps = {
   hasNavigation: boolean;
@@ -20,9 +22,9 @@ type OfferScreenProps = {
 function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
   const params = useParams();
   const offerId = params.id;
+
   const dispatch = useAppDispatch();
   useEffect(() => {
-
     dispatch(fetchOfferInDetailAction(offerId));
     dispatch(fetchNearbyOffersAction(offerId));
     dispatch(fetchCommentsAction(offerId));
@@ -33,6 +35,8 @@ function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
   const nearbyOffers = useAppSelector(selectNearbyOffers);
   const comments = useAppSelector(selectComments);
 
+  // const [isFavorite, setFavorite] = useState(false);
+
   if (isOfferLoading) {
     return (
       <OfferLoading />
@@ -41,8 +45,19 @@ function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
     if (offerId !== undefined && offerData !== null) {
 
       const currentCityData = offerData.city;
-
       const ratingInStarsFormat: string = formatRating(offerData.rating);
+
+      // setFavorite(offerData.isFavorite);
+
+      // const handleToggleFavorite = () => {
+      //   dispatch(toggleFavoriteAction({
+      //     id: offerData.id,
+      //     status: offerData.isFavorite ? 0 : 1,
+      //   }));
+      //   dispatch(toggleFavoriteProperty(offerData));
+      //   dispatch(toggleFavoriteInOffer());
+      //   setFavorite((prev) => !prev);
+      // };
 
 
       return (
@@ -75,6 +90,7 @@ function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
                       {offerData.title}
                     </h1>
                     <button
+                      // onClick={handleToggleFavorite}
                       className={cn(
                         'offer__bookmark-button',
                         'button',

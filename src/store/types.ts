@@ -27,6 +27,11 @@ export type CityStateType = {
   city: string;
 }
 
+export type FavoriteStateType = {
+  favorite: OfferType[];
+  isFavoriteLoading: boolean;
+}
+
 export type StateType =
   OffersStateType
   | OfferStateType

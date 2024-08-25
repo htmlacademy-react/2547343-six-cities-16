@@ -24,6 +24,13 @@ export const offersSlice = createSlice({
     setSortingMode: (state, action: PayloadAction<SortingType>) => {
       state.sortingMode = action.payload;
     },
+    toggleFavoriteInOffers: (state, action: PayloadAction<string>) => {
+      state.offers = state.offers.map((item) => (
+        item.id === action.payload
+          ? { ...item, isFavorite: !item.isFavorite }
+          : item
+      ));
+    }
   },
   selectors: {
     selectOffers: (state) => state.offers,
@@ -36,6 +43,7 @@ export const {
   setOffers,
   setOffersLoadingStatus,
   setSortingMode,
+  toggleFavoriteInOffers
 } = offersSlice.actions;
 
 export const {

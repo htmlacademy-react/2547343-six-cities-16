@@ -9,6 +9,7 @@ import { setAuthorizationStatus } from '../store/slices/authorization-slice';
 import { setUserEmail } from '../store/slices/authorization-slice';
 import { saveToken, dropToken } from './token';
 import { setComments, setNearbyOffers, setOffer, setOfferLoadingStatus } from '../store/slices/offer-in-detail-slice';
+import { setFavoriteLoadingStatus, setFavorite } from '../store/slices/favorite-slice';
 
 
 type AsyncThunkType = {
@@ -16,6 +17,11 @@ type AsyncThunkType = {
   state: RootState;
   extra: AxiosInstance;
 };
+
+type OfferToToggleDataType = {
+  id: string;
+  status: 0 | 1;
+}
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, AsyncThunkType>(
   '/six-cities/offers',
@@ -42,6 +48,25 @@ export const fetchNearbyOffersAction = createAsyncThunk<void, string | undefined
   async (id, { dispatch, extra: api }) => {
     const { data } = await api.get<OfferType[]>(`${APIRoute.Offer}${id}/nearby`);
     dispatch(setNearbyOffers(data));
+  },
+);
+
+export const fetchFavoriteAction = createAsyncThunk<void, undefined, AsyncThunkType>(
+  '/six-cities/favorite',
+  async (_arg, { dispatch, extra: api }) => {
+    dispatch(setFavoriteLoadingStatus(true));
+    const { data } = await api.get<OfferType[]>(APIRoute.Favorite);
+    dispatch(setFavorite(data));
+    console.log('get favor')
+    dispatch(setFavoriteLoadingStatus(false));
+  },
+);
+
+export const toggleFavoriteAction = createAsyncThunk<void, OfferToToggleDataType, AsyncThunkType>(
+  '/six-cities/favorite/offer/status',
+  async ({ id, status }, { extra: api }) => {
+    await api.post<OfferInDetailType>(`${APIRoute.Favorite}/${id}/${status}`);
+    console.log('toggleFavoriteAction ', { id, status })
   },
 );
 

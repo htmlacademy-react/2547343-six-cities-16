@@ -36,7 +36,9 @@ export enum APIRoute {
   Logout = '/logout',
   Offer = '/offers/',
   Comments = '/comments/',
+  Favorite = '/favorite'
 }
+
 export const CITIES_NAME_MAP = {
   'paris': 'Paris',
   'cologne': 'Cologne',

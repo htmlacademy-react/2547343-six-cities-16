@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import LocationItem from '../location-item/location-item';
 type LocationItemProps = {
   cities: { id: string; name: string }[];
@@ -16,4 +17,5 @@ function LocationsList({ cities, activeCity }: LocationItemProps) {
   );
 }
 
-export default LocationsList;
+export default memo(LocationsList, (prevProps, nextProps) => prevProps.activeCity === nextProps.activeCity);
+

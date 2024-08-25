@@ -51,21 +51,6 @@ export type OfferInDetailType = {
   maxAdults: number;
 }
 
-export type FavoriteOffer = {
-  id: string;
-  title: string;
-  city: string;
-  price: string;
-  rating: number;
-  type: string;
-  isPremium: boolean;
-}
-
-export type FavoritesDataType = {
-  city: string;
-  offers: FavoriteOffer[];
-};
-
 export type CityDataType = {
   id: string;
   location: CityLocationType;
