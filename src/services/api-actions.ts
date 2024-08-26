@@ -42,7 +42,7 @@ export const fetchOfferInDetailAction = createAsyncThunk<void, string | undefine
       dispatch(setOffer(data));
       dispatch(setOfferLoadingStatus('loaded'));
     } catch {
-      dispatch(setOfferLoadingStatus('notLoaded'));
+      dispatch(setOfferLoadingStatus('loadingError'));
     }
   },
 );
@@ -61,7 +61,6 @@ export const fetchFavoriteAction = createAsyncThunk<void, undefined, AsyncThunkT
     dispatch(setFavoriteLoadingStatus(true));
     const { data } = await api.get<OfferType[]>(APIRoute.Favorite);
     dispatch(setFavorite(data));
-    console.log('get favor')
     dispatch(setFavoriteLoadingStatus(false));
   },
 );

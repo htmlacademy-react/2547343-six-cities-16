@@ -17,6 +17,7 @@ function FavoritesScreen({ hasNavigation }: FavoriteScreenProps): JSX.Element {
   const isFavoriteLoading = useAppSelector(selectFavoriteLoadingStatus);
 
   const list = [];
+
   for (const city in favoriteGroupedByCity) {
     if (favoriteGroupedByCity[city] !== undefined) {
       list.push(
@@ -38,26 +39,44 @@ function FavoritesScreen({ hasNavigation }: FavoriteScreenProps): JSX.Element {
     }
   }
 
+  let content;
+
   if (isFavoriteLoading) {
-    return (
-      <div>Loading</div>
+    content = (<div>Loading</div>);
+
+  } else if (favoriteData.length) {
+    content = (
+      <section className="favorites">
+        <h1 className="favorites__title">Saved listing</h1>
+        {list}
+      </section>
     );
   } else {
-    return (
-
-      <div className="page">
-        <Header hasNavigation={hasNavigation} />
-
-        <main className="page__main page__main--favorites">
-          <div className="page__favorites-container container">
-            <h1 className="favorites__title">Saved listing</h1>
-            {list}
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
+    content = (
+      <section className="favorites favorites--empty">
+        <h1 className="visually-hidden">Favorites (empty)</h1>
+        <div className="favorites__status-wrapper">
+          <b className="favorites__status">Nothing yet saved.</b>
+          <p className="favorites__status-description">Save properties to narrow down search or plan your future trips.</p>
+        </div>
+      </section>);
   }
+
+  return (
+
+    <div className="page">
+      <Header hasNavigation={hasNavigation} />
+
+      <main className="page__main page__main--favorites">
+        <div className="page__favorites-container container">
+          {content}
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+
+
 }
 
 export default FavoritesScreen;

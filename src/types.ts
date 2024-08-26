@@ -86,4 +86,4 @@ export type CommentToSendType = {
   rating: number;
 }
 
-export type OfferLoadingStatus = 'notLoaded' | 'loading' | 'loaded';
+export type OfferLoadingStatus = 'notLoaded' | 'loading' | 'loaded' | 'loadingError';

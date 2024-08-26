@@ -13,7 +13,6 @@ import { selectComments, selectNearbyOffers, selectOffer, selectOfferLoadingStat
 import cn from 'classnames';
 import OfferLoading from '../components/offer-loading/offer-loading.tsx';
 import { toggleFavoriteProperty } from '../store/slices/favorite-slice.ts';
-import { selectError } from '../store/slices/error-slice.ts';
 
 type OfferScreenProps = {
   hasNavigation: boolean;
@@ -21,28 +20,39 @@ type OfferScreenProps = {
 
 function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
   const params = useParams();
-  const offerId = params.id;
+  const offerId = params.id!;
 
   const offerLoadingStatus = useAppSelector(selectOfferLoadingStatus);
 
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(fetchOfferInDetailAction(offerId));
-    dispatch(fetchNearbyOffersAction(offerId));
-    dispatch(fetchCommentsAction(offerId));
+    if (offerLoadingStatus === 'notLoaded') {
+      dispatch(fetchOfferInDetailAction(offerId));
+      dispatch(fetchNearbyOffersAction(offerId));
+      dispatch(fetchCommentsAction(offerId));
+    }
 
-  }, [dispatch, offerId]);
+  }, [dispatch, offerId, offerLoadingStatus]);
 
   const offerData = useAppSelector(selectOffer);
   const nearbyOffers = useAppSelector(selectNearbyOffers);
   const comments = useAppSelector(selectComments);
   const [isFavorite, setFavorite] = useState(false);
+  console.log(offerLoadingStatus);
 
-  if (offerLoadingStatus === 'loading') {
+  if (offerLoadingStatus === 'notLoaded' || offerLoadingStatus === 'loading') {
     return (
       <OfferLoading />
     );
-  } else if (offerLoadingStatus === 'loaded') {
+  } else if (offerLoadingStatus === 'loadingError') {
+
+    return (
+      <Navigate to={AppRoute.Error} />
+    );
+
+
+  } else {
+
     if (offerId !== undefined && offerData !== null) {
 
       const currentCityData = offerData.city;
@@ -59,7 +69,6 @@ function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
         dispatch(toggleFavoriteInOffer());
         setFavorite((prev) => !prev);
       };
-
 
       return (
         <div className="page">
@@ -174,13 +183,16 @@ function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
           </main>
         </div>
       );
+    } else {
+
+      return (
+        <Navigate to={AppRoute.Error} />
+      );
+
     }
   }
-  return (
-    <Navigate to={AppRoute.Error} />
-  );
-
 
 }
+
 
 export default OfferScreen;

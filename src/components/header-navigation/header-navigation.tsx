@@ -20,7 +20,6 @@ function HeaderNavigation(): JSX.Element {
       authStatus === AuthorizationStatus.Auth
       && userNameLoadedFor === null
     ) {
-      console.log('dispatch favotires');
       dispatch(fetchFavoriteAction());
       dispatch(setUserNameLoadedFor(email));
     }
