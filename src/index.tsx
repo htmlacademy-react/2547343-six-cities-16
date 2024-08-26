@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app';
-import { data } from './components/settings/settings';
+import { citiesData } from './constants';
 import { Provider } from 'react-redux';
 import { store } from './store';
 
@@ -14,7 +14,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <App
-        cities={data.cities}
+        cities={citiesData.cities}
       />
     </Provider>
   </React.StrictMode>

@@ -19,6 +19,7 @@ export type OfferType = {
   type: string;
   price: number;
   previewImage: string;
+  images?: string[];
   city: CityLocationType;
   location: LocationType;
   isFavorite: boolean;
@@ -87,3 +88,6 @@ export type CommentToSendType = {
 }
 
 export type OfferLoadingStatus = 'notLoaded' | 'loading' | 'loaded' | 'loadingError';
+
+export type OffersLoadingStatus = 'notLoaded' | 'loading' | 'loaded' | 'loadingError';
+

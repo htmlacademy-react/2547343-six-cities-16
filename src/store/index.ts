@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { createAPI } from '../services/api';
-import { offersSlice } from './slices/offer-slice';
+import { offersSlice } from './slices/offers-slice';
 import { citySlice } from './slices/city-slice';
 import { authorizationSlice } from './slices/authorization-slice';
 import { errorSlice } from './slices/error-slice';
-import { offerSlice } from './slices/offer-in-detail-slice';
+import { offerSlice } from './slices/offer-slice';
 import { favoriteSlice } from './slices/favorite-slice';
 
 export const api = createAPI();

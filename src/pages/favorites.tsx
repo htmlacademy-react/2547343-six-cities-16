@@ -4,6 +4,7 @@ import Footer from '../components/footer/footer';
 import { OfferType } from '../types.ts';
 import { useAppSelector } from '../hooks/index.ts';
 import { selectFavorite, selectFavoriteLoadingStatus } from '../store/slices/favorite-slice.ts';
+import { Link } from 'react-router-dom';
 
 type FavoriteScreenProps = {
   hasNavigation: boolean;
@@ -24,9 +25,9 @@ function FavoritesScreen({ hasNavigation }: FavoriteScreenProps): JSX.Element {
         <li className="favorites__locations-items" key={city}>
           <div className="favorites__locations locations locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
+              <Link className="locations__item-link" to="#">
                 <span>{city}</span>
-              </a>
+              </Link>
             </div>
           </div>
           <div className="favorites__places">

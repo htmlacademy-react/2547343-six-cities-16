@@ -1,54 +1,54 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { OfferType, SortingType } from '../../types';
-import { OffersStateType } from '../types';
+import { CommentType, OfferInDetailType, OfferLoadingStatus, OfferType } from '../../types';
+import { OfferStateType } from '../types';
 
-export const offersState: OffersStateType = {
-  offers: [],
-  isOffersLoading: false,
-  sortingMode: {
-    name: 'Popular',
-    value: 'Popular'
-  }
+export const offerState: OfferStateType = {
+  offer: null,
+  isOfferLoading: 'notLoaded',
+  nearbyOffers: [],
+  comments: []
 };
 
-export const offersSlice = createSlice({
-  name: 'offers',
-  initialState: offersState,
+export const offerSlice = createSlice({
+  name: 'offer',
+  initialState: offerState,
   reducers: {
-    setOffers: (state, action: PayloadAction<OfferType[]>) => {
-      state.offers = action.payload;
+    setOffer: (state, action: PayloadAction<OfferInDetailType>) => {
+      state.offer = action.payload;
     },
-    setOffersLoadingStatus: (state, action: PayloadAction<boolean>) => {
-      state.isOffersLoading = action.payload;
+    setOfferLoadingStatus: (state, action: PayloadAction<OfferLoadingStatus>) => {
+      state.isOfferLoading = action.payload;
     },
-    setSortingMode: (state, action: PayloadAction<SortingType>) => {
-      state.sortingMode = action.payload;
+    setNearbyOffers: (state, action: PayloadAction<OfferType[]>) => {
+      state.nearbyOffers = action.payload;
     },
-    toggleFavoriteInOffers: (state, action: PayloadAction<string>) => {
-      state.offers = state.offers.map((item) => (
-        item.id === action.payload
-          ? { ...item, isFavorite: !item.isFavorite }
-          : item
-      ));
+    setComments: (state, action: PayloadAction<CommentType[]>) => {
+      state.comments = action.payload;
+    },
+    toggleFavoriteInOffer: (state) => {
+      state.offer!.isFavorite = !state.offer!.isFavorite;
     }
   },
   selectors: {
-    selectOffers: (state) => state.offers,
-    selectOffersLoadingStatus: (state) => state.isOffersLoading,
-    selectSortingMode: (state) => state.sortingMode,
-  },
+    selectOffer: (state) => state.offer,
+    selectOfferLoadingStatus: (state) => state.isOfferLoading,
+    selectNearbyOffers: (state) => state.nearbyOffers,
+    selectComments: (state) => state.comments,
+  }
 });
 
 export const {
-  setOffers,
-  setOffersLoadingStatus,
-  setSortingMode,
-  toggleFavoriteInOffers
-} = offersSlice.actions;
+  setOffer,
+  setOfferLoadingStatus,
+  setNearbyOffers,
+  setComments,
+  toggleFavoriteInOffer
+} = offerSlice.actions;
 
 export const {
-  selectOffers,
-  selectOffersLoadingStatus,
-  selectSortingMode,
-} = offersSlice.selectors;
+  selectOffer,
+  selectOfferLoadingStatus,
+  selectNearbyOffers,
+  selectComments
+} = offerSlice.selectors;
 

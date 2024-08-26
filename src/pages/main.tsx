@@ -9,7 +9,7 @@ import { MapType } from '../constants.ts';
 import { DEFAULT_CITY, CITIES_NAME_MAP } from '../constants.ts';
 import { defaultCityCoordinates } from '../mocks/city-coordinates.ts';
 import { setCity } from '../store/slices/city-slice.ts';
-import { selectOffersLoadingStatus, selectSortingMode } from '../store/slices/offer-slice.ts';
+import { selectOffersLoadingStatus, selectSortingMode } from '../store/slices/offers-slice.ts';
 import { useAppDispatch, useAppSelector } from '../hooks/index.ts';
 import Loading from '../components/loading/loading.tsx';
 import { selectAutorizationStatus } from '../store/slices/authorization-slice.ts';
@@ -48,7 +48,6 @@ function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX
   if (params.city !== undefined) {
     selectedCity = CITIES_NAME_MAP[cityFromParams] || selectedCity;
   }
-
 
   const sortingMode = useAppSelector(selectSortingMode);
   const isOffersLoading = useAppSelector(selectOffersLoadingStatus);

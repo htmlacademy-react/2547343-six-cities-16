@@ -1,15 +1,14 @@
 import { AuthorizationStatus } from '../constants';
-import { CommentType, OfferInDetailType, OfferLoadingStatus, OfferType, SortingType } from '../types';
+import { CommentType, OfferInDetailType, OfferLoadingStatus, OffersLoadingStatus, OfferType, SortingType } from '../types';
 
 export type AuthorizationType = {
   authorizationStatus: AuthorizationStatus;
   userEmail: string | null;
 }
 
-
 export type OffersStateType = {
   offers: OfferType[];
-  isOffersLoading: boolean;
+  isOffersLoading: OffersLoadingStatus;
   sortingMode: SortingType;
 }
 

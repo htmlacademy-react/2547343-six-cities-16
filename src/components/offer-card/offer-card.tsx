@@ -1,12 +1,8 @@
 import { OfferType } from '../../types';
 import { Link } from 'react-router-dom';
 import { formatRating } from '../../utils';
-import cn from 'classnames';
-import { toggleFavoriteAction } from '../../services/api-actions';
-import { useAppDispatch } from '../../hooks';
-import { toggleFavoriteInOffers } from '../../store/slices/offer-slice';
-import { memo, useState } from 'react';
-import { toggleFavoriteProperty } from '../../store/slices/favorite-slice';
+import { memo } from 'react';
+import FavoritesButton from '../favorite-button/favorite-button';
 
 
 type OfferCardProps = {
@@ -16,7 +12,6 @@ type OfferCardProps = {
 
 function OfferCard({ offerData, setActiveOffer }: OfferCardProps): JSX.Element {
   const ratingInStarsFormat: string = formatRating(offerData.rating);
-  const [isFavorite, setFavorite] = useState(offerData.isFavorite);
 
   const handleOfferHover = () => {
     if (!offerData.id) {
@@ -29,17 +24,6 @@ function OfferCard({ offerData, setActiveOffer }: OfferCardProps): JSX.Element {
       return;
     }
     setActiveOffer?.('');
-  };
-
-  const dispatch = useAppDispatch();
-  const handleToggleFavorite = () => {
-    dispatch(toggleFavoriteAction({
-      id: offerData.id,
-      status: offerData.isFavorite ? 0 : 1,
-    }));
-    dispatch(toggleFavoriteProperty(offerData));
-    dispatch(toggleFavoriteInOffers(offerData.id));
-    setFavorite((prev) => !prev);
   };
 
   return (
@@ -59,22 +43,8 @@ function OfferCard({ offerData, setActiveOffer }: OfferCardProps): JSX.Element {
             <b className="place-card__price-value">{offerData.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button
-            onClick={handleToggleFavorite}
-            className={cn(
-              'place-card__bookmark-button',
-              'button',
-              { 'place-card__bookmark-button--active': isFavorite }
-            )}
-            type="button"
-          >
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">
-              {isFavorite ? 'To bookmarks' : 'In bookmarks'}
-            </span>
-          </button>
+
+          <FavoritesButton offerData={offerData} type={'place-card'} />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
@@ -90,7 +60,6 @@ function OfferCard({ offerData, setActiveOffer }: OfferCardProps): JSX.Element {
     </article >
   );
 }
-
 
 const OfferCardMemoized = memo(OfferCard, (prevProps, nextProps) => prevProps.offerData === nextProps.offerData);
 

@@ -3,12 +3,12 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, RootState } from '../store';
 import { OfferType, AuthData, UserData, OfferInDetailType, CommentType, CommentToSendType } from '../types';
 import { APIRoute } from '../constants';
-import { setOffers, setOffersLoadingStatus } from '../store/slices/offer-slice';
+import { setOffers, setOffersLoadingStatus } from '../store/slices/offers-slice';
 import { AuthorizationStatus } from '../constants';
 import { setAuthorizationStatus } from '../store/slices/authorization-slice';
 import { setUserEmail } from '../store/slices/authorization-slice';
 import { saveToken, dropToken } from './token';
-import { setComments, setNearbyOffers, setOffer, setOfferLoadingStatus } from '../store/slices/offer-in-detail-slice';
+import { setComments, setNearbyOffers, setOffer, setOfferLoadingStatus } from '../store/slices/offer-slice';
 import { setFavoriteLoadingStatus, setFavorite } from '../store/slices/favorite-slice';
 
 
@@ -26,14 +26,18 @@ type OfferToToggleDataType = {
 export const fetchOffersAction = createAsyncThunk<void, undefined, AsyncThunkType>(
   '/six-cities/offers',
   async (_arg, { dispatch, extra: api }) => {
-    dispatch(setOffersLoadingStatus(true));
-    const { data } = await api.get<OfferType[]>(APIRoute.Offers);
-    dispatch(setOffers(data));
-    dispatch(setOffersLoadingStatus(false));
+    dispatch(setOffersLoadingStatus('loading'));
+    try {
+      const { data } = await api.get<OfferType[]>(APIRoute.Offers);
+      dispatch(setOffers(data));
+      dispatch(setOffersLoadingStatus('loaded'));
+    } catch {
+      dispatch(setOffersLoadingStatus('loadingError'));
+    }
   },
 );
 
-export const fetchOfferInDetailAction = createAsyncThunk<void, string | undefined, AsyncThunkType>(
+export const fetchOfferAction = createAsyncThunk<void, string | undefined, AsyncThunkType>(
   '/six-cities/offers/id',
   async (id, { dispatch, extra: api }) => {
     dispatch(setOfferLoadingStatus('loading'));

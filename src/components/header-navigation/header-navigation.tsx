@@ -40,17 +40,17 @@ function HeaderNavigation(): JSX.Element {
         {isAuthorized ?
           <React.Fragment>
             <li className="header__nav-item user">
-              <a className="header__nav-link header__nav-link--profile" href="#">
+              <Link className="header__nav-link header__nav-link--profile" to="#">
                 <div className="header__avatar-wrapper user__avatar-wrapper">
                 </div>
                 <Link to={AppRoute.Favorites} className="header__user-name user__name">{email}</Link>
                 <span className="header__favorite-count">{favoritesCount}</span>
-              </a>
+              </Link>
             </li>
             <li className="header__nav-item">
-              <a onClick={handleClick} className="header__nav-link" href="#">
+              <Link onClick={handleClick} className="header__nav-link" to="#">
                 <span className="header__signout">Sign out</span>
-              </a>
+              </Link>
             </li>
           </React.Fragment>
           :/*пользователь не авторизован*/

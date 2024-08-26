@@ -11,8 +11,9 @@ import ErrorScreen from '../pages/error';
 import { AppRoute } from '../constants';
 import PrivateRoute from './private-route/private-route';
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { selectOffers } from '../store/slices/offer-slice';
+import { selectOffers } from '../store/slices/offers-slice';
 import { fetchOffersAction } from '../services/api-actions';
+import { selectAutorizationStatus } from '../store/slices/authorization-slice';
 
 type AppProps = {
   cities: { id: string; name: string }[];
@@ -20,10 +21,11 @@ type AppProps = {
 
 function App({ cities }: AppProps): JSX.Element {
 
+  const authStatus = useAppSelector(selectAutorizationStatus);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchOffersAction());
-  }, [dispatch]);
+  }, [dispatch, authStatus]);
   const offers = useAppSelector(selectOffers);
 
   const router = createBrowserRouter([

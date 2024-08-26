@@ -23,15 +23,10 @@ export const favoriteSlice = createSlice({
       state.userNameLoadedFor = action.payload;
     },
     toggleFavoriteProperty: (state, action: PayloadAction<OfferType>) => {
-      if (state.favorite.length > 0) {
-        const item = state.favorite.find((element) => element.id === action.payload.id);
-        if (item !== undefined) {
-          state.favorite = state.favorite.filter((element) => element.id !== action.payload.id);
-        } else {
-          state.favorite.push(action.payload);
-        }
-      } else {
+      if (action.payload.isFavorite) {
         state.favorite.push(action.payload);
+      } else {
+        state.favorite = state.favorite.filter((element) => element.id !== action.payload.id);
       }
     }
   },
