@@ -19,9 +19,6 @@ export const favoriteSlice = createSlice({
       state.isFavoriteLoading = action.payload;
     },
     toggleFavoriteProperty: (state, action: PayloadAction<OfferType>) => {
-
-      console.log('action.payload ', action.payload)
-      console.log('state.favorite ', state.favorite)
       if (state.favorite.length > 0) {
         const item = state.favorite.find((element) => element.id === action.payload.id);
         if (item !== undefined) {

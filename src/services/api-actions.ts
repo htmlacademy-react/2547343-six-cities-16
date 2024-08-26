@@ -36,10 +36,14 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, AsyncThunkTyp
 export const fetchOfferInDetailAction = createAsyncThunk<void, string | undefined, AsyncThunkType>(
   '/six-cities/offers/id',
   async (id, { dispatch, extra: api }) => {
-    dispatch(setOfferLoadingStatus(true));
-    const { data } = await api.get<OfferInDetailType>(`${APIRoute.Offer}${id}`);
-    dispatch(setOffer(data));
-    dispatch(setOfferLoadingStatus(false));
+    dispatch(setOfferLoadingStatus('loading'));
+    try {
+      const { data } = await api.get<OfferInDetailType>(`${APIRoute.Offer}${id}`);
+      dispatch(setOffer(data));
+      dispatch(setOfferLoadingStatus('loaded'));
+    } catch {
+      dispatch(setOfferLoadingStatus('notLoaded'));
+    }
   },
 );
 
@@ -66,7 +70,6 @@ export const toggleFavoriteAction = createAsyncThunk<void, OfferToToggleDataType
   '/six-cities/favorite/offer/status',
   async ({ id, status }, { extra: api }) => {
     await api.post<OfferInDetailType>(`${APIRoute.Favorite}/${id}/${status}`);
-    console.log('toggleFavoriteAction ', { id, status })
   },
 );
 

@@ -1,10 +1,11 @@
 import { AuthorizationStatus } from '../constants';
-import { CommentType, OfferInDetailType, OfferType, SortingType } from '../types';
+import { CommentType, OfferInDetailType, OfferLoadingStatus, OfferType, SortingType } from '../types';
 
 export type AuthorizationType = {
   authorizationStatus: AuthorizationStatus;
   userEmail: string | null;
 }
+
 
 export type OffersStateType = {
   offers: OfferType[];
@@ -14,7 +15,7 @@ export type OffersStateType = {
 
 export type OfferStateType = {
   offer: OfferInDetailType | null;
-  isOfferLoading: boolean;
+  isOfferLoading: OfferLoadingStatus;
   nearbyOffers: OfferType[];
   comments: CommentType[];
 }

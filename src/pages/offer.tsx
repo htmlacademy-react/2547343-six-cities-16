@@ -23,41 +23,42 @@ function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
   const params = useParams();
   const offerId = params.id;
 
+  const offerLoadingStatus = useAppSelector(selectOfferLoadingStatus);
+
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchOfferInDetailAction(offerId));
     dispatch(fetchNearbyOffersAction(offerId));
     dispatch(fetchCommentsAction(offerId));
-  }, [dispatch]);
 
-  const isOfferLoading = useAppSelector(selectOfferLoadingStatus);
+  }, [dispatch, offerId]);
+
   const offerData = useAppSelector(selectOffer);
   const nearbyOffers = useAppSelector(selectNearbyOffers);
   const comments = useAppSelector(selectComments);
+  const [isFavorite, setFavorite] = useState(false);
 
-  // const [isFavorite, setFavorite] = useState(false);
-
-  if (isOfferLoading) {
+  if (offerLoadingStatus === 'loading') {
     return (
       <OfferLoading />
     );
-  } else {
+  } else if (offerLoadingStatus === 'loaded') {
     if (offerId !== undefined && offerData !== null) {
 
       const currentCityData = offerData.city;
       const ratingInStarsFormat: string = formatRating(offerData.rating);
 
-      // setFavorite(offerData.isFavorite);
+      setFavorite(offerData.isFavorite);
 
-      // const handleToggleFavorite = () => {
-      //   dispatch(toggleFavoriteAction({
-      //     id: offerData.id,
-      //     status: offerData.isFavorite ? 0 : 1,
-      //   }));
-      //   dispatch(toggleFavoriteProperty(offerData));
-      //   dispatch(toggleFavoriteInOffer());
-      //   setFavorite((prev) => !prev);
-      // };
+      const handleToggleFavorite = () => {
+        dispatch(toggleFavoriteAction({
+          id: offerData.id,
+          status: offerData.isFavorite ? 0 : 1,
+        }));
+        dispatch(toggleFavoriteProperty(offerData));
+        dispatch(toggleFavoriteInOffer());
+        setFavorite((prev) => !prev);
+      };
 
 
       return (
@@ -90,11 +91,11 @@ function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
                       {offerData.title}
                     </h1>
                     <button
-                      // onClick={handleToggleFavorite}
+                      onClick={handleToggleFavorite}
                       className={cn(
                         'offer__bookmark-button',
                         'button',
-                        { 'offer__bookmark-button--active': offerData.isFavorite }
+                        { 'offer__bookmark-button--active': isFavorite }
                       )}
                       type="button"
                     >
@@ -102,7 +103,7 @@ function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
                         <use xlinkHref="#icon-bookmark"></use>
                       </svg>
                       <span className="visually-hidden">
-                        {offerData.isFavorite ? 'To bookmarks' : 'In bookmarks'}
+                        {isFavorite ? 'To bookmarks' : 'In bookmarks'}
                       </span>
                     </button>
                   </div>
@@ -173,12 +174,13 @@ function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
           </main>
         </div>
       );
-    } else {
-      return (
-        <Navigate to={AppRoute.Error} />
-      );
     }
   }
+  return (
+    <Navigate to={AppRoute.Error} />
+  );
+
+
 }
 
 export default OfferScreen;

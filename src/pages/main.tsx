@@ -49,13 +49,14 @@ function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX
     selectedCity = CITIES_NAME_MAP[cityFromParams] || selectedCity;
   }
 
+
   const sortingMode = useAppSelector(selectSortingMode);
   const isOffersLoading = useAppSelector(selectOffersLoadingStatus);
 
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(setCity(selectedCity));
-  }, [selectedCity, authStatus]);
+  }, [dispatch, selectedCity, authStatus]);
 
   const filteredOffers = useMemo(
     () => filterOffers(offersData, selectedCity),
@@ -65,89 +66,60 @@ function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX
 
   const sortedOffers = sortOffersBySortingMode(filteredOffers, sortingMode) ?? OFFERS_FALLBACK;
 
-  console.log(filteredOffers)
+  let content;
+
   if (isOffersLoading) {
-    return (
-      <div className="page page--gray page--main">
-
-        <Header hasNavigation={hasNavigation} />
-
-        <main className="page__main page__main--index page__main--index-empty">
-          <h1 className="visually-hidden">Cities</h1>
-          <div className="tabs">
-
-            <LocationsList cities={cities} activeCity={selectedCity} />
-
-          </div>
-
-          <Loading />
-
-        </main>
-      </div >
-    );
-
+    content = (<Loading />);
   }
   if (hasOfferData) {
 
     const selectedCityLocation = filteredOffers.find((offer) => offer.city.name === selectedCity);
     const selectedCityData = selectedCityLocation !== undefined ? selectedCityLocation.city : defaultCityCoordinates;
-    /* есть предожения */
-    return (
-      <div className="page page--gray page--main">
+    content = (
+      <div className="cities">
+        <div className="cities__places-container container">
 
-        <Header hasNavigation={hasNavigation} />
+          <MainOffers offersData={sortedOffers} setActiveOffer={setActiveOffer} activeCity={selectedCity} />
 
-        <main className="page__main page__main--index">
-          <h1 className="visually-hidden">Cities</h1>
-          <div className="tabs">
-
-            <LocationsList cities={cities} activeCity={selectedCity} />
+          <div className="cities__right-section">
+            <Map cityData={selectedCityData} mapType={MapType.Main} offers={sortedOffers} selectedPoint={activeOffer} />
 
           </div>
-
-          <div className="cities">
-            <div className="cities__places-container container">
-
-              <MainOffers offersData={sortedOffers} setActiveOffer={setActiveOffer} activeCity={selectedCity} />
-
-              <div className="cities__right-section">
-                <Map cityData={selectedCityData} mapType={MapType.Main} offers={sortedOffers} selectedPoint={activeOffer} />
-
-              </div>
-            </div>
-          </div>
-        </main>
-      </div >
-    );
+        </div>
+      </div>);
   } else {
-
-    /* нет предложений */
-    return (
-      <div className="page page--gray page--main">
-
-        <Header hasNavigation={hasNavigation} />
-
-        <main className="page__main page__main--index">
-          <h1 className="visually-hidden">Cities</h1>
-          <div className="tabs">
-
-            <LocationsList cities={cities} activeCity={selectedCity} />
-
-          </div>
-          <div className="cities">
-            <div className="cities__places-container cities__places-container--empty container">
-              <section className="cities__no-places">
-                <div className="cities__status-wrapper tabs__content">
-                  <b className="cities__status">No places to stay available</b>
-                  <p className="cities__status-description">We could not find any property available at the moment in {selectedCity}</p>
-                </div>
-              </section>
-              <div className="cities__right-section"></div>
+    content = (
+      <div className="cities">
+        <div className="cities__places-container cities__places-container--empty container">
+          <section className="cities__no-places">
+            <div className="cities__status-wrapper tabs__content">
+              <b className="cities__status">No places to stay available</b>
+              <p className="cities__status-description">We could not find any property available at the moment in {selectedCity}</p>
             </div>
-          </div>
-        </main>
-      </div >
-    );
+          </section>
+          <div className="cities__right-section"></div>
+        </div>
+      </div>);
   }
+
+  return (
+    <div className="page page--gray page--main">
+
+      <Header hasNavigation={hasNavigation} />
+
+      <main className="page__main page__main--index page__main--index-empty">
+        <h1 className="visually-hidden">Cities</h1>
+        <div className="tabs">
+
+          <LocationsList cities={cities} activeCity={selectedCity} />
+
+        </div>
+
+        {content}
+
+      </main>
+    </div >
+  );
+
 }
 export default MainScreen;

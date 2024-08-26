@@ -13,17 +13,15 @@ function HeaderNavigation(): JSX.Element {
   const authStatus = useAppSelector(selectAutorizationStatus);
   const isAuthorized = authStatus === AuthorizationStatus.Auth;
 
-  console.log('HeaderNavigation');
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (isAuthorized) {
-      console.log('1111111111111111111111111111111');
+      console.log('dispatch favotires');
       dispatch(fetchFavoriteAction());
     }
   }, [isAuthorized]);
 
   const favoritesCount = useAppSelector(selectFavorite).length;
-  console.log('favoritesCount ', favoritesCount);
 
   const handleClick = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault();

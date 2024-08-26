@@ -1,10 +1,10 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { CommentType, OfferInDetailType, OfferType } from '../../types';
+import { CommentType, OfferInDetailType, OfferLoadingStatus, OfferType } from '../../types';
 import { OfferStateType } from '../types';
 
 export const offerState: OfferStateType = {
   offer: null,
-  isOfferLoading: false,
+  isOfferLoading: 'notLoaded',
   nearbyOffers: [],
   comments: []
 };
@@ -16,7 +16,7 @@ export const offerSlice = createSlice({
     setOffer: (state, action: PayloadAction<OfferInDetailType>) => {
       state.offer = action.payload;
     },
-    setOfferLoadingStatus: (state, action: PayloadAction<boolean>) => {
+    setOfferLoadingStatus: (state, action: PayloadAction<OfferLoadingStatus>) => {
       state.isOfferLoading = action.payload;
     },
     setNearbyOffers: (state, action: PayloadAction<OfferType[]>) => {

@@ -72,7 +72,7 @@ function OfferCard({ offerData, setActiveOffer }: OfferCardProps): JSX.Element {
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
             <span className="visually-hidden">
-              {offerData.isFavorite ? 'To bookmarks' : 'In bookmarks'}
+              {isFavorite ? 'To bookmarks' : 'In bookmarks'}
             </span>
           </button>
         </div>
