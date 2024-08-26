@@ -5,21 +5,26 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { selectUserEmail, selectAutorizationStatus } from '../../store/slices/authorization-slice';
 import { AuthorizationStatus } from '../../constants';
 import { fetchFavoriteAction, logoutAction } from '../../services/api-actions';
-import { selectFavorite } from '../../store/slices/favorite-slice';
+import { selectFavorite, selectUserNameLoadedFor, setUserNameLoadedFor } from '../../store/slices/favorite-slice';
 
 function HeaderNavigation(): JSX.Element {
 
   const email = useAppSelector(selectUserEmail);
   const authStatus = useAppSelector(selectAutorizationStatus);
+  const userNameLoadedFor = useAppSelector(selectUserNameLoadedFor);
   const isAuthorized = authStatus === AuthorizationStatus.Auth;
 
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (isAuthorized) {
+    if (
+      authStatus === AuthorizationStatus.Auth
+      && userNameLoadedFor === null
+    ) {
       console.log('dispatch favotires');
       dispatch(fetchFavoriteAction());
+      dispatch(setUserNameLoadedFor(email));
     }
-  }, [isAuthorized]);
+  }, [dispatch, authStatus, userNameLoadedFor, email]);
 
   const favoritesCount = useAppSelector(selectFavorite).length;
 

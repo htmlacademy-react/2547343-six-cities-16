@@ -5,7 +5,7 @@ import cn from 'classnames';
 import { toggleFavoriteAction } from '../../services/api-actions';
 import { useAppDispatch } from '../../hooks';
 import { toggleFavoriteInOffers } from '../../store/slices/offer-slice';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { toggleFavoriteProperty } from '../../store/slices/favorite-slice';
 
 
@@ -91,4 +91,7 @@ function OfferCard({ offerData, setActiveOffer }: OfferCardProps): JSX.Element {
   );
 }
 
-export default OfferCard;
+
+const OfferCardMemoized = memo(OfferCard, (prevProps, nextProps) => prevProps.offerData === nextProps.offerData);
+
+export default OfferCardMemoized;

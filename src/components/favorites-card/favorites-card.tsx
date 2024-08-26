@@ -16,7 +16,7 @@ function FavoritesCard({ offerData }: FavoritesCardType): JSX.Element {
         </div>}
       <div className="favorites__image-wrapper place-card__image-wrapper">
         <a href="#">
-          <img className="place-card__image" src="img/apartment-small-03.jpg" width="150" height="110" alt="Place image" />
+          <img className="place-card__image" src={offerData.previewImage} width="150" height="110" alt={offerData.title} />
         </a>
       </div>
       <div className="favorites__card-info place-card__info">

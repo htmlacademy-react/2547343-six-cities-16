@@ -17,5 +17,6 @@ function LocationsList({ cities, activeCity }: LocationItemProps) {
   );
 }
 
-export default memo(LocationsList, (prevProps, nextProps) => prevProps.activeCity === nextProps.activeCity);
+const LocationsListMemoized = memo(LocationsList, (prevProps, nextProps) => prevProps.activeCity === nextProps.activeCity);
 
+export default LocationsListMemoized;

@@ -1,6 +1,6 @@
 import Header from '../components/header/header.tsx';
 import MainOffers from '../components/main-offers/main-offers.tsx';
-import LocationsList from '../components/locations-list/locations-list.tsx';
+import LocationsListMemoized from '../components/locations-list/locations-list.tsx';
 import Map from '../components/map/map.tsx';
 import { useParams } from 'react-router-dom';
 import { OfferType, SortingType } from '../types.ts';
@@ -111,7 +111,7 @@ function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX
         <h1 className="visually-hidden">Cities</h1>
         <div className="tabs">
 
-          <LocationsList cities={cities} activeCity={selectedCity} />
+          <LocationsListMemoized cities={cities} activeCity={selectedCity} />
 
         </div>
 

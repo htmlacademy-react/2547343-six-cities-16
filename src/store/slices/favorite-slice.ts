@@ -6,6 +6,7 @@ import { logoutAction } from '../../services/api-actions';
 export const favoriteState: FavoriteStateType = {
   favorite: [],
   isFavoriteLoading: false,
+  userNameLoadedFor: null,
 };
 
 export const favoriteSlice = createSlice({
@@ -17,6 +18,9 @@ export const favoriteSlice = createSlice({
     },
     setFavoriteLoadingStatus: (state, action: PayloadAction<boolean>) => {
       state.isFavoriteLoading = action.payload;
+    },
+    setUserNameLoadedFor: (state, action: PayloadAction<string | null>) => {
+      state.userNameLoadedFor = action.payload;
     },
     toggleFavoriteProperty: (state, action: PayloadAction<OfferType>) => {
       if (state.favorite.length > 0) {
@@ -34,16 +38,27 @@ export const favoriteSlice = createSlice({
   selectors: {
     selectFavorite: (state) => state.favorite,
     selectFavoriteLoadingStatus: (state) => state.isFavoriteLoading,
+    selectUserNameLoadedFor: (state) => state.userNameLoadedFor,
   },
   extraReducers: (builder) => {
     builder
       .addCase(logoutAction.fulfilled, (state) => {
         state.favorite = [];
+        state.userNameLoadedFor = null;
       });
   }
 });
 
-export const { setFavorite, setFavoriteLoadingStatus, toggleFavoriteProperty } = favoriteSlice.actions;
+export const {
+  setFavorite,
+  setFavoriteLoadingStatus,
+  setUserNameLoadedFor,
+  toggleFavoriteProperty
+} = favoriteSlice.actions;
 
-export const { selectFavorite, selectFavoriteLoadingStatus } = favoriteSlice.selectors;
+export const {
+  selectFavorite,
+  selectFavoriteLoadingStatus,
+  selectUserNameLoadedFor
+} = favoriteSlice.selectors;
 

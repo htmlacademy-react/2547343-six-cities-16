@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { SortingArray } from '../../constants';
 import { SortingType } from '../../types';
 import { useAppDispatch } from '../../hooks';
@@ -49,4 +49,6 @@ function SortingBlock() {
   );
 }
 
-export default SortingBlock;
+const SortingBlockMemoized = memo(SortingBlock);
+
+export default SortingBlockMemoized;

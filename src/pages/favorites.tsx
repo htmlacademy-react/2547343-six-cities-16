@@ -15,8 +15,6 @@ function FavoritesScreen({ hasNavigation }: FavoriteScreenProps): JSX.Element {
   const favoriteGroupedByCity = Object.groupBy(favoriteData, (data) => data.city.name);
 
   const isFavoriteLoading = useAppSelector(selectFavoriteLoadingStatus);
-  console.log('favoriteData ', favoriteData);
-  console.log('favoriteGroupedByCity ', favoriteGroupedByCity);
 
   const list = [];
   for (const city in favoriteGroupedByCity) {
@@ -51,7 +49,10 @@ function FavoritesScreen({ hasNavigation }: FavoriteScreenProps): JSX.Element {
         <Header hasNavigation={hasNavigation} />
 
         <main className="page__main page__main--favorites">
-          {list}
+          <div className="page__favorites-container container">
+            <h1 className="favorites__title">Saved listing</h1>
+            {list}
+          </div>
         </main>
         <Footer />
       </div>
