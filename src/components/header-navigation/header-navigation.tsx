@@ -1,18 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../constants';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { selectUserEmail, selectAutorizationStatus } from '../../store/slices/authorization-slice';
 import { AuthorizationStatus } from '../../constants';
-import { logoutAction } from '../../services/api-actions';
+import { fetchFavoriteAction, logoutAction } from '../../services/api-actions';
+import { selectFavorite, selectUserNameLoadedFor, setUserNameLoadedFor } from '../../store/slices/favorite-slice';
 
 function HeaderNavigation(): JSX.Element {
 
   const email = useAppSelector(selectUserEmail);
   const authStatus = useAppSelector(selectAutorizationStatus);
+  const userNameLoadedFor = useAppSelector(selectUserNameLoadedFor);
   const isAuthorized = authStatus === AuthorizationStatus.Auth;
 
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (
+      authStatus === AuthorizationStatus.Auth
+      && userNameLoadedFor === null
+    ) {
+      dispatch(fetchFavoriteAction());
+      dispatch(setUserNameLoadedFor(email));
+    }
+  }, [dispatch, authStatus, userNameLoadedFor, email]);
+
+  const favoritesCount = useAppSelector(selectFavorite).length;
+
   const handleClick = (evt: React.MouseEvent<HTMLElement>) => {
     evt.preventDefault();
     dispatch(logoutAction());
@@ -26,17 +40,17 @@ function HeaderNavigation(): JSX.Element {
         {isAuthorized ?
           <React.Fragment>
             <li className="header__nav-item user">
-              <a className="header__nav-link header__nav-link--profile" href="#">
+              <Link className="header__nav-link header__nav-link--profile" to="#">
                 <div className="header__avatar-wrapper user__avatar-wrapper">
                 </div>
-                <span className="header__user-name user__name">{email}</span>
-                <span className="header__favorite-count">3</span>
-              </a>
+                <Link to={AppRoute.Favorites} className="header__user-name user__name">{email}</Link>
+                <span className="header__favorite-count">{favoritesCount}</span>
+              </Link>
             </li>
             <li className="header__nav-item">
-              <a onClick={handleClick} className="header__nav-link" href="#">
+              <Link onClick={handleClick} className="header__nav-link" to="#">
                 <span className="header__signout">Sign out</span>
-              </a>
+              </Link>
             </li>
           </React.Fragment>
           :/*пользователь не авторизован*/

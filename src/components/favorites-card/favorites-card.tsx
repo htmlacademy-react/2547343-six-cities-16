@@ -1,12 +1,16 @@
-import { FavoriteOffer } from '../../types';
+import { Link } from 'react-router-dom';
+import { OfferType } from '../../types';
 import { formatRating } from '../../utils';
+import FavoritesButton from '../favorite-button/favorite-button';
 
 type FavoritesCardType = {
-  offerData: FavoriteOffer;
+  offerData: OfferType;
 }
 
 function FavoritesCard({ offerData }: FavoritesCardType): JSX.Element {
   const ratingInStarsFormat: string = formatRating(offerData.rating);
+
+  const previewImage = offerData.previewImage || offerData.images![0];
 
   return (
     <article className="favorites__card place-card">
@@ -15,9 +19,9 @@ function FavoritesCard({ offerData }: FavoritesCardType): JSX.Element {
           <span>Premium</span>
         </div>}
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <a href="#">
-          <img className="place-card__image" src="img/apartment-small-03.jpg" width="150" height="110" alt="Place image" />
-        </a>
+        <Link to="#">
+          <img className="place-card__image" src={previewImage} width="150" height="110" alt={offerData.title} />
+        </Link>
       </div>
       <div className="favorites__card-info place-card__info">
         <div className="place-card__price-wrapper">
@@ -25,12 +29,7 @@ function FavoritesCard({ offerData }: FavoritesCardType): JSX.Element {
             <b className="place-card__price-value">{offerData.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">In bookmarks</span>
-          </button>
+          <FavoritesButton offerData={offerData} type={'place-card'} />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
@@ -39,7 +38,7 @@ function FavoritesCard({ offerData }: FavoritesCardType): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{offerData.title}</a>
+          <Link to="#">{offerData.title}</Link>
         </h2>
         <p className="place-card__type">{offerData.type}</p>
       </div>

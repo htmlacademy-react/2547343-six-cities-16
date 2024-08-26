@@ -21,7 +21,7 @@ export const authorizationSlice = createSlice({
   selectors: {
     selectAutorizationStatus: (state) => state.authorizationStatus,
     selectUserEmail: (state) => state.userEmail,
-  },
+  }
 });
 
 export const { setAuthorizationStatus, setUserEmail } = authorizationSlice.actions;

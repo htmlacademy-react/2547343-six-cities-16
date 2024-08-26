@@ -1,4 +1,4 @@
-import OfferCard from '../offer-card/offer-card.tsx';
+import OfferCardMemoized from '../offer-card/offer-card.tsx';
 import { OfferType } from '../../types.ts';
 import { Dispatch, SetStateAction } from 'react';
 
@@ -13,7 +13,7 @@ function NearOffers({ offersData, setActiveOffer }: NearOffersProps) {
       <h2 className="near-places__title">Other places in the neighbourhood</h2>
       <div className="near-places__list places__list">
         {offersData.map((offer: OfferType) =>
-          <OfferCard key={offer.id} offerData={offer} setActiveOffer={setActiveOffer} />
+          <OfferCardMemoized key={offer.id} offerData={offer} setActiveOffer={setActiveOffer} />
         )}
       </div>
     </section>

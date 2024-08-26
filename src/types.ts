@@ -19,6 +19,7 @@ export type OfferType = {
   type: string;
   price: number;
   previewImage: string;
+  images?: string[];
   city: CityLocationType;
   location: LocationType;
   isFavorite: boolean;
@@ -50,21 +51,6 @@ export type OfferInDetailType = {
   images: string[];
   maxAdults: number;
 }
-
-export type FavoriteOffer = {
-  id: string;
-  title: string;
-  city: string;
-  price: string;
-  rating: number;
-  type: string;
-  isPremium: boolean;
-}
-
-export type FavoritesDataType = {
-  city: string;
-  offers: FavoriteOffer[];
-};
 
 export type CityDataType = {
   id: string;
@@ -100,3 +86,8 @@ export type CommentToSendType = {
   comment: string;
   rating: number;
 }
+
+export type OfferLoadingStatus = 'notLoaded' | 'loading' | 'loaded' | 'loadingError';
+
+export type OffersLoadingStatus = 'notLoaded' | 'loading' | 'loaded' | 'loadingError';
+
