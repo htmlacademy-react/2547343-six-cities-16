@@ -38,7 +38,7 @@ function HeaderNavigation(): JSX.Element {
 
         {/* пользователь авторизован */}
         {isAuthorized ?
-          <React.Fragment>
+          <>
             <li className="header__nav-item user">
               <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
                 <div className="header__avatar-wrapper user__avatar-wrapper">
@@ -52,7 +52,7 @@ function HeaderNavigation(): JSX.Element {
                 <span className="header__signout">Sign out</span>
               </a>
             </li>
-          </React.Fragment>
+          </>
           :/*пользователь не авторизован*/
           <li className="header__nav-item user">
             <Link to={AppRoute.Login} className="header__nav-link header__nav-link--profile">

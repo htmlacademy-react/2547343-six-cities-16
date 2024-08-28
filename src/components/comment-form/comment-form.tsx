@@ -3,6 +3,8 @@ import { useState, ChangeEvent } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { useParams } from 'react-router-dom';
 import { postCommentAction } from '../../services/api-actions';
+import { ratingArray } from '../../constants';
+
 
 interface FormType {
   rating: number | null;
@@ -17,8 +19,9 @@ const errorNoteStyle: React.CSSProperties = {
   fontSize: '12px',
 };
 
-
-const ratingArray = [5, 4, 3, 2, 1];
+function isValid({ comment, rating }: FormType) {
+  return comment.length >= 50 && comment.length <= 300 && rating !== null;
+}
 
 function CommentForm() {
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -26,16 +29,10 @@ function CommentForm() {
     rating: null,
     comment: '',
   });
-  const [submitIsValid, setSubmitValidation] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
   const [errorVisible, setErrorVisible] = useState(false);
 
-  const checkSubmitValidation = (text: string, rating: number | null) => {
-    if (text.length >= 50 && text.length <= 300 && rating !== null) {
-      setSubmitValidation(true);
-    } else {
-      setSubmitValidation(false);
-    }
-  };
+  const isValidState = isValid(form);
 
   const ratingChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const rating = +e.target.value;
@@ -44,8 +41,6 @@ function CommentForm() {
       ...form,
       rating: rating
     });
-
-    checkSubmitValidation(form.comment, rating);
   };
 
   const handleCommentChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
@@ -56,7 +51,6 @@ function CommentForm() {
       comment: value
     });
 
-    checkSubmitValidation(value, form.rating);
     if (errorVisible) {
       setErrorVisible(false);
     }
@@ -69,23 +63,24 @@ function CommentForm() {
   const handleSubmit = async (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     try {
-      if (form.rating !== null
-        && form.comment !== '') {
-        await dispatch(
-          postCommentAction({
-            id: offerId,
-            rating: form.rating,
-            comment: form.comment
-          })).unwrap();
+      setIsDisabled(true);
+      await dispatch(
+        postCommentAction({
+          id: offerId,
+          rating: form.rating!,
+          comment: form.comment
+        })).unwrap();
 
-        setForm({
-          rating: null,
-          comment: '',
-        });
-        formRef.current?.reset();
-      }
+      setForm({
+        rating: null,
+        comment: '',
+      });
+      formRef.current?.reset();
+
     } catch {
       setErrorVisible(true);
+    } finally {
+      setIsDisabled(false);
     }
   };
 
@@ -104,19 +99,20 @@ function CommentForm() {
       <div className="reviews__rating-form form__rating">
         {
           ratingArray.map((rating) => (
-            <React.Fragment key={rating}>
+            <React.Fragment key={rating.value}>
               <input
                 className="form__rating-input visually-hidden"
                 name="rating"
-                defaultValue={rating}
-                id={`${rating}-stars`}
+                defaultValue={rating.value}
+                id={`${rating.value}-stars`}
                 type="radio"
+                disabled={isDisabled}
                 onChange={ratingChangeHandler}
               />
               <label
-                htmlFor={`${rating}-stars`}
+                htmlFor={`${rating.value}-stars`}
                 className="reviews__rating-label form__rating-label"
-                title="perfect"
+                title={rating.title}
               >
                 <svg className="form__star-image" width={37} height={33}>
                   <use xlinkHref="#icon-star" />
@@ -133,6 +129,7 @@ function CommentForm() {
         required
         maxLength={300}
         minLength={50}
+        disabled={isDisabled}
         onChange={handleCommentChange}
       />
       {errorVisible && <div style={errorNoteStyle}>There was an error sending your comment</div>}
@@ -143,7 +140,7 @@ function CommentForm() {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!submitIsValid}
+          disabled={!isValidState || isDisabled}
         >
           Submit
         </button>

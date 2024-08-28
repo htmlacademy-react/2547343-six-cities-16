@@ -16,16 +16,27 @@ const warningNoteStyle: React.CSSProperties = {
 
 type LoginScreenProps = {
   hasNavigation: boolean;
-}
+};
 
 const regexForPassword = new RegExp(/(?=.*[0-9])(?=.*[a-z])/);
 
-const passwordValidation = (pass: string): boolean => pass.length <= 2 || !regexForPassword.test(pass);
+const isPasswordInvalid = (pass: string) => pass.length <= 2 || !regexForPassword.test(pass);
 
-const getRandomCityIndex = () => {
-  const minCeiled = Math.ceil(0);
-  const maxFloored = Math.floor(6);
-  return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
+function getRandomInteger(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function getRandomElement<T>(array: T[] | readonly T[]): T {
+  return array[getRandomInteger(0, array.length - 1)];
+}
+
+const getRandomCity = () => {
+  const key = getRandomElement(Object.keys(CITIES_NAME_MAP));
+
+  return {
+    key,
+    name: CITIES_NAME_MAP[key as keyof typeof CITIES_NAME_MAP],
+  };
 };
 
 function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
@@ -40,7 +51,7 @@ function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
     const value = evt.target.value.replace(/\s+/g, '');
 
     evt.target.value = value;
-    if (passwordValidation(value)) {
+    if (isPasswordInvalid(value)) {
       setWarningVisible(true);
     } else {
       setWarningVisible(false);
@@ -55,7 +66,7 @@ function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
 
       if (
         loginRef.current.value !== ''
-        && !passwordValidation(passwordRef.current.value)
+        && !isPasswordInvalid(passwordRef.current.value)
       ) {
         dispatch(loginAction({
           email: loginRef.current.value,
@@ -69,7 +80,7 @@ function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
     }
   };
 
-  const randomCity: string = Object.keys(CITIES_NAME_MAP)[getRandomCityIndex()];
+  const randomCity = getRandomCity();
 
   return (
     <div className="page page--gray page--login">
@@ -121,8 +132,8 @@ function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link to={`${AppRoute.Main}${randomCity}`} className="locations__item-link">
-                <span>{CITIES_NAME_MAP[randomCity as keyof typeof CITIES_NAME_MAP]}</span>
+              <Link to={`${AppRoute.Main}${randomCity.key}`} className="locations__item-link">
+                <span>{randomCity.name}</span>
               </Link>
             </div>
           </section>

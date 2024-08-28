@@ -10,6 +10,10 @@ type PrivateRouteProps = {
 function LoginPublicRoute({ children }: PrivateRouteProps) {
   const authorizationStatus = useAppSelector(selectAutorizationStatus);
 
+  if (authorizationStatus === AuthorizationStatus.Unknown) {
+    return 'Loading...';
+  }
+
   return (
     authorizationStatus === AuthorizationStatus.Auth
       ? <Navigate to={AppRoute.Main} />

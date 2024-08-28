@@ -3,13 +3,13 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, RootState } from '../store';
 import { OfferType, AuthData, UserData, OfferInDetailType, CommentType, CommentToSendType } from '../types';
 import { APIRoute } from '../constants';
-import { setOffers, setOffersLoadingStatus } from '../store/slices/offers-slice';
+import { setOffers, setOffersLoadingStatus, toggleFavoriteInOffers } from '../store/slices/offers-slice';
 import { AuthorizationStatus } from '../constants';
 import { setAuthorizationStatus } from '../store/slices/authorization-slice';
 import { setUserEmail } from '../store/slices/authorization-slice';
 import { saveToken, dropToken } from './token';
-import { setComments, setNearbyOffers, setOffer, setOfferLoadingStatus } from '../store/slices/offer-slice';
-import { setFavoriteLoadingStatus, setFavorite } from '../store/slices/favorite-slice';
+import { setComments, setNearbyOffers, setOffer, setOfferLoadingStatus, toggleFavoriteInOffer } from '../store/slices/offer-slice';
+import { setFavoriteLoadingStatus, setFavorite, toggleFavoriteProperty } from '../store/slices/favorite-slice';
 
 
 type AsyncThunkType = {
@@ -59,12 +59,6 @@ export const fetchNearbyOffersAction = createAsyncThunk<void, string | undefined
   },
 );
 
-export type KnownError = {
-  message: string;
-  description: string;
-  code: number | undefined;
-};
-
 export const fetchFavoriteAction = createAsyncThunk<void, undefined, AsyncThunkType>(
   '/six-cities/favorite',
   async (_arg, { dispatch, extra: api }) => {
@@ -77,8 +71,13 @@ export const fetchFavoriteAction = createAsyncThunk<void, undefined, AsyncThunkT
 
 export const toggleFavoriteAction = createAsyncThunk<void, OfferToToggleDataType, AsyncThunkType>(
   '/six-cities/favorite/offer/status',
-  async ({ id, status }, { extra: api }) => {
-    await api.post<OfferInDetailType>(`${APIRoute.Favorite}/${id}/${status}`);
+  async ({ id, status }, { extra: api, dispatch }) => {
+    const response = await api.post<OfferInDetailType>(`${APIRoute.Favorite}/${id}/${status}`);
+    const offerData = response.data;
+
+    dispatch(toggleFavoriteInOffers(offerData.id));
+    dispatch(toggleFavoriteInOffer(offerData.id));
+    dispatch(toggleFavoriteProperty(offerData));
   },
 );
 
@@ -110,11 +109,7 @@ export const checkAuthAction = createAsyncThunk<void, undefined, AsyncThunkType>
   },
 );
 
-export const loginAction = createAsyncThunk<void, AuthData, {
-  dispatch: AppDispatch;
-  state: RootState;
-  extra: AxiosInstance;
-}>(
+export const loginAction = createAsyncThunk<void, AuthData, AsyncThunkType>(
   'user/login',
   async ({ email, password }, { dispatch, extra: api }) => {
     const { data: { token } } = await api.post<UserData>(APIRoute.Login, { email, password });
@@ -124,11 +119,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
   },
 );
 
-export const logoutAction = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch;
-  state: RootState;
-  extra: AxiosInstance;
-}>(
+export const logoutAction = createAsyncThunk<void, undefined, AsyncThunkType>(
   'user/logout',
   async (_arg, { dispatch, extra: api }) => {
     await api.delete(APIRoute.Logout);

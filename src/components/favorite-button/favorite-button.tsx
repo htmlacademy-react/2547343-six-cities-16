@@ -1,11 +1,8 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { toggleFavoriteAction } from '../../services/api-actions';
-import { toggleFavoriteProperty } from '../../store/slices/favorite-slice';
-import { toggleFavoriteInOffers } from '../../store/slices/offers-slice';
 import { OfferType } from '../../types';
 import cn from 'classnames';
-import { toggleFavoriteInOffer } from '../../store/slices/offer-slice';
 import { selectAutorizationStatus } from '../../store/slices/authorization-slice';
 import { AppRoute, AuthorizationStatus } from '../../constants';
 import { useNavigate } from 'react-router-dom';
@@ -41,12 +38,6 @@ function FavoritesButton({ offerData, type }: FavoriteButtonType): JSX.Element {
         id: offerData.id,
         status: isFavorite ? 0 : 1,
       }));
-      dispatch(toggleFavoriteProperty({ ...offerData, isFavorite: !offerData.isFavorite }));
-      if (type === 'place-card') {
-        dispatch(toggleFavoriteInOffers(offerData.id));
-      } else {
-        dispatch(toggleFavoriteInOffer());
-      }
       setFavorite((prev) => !prev);
     }
   };
