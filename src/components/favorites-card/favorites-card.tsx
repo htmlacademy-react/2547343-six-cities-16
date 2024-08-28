@@ -19,14 +19,14 @@ function FavoritesCard({ offerData }: FavoritesCardType): JSX.Element {
           <span>Premium</span>
         </div>}
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <Link to="#">
+        <Link to={`/offer/${offerData.id}`}>
           <img className="place-card__image" src={previewImage} width="150" height="110" alt={offerData.title} />
         </Link>
       </div>
       <div className="favorites__card-info place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">{offerData.price}</b>
+            <b className="place-card__price-value">€{offerData.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <FavoritesButton offerData={offerData} type={'place-card'} />
@@ -38,7 +38,7 @@ function FavoritesCard({ offerData }: FavoritesCardType): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to="#">{offerData.title}</Link>
+          <Link to={`/offer/${offerData.id}`}>{offerData.title}</Link>
         </h2>
         <p className="place-card__type">{offerData.type}</p>
       </div>

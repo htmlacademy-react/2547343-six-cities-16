@@ -1,17 +1,19 @@
+import { useEffect } from 'react';
+import { useParams, Navigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { useAppDispatch, useAppSelector } from '../hooks/index.ts';
+import { fetchCommentsAction, fetchNearbyOffersAction, fetchOfferAction } from '../services/api-actions.ts';
+import { selectComments, selectNearbyOffers, selectOffer, selectOfferLoadingStatus } from '../store/slices/offer-slice.ts';
 import NearOffers from '../components/near-offers/near-offers.tsx';
 import CommentsList from '../components/comments-list/comments-list.tsx';
 import Header from '../components/header/header.tsx';
 import OfferImage from '../components/offer-image/offer-image.tsx';
 import Map from '../components/map/map.tsx';
-import { useParams, Navigate } from 'react-router-dom';
-import { MapType, AppRoute } from '../constants.ts';
-import { useAppDispatch, useAppSelector } from '../hooks/index.ts';
-import { formatRating } from '../utils.ts';
-import { useEffect } from 'react';
-import { fetchCommentsAction, fetchNearbyOffersAction, fetchOfferAction } from '../services/api-actions.ts';
-import { selectComments, selectNearbyOffers, selectOffer, selectOfferLoadingStatus } from '../store/slices/offer-slice.ts';
 import OfferLoading from '../components/offer-loading/offer-loading.tsx';
 import FavoritesButton from '../components/favorite-button/favorite-button.tsx';
+import { MapType, AppRoute } from '../constants.ts';
+import { formatRating } from '../utils.ts';
+import cn from 'classnames';
 
 type OfferScreenProps = {
   hasNavigation: boolean;
@@ -23,9 +25,12 @@ function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
 
   const offerLoadingStatus = useAppSelector(selectOfferLoadingStatus);
 
+  const comments = useAppSelector(selectComments);
   const dispatch = useAppDispatch();
+  const offerData = useAppSelector(selectOffer);
   useEffect(() => {
-    if (offerLoadingStatus === 'notLoaded') {
+    if (offerLoadingStatus === 'notLoaded'
+      || (offerData !== null && offerData.id !== offerId)) {
       dispatch(fetchOfferAction(offerId));
       dispatch(fetchNearbyOffersAction(offerId));
       dispatch(fetchCommentsAction(offerId));
@@ -33,9 +38,7 @@ function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
 
   }, [dispatch, offerId, offerLoadingStatus]);
 
-  const offerData = useAppSelector(selectOffer);
   const nearbyOffers = useAppSelector(selectNearbyOffers);
-  const comments = useAppSelector(selectComments);
 
   if (offerLoadingStatus === 'notLoaded' || offerLoadingStatus === 'loading') {
     return (
@@ -47,16 +50,28 @@ function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
       <Navigate to={AppRoute.Error} />
     );
 
-
   } else {
 
     if (offerId !== undefined && offerData !== null) {
 
       const currentCityData = offerData.city;
       const ratingInStarsFormat: string = formatRating(offerData.rating);
+      const bedroomLabel = offerData.bedrooms > 1
+        ? `${offerData.bedrooms} Bedrooms`
+        : '1 Bedroom';
+
+      const adultsLabel = offerData.maxAdults > 1
+        ? `Max ${offerData.maxAdults} adults`
+        : 'Max 1 adilt';
+
+      const nearbyOffersForMap = nearbyOffers.slice(0, 3);
+      nearbyOffersForMap.push(offerData);
 
       return (
         <div className="page">
+          <Helmet>
+            <title>{offerData.title}</title>
+          </Helmet>
 
           <Header hasNavigation={hasNavigation} />
 
@@ -64,7 +79,7 @@ function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
             <section className="offer">
               <div className="offer__gallery-container container">
                 <div className="offer__gallery">
-                  {offerData.images.map((item) => (
+                  {offerData.images.slice(0, 6).map((item) => (
                     <OfferImage
                       src={item}
                       altName="Photo studio"
@@ -100,14 +115,14 @@ function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
                       {offerData.type}
                     </li>
                     <li className="offer__feature offer__feature--bedrooms">
-                      {`${offerData.bedrooms} Bedrooms`}
+                      {bedroomLabel}
                     </li>
                     <li className="offer__feature offer__feature--adults">
-                      {`Max ${offerData.maxAdults} adults`}
+                      {adultsLabel}
                     </li>
                   </ul>
                   <div className="offer__price">
-                    <b className="offer__price-value">{offerData.price}</b>
+                    <b className="offer__price-value">€{offerData.price}</b>
                     <span className="offer__price-text">&nbsp;night</span>
                   </div>
                   <div className="offer__inside">
@@ -126,15 +141,21 @@ function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
                   <div className="offer__host">
                     <h2 className="offer__host-title">Meet the host</h2>
                     <div className="offer__host-user user">
-                      <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+                      <div className={cn(
+                        'offer__avatar-wrapper',
+                        'user__avatar-wrapper',
+                        { 'offer__avatar-wrapper--pro': offerData.host.isPro }
+                      )}
+                      >
                         <img className="offer__avatar user__avatar" src={offerData.host.avatarUrl} width="74" height="74" alt="Host avatar" />
                       </div>
                       <span className="offer__user-name">
                         {offerData.host.name}
                       </span>
-                      <span className="offer__user-status">
-                        {offerData.host.isPro}
-                      </span>
+                      {offerData.host.isPro &&
+                        <span className="offer__user-status">
+                          Pro
+                        </span>}
                     </div>
                     <div className="offer__description">
                       <p className="offer__text">
@@ -145,7 +166,7 @@ function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
                   <CommentsList comments={comments} />
                 </div>
               </div>
-              <Map cityData={currentCityData} mapType={MapType.Offer} offers={nearbyOffers} selectedPoint={offerData.id} />
+              <Map cityData={currentCityData} mapType={MapType.Offer} offers={nearbyOffersForMap} selectedPoint={offerData.id} />
             </section>
             <div className="container">
 
@@ -160,11 +181,8 @@ function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
       return (
         <Navigate to={AppRoute.Error} />
       );
-
     }
   }
-
 }
-
 
 export default OfferScreen;

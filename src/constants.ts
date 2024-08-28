@@ -1,7 +1,8 @@
 import { SortingType } from './types';
 
 export enum AppRoute {
-  Main = '/:city?',
+  Main = '/',
+  MainWithParams = '/:city',
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer/:id',
@@ -78,3 +79,26 @@ export const citiesData = {
   ,
   hasNavigation: true
 };
+
+export const ratingArray = [
+  {
+    title: 'perfect',
+    value: 5
+  },
+  {
+    title: 'good',
+    value: 4
+  },
+  {
+    title: 'not bad',
+    value: 3
+  },
+  {
+    title: 'badly',
+    value: 2
+  },
+  {
+    title: 'terribly',
+    value: 1
+  },
+];

@@ -1,2 +1,2 @@
-export const formatRating = (rating: number) => String(Math.round(rating * 20));
+export const formatRating = (rating: number) => String(Math.round(rating) * 20);
 

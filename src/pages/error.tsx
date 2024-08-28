@@ -1,5 +1,6 @@
-import Header from '../components/header/header.tsx';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import Header from '../components/header/header.tsx';
 import { AppRoute } from '../constants';
 
 
@@ -8,6 +9,9 @@ function ErrorScreen(): JSX.Element {
   return (
 
     <div className="page page--gray page--login">
+      <Helmet>
+        <title>Six cities. Page not found.</title>
+      </Helmet>
       <Header hasNavigation={false} />
       <main className="page__main page__main--login">
         <div

@@ -32,6 +32,7 @@ function Map({ cityData, mapType, offers, selectedPoint }: MapProps): JSX.Elemen
 
   useEffect(() => {
     if (map) {
+      const layer = leaflet.layerGroup();
       offers.forEach((offer: OfferType) => {
         const point = offer.location;
         if (point.latitude && point.longitude) {
@@ -47,6 +48,11 @@ function Map({ cityData, mapType, offers, selectedPoint }: MapProps): JSX.Elemen
             .addTo(map);
         }
       });
+
+      layer.addTo(map);
+      return () => {
+        layer.remove();
+      };
     }
   }, [map, offers, selectedPoint]);
 

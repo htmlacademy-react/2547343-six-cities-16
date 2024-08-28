@@ -1,30 +1,38 @@
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useRef } from 'react';
 import { useState, ChangeEvent } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { useParams } from 'react-router-dom';
 import { postCommentAction } from '../../services/api-actions';
+import { ratingArray } from '../../constants';
+
 
 interface FormType {
   rating: number | null;
   comment: string;
 }
 
-const ratingArray = [5, 4, 3, 2, 1];
+const errorNoteStyle: React.CSSProperties = {
+  position: 'absolute',
+  left: '2px',
+  marginTop: '-20px',
+  color: '#b06758',
+  fontSize: '12px',
+};
+
+function isValid({ comment, rating }: FormType) {
+  return comment.length >= 50 && comment.length <= 300 && rating !== null;
+}
 
 function CommentForm() {
+  const formRef = useRef<HTMLFormElement | null>(null);
   const [form, setForm] = useState<FormType>({
     rating: null,
     comment: '',
   });
-  const [submitIsValid, setSubmitValidation] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const [errorVisible, setErrorVisible] = useState(false);
 
-  const checkSubmitValidation = (text: string, rating: number | null) => {
-    if (text.length >= 50 && rating !== null) {
-      setSubmitValidation(true);
-    } else {
-      setSubmitValidation(false);
-    }
-  };
+  const isValidState = isValid(form);
 
   const ratingChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const rating = +e.target.value;
@@ -33,8 +41,6 @@ function CommentForm() {
       ...form,
       rating: rating
     });
-
-    checkSubmitValidation(form.comment, rating);
   };
 
   const handleCommentChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
@@ -45,28 +51,46 @@ function CommentForm() {
       comment: value
     });
 
-    checkSubmitValidation(value, form.rating);
+    if (errorVisible) {
+      setErrorVisible(false);
+    }
   };
 
   const params = useParams();
   const offerId = params.id || '';
   const dispatch = useAppDispatch();
 
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (form.rating !== null && form.comment !== '') {
-      dispatch(postCommentAction({
-        id: offerId,
-        rating: form.rating,
-        comment: form.comment
-      }));
+    try {
+      setIsDisabled(true);
+      await dispatch(
+        postCommentAction({
+          id: offerId,
+          rating: form.rating!,
+          comment: form.comment
+        })).unwrap();
+
+      setForm({
+        rating: null,
+        comment: '',
+      });
+      formRef.current?.reset();
+
+    } catch {
+      setErrorVisible(true);
+    } finally {
+      setIsDisabled(false);
     }
   };
+
   return (
     <form
       className="reviews__form form"
       action=""
       method="post"
+      ref={formRef}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onSubmit={handleSubmit}
     >
       <label className="reviews__label form__label" htmlFor="review">
@@ -75,19 +99,20 @@ function CommentForm() {
       <div className="reviews__rating-form form__rating">
         {
           ratingArray.map((rating) => (
-            <React.Fragment key={rating}>
+            <React.Fragment key={rating.value}>
               <input
                 className="form__rating-input visually-hidden"
                 name="rating"
-                defaultValue={rating}
-                id={`${rating}-stars`}
+                defaultValue={rating.value}
+                id={`${rating.value}-stars`}
                 type="radio"
+                disabled={isDisabled}
                 onChange={ratingChangeHandler}
               />
               <label
-                htmlFor={`${rating}-stars`}
+                htmlFor={`${rating.value}-stars`}
                 className="reviews__rating-label form__rating-label"
-                title="perfect"
+                title={rating.title}
               >
                 <svg className="form__star-image" width={37} height={33}>
                   <use xlinkHref="#icon-star" />
@@ -101,8 +126,13 @@ function CommentForm() {
         id="review"
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
+        required
+        maxLength={300}
+        minLength={50}
+        disabled={isDisabled}
         onChange={handleCommentChange}
       />
+      {errorVisible && <div style={errorNoteStyle}>There was an error sending your comment</div>}
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
@@ -110,7 +140,7 @@ function CommentForm() {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!submitIsValid}
+          disabled={!isValidState || isDisabled}
         >
           Submit
         </button>

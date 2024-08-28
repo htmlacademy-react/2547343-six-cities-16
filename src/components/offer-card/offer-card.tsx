@@ -1,8 +1,8 @@
-import { OfferType } from '../../types';
-import { Link } from 'react-router-dom';
-import { formatRating } from '../../utils';
 import { memo } from 'react';
+import { Link } from 'react-router-dom';
+import { OfferType } from '../../types';
 import FavoritesButton from '../favorite-button/favorite-button';
+import { formatRating } from '../../utils';
 
 
 type OfferCardProps = {
@@ -40,7 +40,7 @@ function OfferCard({ offerData, setActiveOffer }: OfferCardProps): JSX.Element {
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">{offerData.price}</b>
+            <b className="place-card__price-value">€{offerData.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
 

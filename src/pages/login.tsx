@@ -1,10 +1,10 @@
 import { useRef, FormEvent, ChangeEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import Header from '../components/header/header.tsx';
-import { useAppSelector, useAppDispatch } from '../hooks/index.ts';
-import { selectCity } from '../store/slices/city-slice.ts';
+import { useAppDispatch } from '../hooks/index.ts';
 import { loginAction } from '../services/api-actions.ts';
-import { AppRoute } from '../constants.ts';
+import { AppRoute, CITIES_NAME_MAP } from '../constants.ts';
 
 const warningNoteStyle: React.CSSProperties = {
   position: 'absolute',
@@ -16,12 +16,30 @@ const warningNoteStyle: React.CSSProperties = {
 
 type LoginScreenProps = {
   hasNavigation: boolean;
+};
+
+const regexForPassword = new RegExp(/(?=.*[0-9])(?=.*[a-z])/);
+
+const isPasswordInvalid = (pass: string) => pass.length <= 2 || !regexForPassword.test(pass);
+
+function getRandomInteger(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-const regex = new RegExp(/(?=.*[0-9])(?=.*[a-z])/);
+function getRandomElement<T>(array: T[] | readonly T[]): T {
+  return array[getRandomInteger(0, array.length - 1)];
+}
+
+const getRandomCity = () => {
+  const key = getRandomElement(Object.keys(CITIES_NAME_MAP));
+
+  return {
+    key,
+    name: CITIES_NAME_MAP[key as keyof typeof CITIES_NAME_MAP],
+  };
+};
 
 function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
-  const currentCity = useAppSelector(selectCity);
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
@@ -33,7 +51,7 @@ function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
     const value = evt.target.value.replace(/\s+/g, '');
 
     evt.target.value = value;
-    if (value.length <= 0 || !regex.test(value)) {
+    if (isPasswordInvalid(value)) {
       setWarningVisible(true);
     } else {
       setWarningVisible(false);
@@ -43,17 +61,32 @@ function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (loginRef.current !== null && passwordRef.current !== null) {
-      dispatch(loginAction({
-        email: loginRef.current.value,
-        password: passwordRef.current.value
-      }));
-      navigate(AppRoute.Main);
+    if (loginRef.current !== null
+      && passwordRef.current !== null) {
+
+      if (
+        loginRef.current.value !== ''
+        && !isPasswordInvalid(passwordRef.current.value)
+      ) {
+        dispatch(loginAction({
+          email: loginRef.current.value,
+          password: passwordRef.current.value
+        }));
+        navigate(AppRoute.Main);
+      } else {
+        passwordRef.current.value = '';
+      }
+
     }
   };
 
+  const randomCity = getRandomCity();
+
   return (
     <div className="page page--gray page--login">
+      <Helmet>
+        <title>Six cities. Login.</title>
+      </Helmet>
       <Header hasNavigation={hasNavigation} />
       <main className="page__main page__main--login">
         <div className="page__login-container container">
@@ -88,7 +121,7 @@ function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
                   required
                   onChange={handlePasswordChange}
                 />
-                {warningVisible && <div style={warningNoteStyle}>Please enter  password (letters and numbers without spaces)</div>}
+                {warningVisible && <div style={warningNoteStyle}>Password must contain 3 or more letters and numbers!</div>}
               </div>
               <button
                 className="login__submit form__submit button"
@@ -99,8 +132,8 @@ function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link to={AppRoute.Main} className="locations__item-link">
-                <span>{currentCity}</span>
+              <Link to={`${AppRoute.Main}${randomCity.key}`} className="locations__item-link">
+                <span>{randomCity.name}</span>
               </Link>
             </div>
           </section>
