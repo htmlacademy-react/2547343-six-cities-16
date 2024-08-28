@@ -1,19 +1,18 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, } from 'react-router-dom';
 import { useEffect } from 'react';
 import MainScreen from '../pages/main';
 import LoginScreen from '../pages/login';
 import FavoritesScreen from '../pages/favorites';
 import OfferScreen from '../pages/offer';
 import ErrorScreen from '../pages/error';
-import { AppRoute } from '../constants';
-import PrivateRoute from './private-route/private-route';
+import MainWrapper from './main-wrapper/main-wrapper';
+import FavoritePrivateRoute from './favorite-private-route/favorite-private-route';
+import LoginPublicRoute from './login-public-route/login-public-route';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { selectOffers } from '../store/slices/offers-slice';
 import { fetchOffersAction } from '../services/api-actions';
 import { selectAutorizationStatus } from '../store/slices/authorization-slice';
+import { AppRoute } from '../constants';
 
 type AppProps = {
   cities: { id: string; name: string }[];
@@ -33,19 +32,29 @@ function App({ cities }: AppProps): JSX.Element {
       path: AppRoute.Main,
       element:
         <MainScreen cities={cities} hasNavigation offersData={offers} />,
+      errorElement: <ErrorScreen />
+    },
+    {
+      path: AppRoute.MainWithParams,
+      element:
+        <MainWrapper>
+          <MainScreen cities={cities} hasNavigation offersData={offers} />
+        </MainWrapper>,
       errorElement: <ErrorScreen />,
     },
     {
       path: AppRoute.Login,
       element:
-        <LoginScreen hasNavigation={false} />
+        <LoginPublicRoute>
+          <LoginScreen hasNavigation={false} />
+        </LoginPublicRoute>
     },
     {
       path: AppRoute.Favorites,
       element:
-        <PrivateRoute>
+        <FavoritePrivateRoute>
           <FavoritesScreen hasNavigation />
-        </PrivateRoute>
+        </FavoritePrivateRoute>
     },
     {
       path: AppRoute.Offer,

@@ -1,8 +1,8 @@
-import { OfferType } from '../../types';
-import { Link } from 'react-router-dom';
-import { formatRating } from '../../utils';
 import { memo } from 'react';
+import { Link } from 'react-router-dom';
+import { OfferType } from '../../types';
 import FavoritesButton from '../favorite-button/favorite-button';
+import { formatRating } from '../../utils';
 
 
 type OfferCardProps = {

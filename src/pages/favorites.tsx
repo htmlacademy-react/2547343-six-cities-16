@@ -1,10 +1,11 @@
-import Header from '../components/header/header.tsx';
-import FavoritesCard from '../components/favorites-card/favorites-card.tsx';
-import Footer from '../components/footer/footer';
+import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { OfferType } from '../types.ts';
 import { useAppSelector } from '../hooks/index.ts';
 import { selectFavorite, selectFavoriteLoadingStatus } from '../store/slices/favorite-slice.ts';
-import { Link } from 'react-router-dom';
+import Header from '../components/header/header.tsx';
+import FavoritesCard from '../components/favorites-card/favorites-card.tsx';
+import Footer from '../components/footer/footer';
 
 type FavoriteScreenProps = {
   hasNavigation: boolean;
@@ -66,6 +67,9 @@ function FavoritesScreen({ hasNavigation }: FavoriteScreenProps): JSX.Element {
   return (
 
     <div className="page">
+      <Helmet>
+        <title>Six cities. Favorites.</title>
+      </Helmet>
       <Header hasNavigation={hasNavigation} />
 
       <main className="page__main page__main--favorites">

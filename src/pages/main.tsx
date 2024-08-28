@@ -13,6 +13,8 @@ import { selectOffersLoadingStatus, selectSortingMode } from '../store/slices/of
 import { useAppDispatch, useAppSelector } from '../hooks/index.ts';
 import Loading from '../components/loading/loading.tsx';
 import { selectAutorizationStatus } from '../store/slices/authorization-slice.ts';
+import { Helmet } from 'react-helmet-async';
+
 
 type MainScreenProps = {
   cities: { id: string; name: string }[];
@@ -43,7 +45,6 @@ function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX
   const cityFromParams = params.city as CityKey;
   const [activeOffer, setActiveOffer] = useState('');
   const authStatus = useAppSelector(selectAutorizationStatus);
-
   let selectedCity = DEFAULT_CITY.name;
   if (params.city !== undefined) {
     selectedCity = CITIES_NAME_MAP[cityFromParams] || selectedCity;
@@ -103,7 +104,9 @@ function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX
 
   return (
     <div className="page page--gray page--main">
-
+      <Helmet>
+        <title>Six cities.</title>
+      </Helmet>
       <Header hasNavigation={hasNavigation} />
 
       <main className="page__main page__main--index page__main--index-empty">

@@ -59,6 +59,12 @@ export const fetchNearbyOffersAction = createAsyncThunk<void, string | undefined
   },
 );
 
+export type KnownError = {
+  message: string;
+  description: string;
+  code: number | undefined;
+};
+
 export const fetchFavoriteAction = createAsyncThunk<void, undefined, AsyncThunkType>(
   '/six-cities/favorite',
   async (_arg, { dispatch, extra: api }) => {

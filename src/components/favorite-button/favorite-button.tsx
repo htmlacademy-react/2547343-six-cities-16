@@ -33,6 +33,7 @@ function FavoritesButton({ offerData, type }: FavoriteButtonType): JSX.Element {
   const authStatus = useAppSelector(selectAutorizationStatus);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const handleToggleFavorite = () => {
     if (authStatus !== AuthorizationStatus.Auth) {
       navigate(AppRoute.Login);

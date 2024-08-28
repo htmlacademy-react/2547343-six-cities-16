@@ -9,7 +9,7 @@ type PrivateRouteProps = {
   children: JSX.Element;
 }
 
-function PrivateRoute({ children }: PrivateRouteProps) {
+function FavoritePrivateRoute({ children }: PrivateRouteProps) {
 
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -24,4 +24,4 @@ function PrivateRoute({ children }: PrivateRouteProps) {
   );
 }
 
-export default PrivateRoute;
+export default FavoritePrivateRoute;

@@ -1,5 +1,6 @@
 import { useRef, FormEvent, ChangeEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import Header from '../components/header/header.tsx';
 import { useAppSelector, useAppDispatch } from '../hooks/index.ts';
 import { selectCity } from '../store/slices/city-slice.ts';
@@ -18,7 +19,10 @@ type LoginScreenProps = {
   hasNavigation: boolean;
 }
 
-const regex = new RegExp(/(?=.*[0-9])(?=.*[a-z])/);
+const regexForPassword = new RegExp(/(?=.*[0-9])(?=.*[a-z])/);
+
+const passwordValidation = (pass: string): boolean => pass.length <= 2 || !regexForPassword.test(pass);
+
 
 function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
   const currentCity = useAppSelector(selectCity);
@@ -33,7 +37,7 @@ function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
     const value = evt.target.value.replace(/\s+/g, '');
 
     evt.target.value = value;
-    if (value.length <= 0 || !regex.test(value)) {
+    if (passwordValidation(value)) {
       setWarningVisible(true);
     } else {
       setWarningVisible(false);
@@ -43,17 +47,31 @@ function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (loginRef.current !== null && passwordRef.current !== null) {
-      dispatch(loginAction({
-        email: loginRef.current.value,
-        password: passwordRef.current.value
-      }));
-      navigate(AppRoute.Main);
+    if (loginRef.current !== null
+      && passwordRef.current !== null) {
+
+      if (
+        loginRef.current.value !== ''
+        && !passwordValidation(passwordRef.current.value)
+      ) {
+        dispatch(loginAction({
+          email: loginRef.current.value,
+          password: passwordRef.current.value
+        }));
+        navigate(AppRoute.Main);
+      } else {
+        passwordRef.current.value = '';
+      }
+
     }
+
   };
 
   return (
     <div className="page page--gray page--login">
+      <Helmet>
+        <title>Six cities. Login.</title>
+      </Helmet>
       <Header hasNavigation={hasNavigation} />
       <main className="page__main page__main--login">
         <div className="page__login-container container">
@@ -88,7 +106,7 @@ function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
                   required
                   onChange={handlePasswordChange}
                 />
-                {warningVisible && <div style={warningNoteStyle}>Please enter  password (letters and numbers without spaces)</div>}
+                {warningVisible && <div style={warningNoteStyle}>Password must contain 3 or more letters and numbers!</div>}
               </div>
               <button
                 className="login__submit form__submit button"

@@ -33,36 +33,36 @@ function HeaderNavigation(): JSX.Element {
   };
 
   return (
-    < nav className="header__nav" >
+    <nav className="header__nav">
       <ul className="header__nav-list">
 
         {/* пользователь авторизован */}
         {isAuthorized ?
           <React.Fragment>
             <li className="header__nav-item user">
-              <Link className="header__nav-link header__nav-link--profile" to="#">
+              <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
                 <div className="header__avatar-wrapper user__avatar-wrapper">
                 </div>
-                <Link to={AppRoute.Favorites} className="header__user-name user__name">{email}</Link>
+                <span className="header__user-name user__name">{email}</span>
                 <span className="header__favorite-count">{favoritesCount}</span>
               </Link>
             </li>
             <li className="header__nav-item">
-              <Link onClick={handleClick} className="header__nav-link" to="#">
+              <a onClick={handleClick} className="header__nav-link">
                 <span className="header__signout">Sign out</span>
-              </Link>
+              </a>
             </li>
           </React.Fragment>
           :/*пользователь не авторизован*/
           <li className="header__nav-item user">
-            <Link to={AppRoute.Login} className="header__nav-link header__nav-link--profile" >
+            <Link to={AppRoute.Login} className="header__nav-link header__nav-link--profile">
               <div className="header__avatar-wrapper user__avatar-wrapper">
               </div>
               <span className="header__login">Sign in</span>
             </Link>
           </li>}
       </ul>
-    </nav >
+    </nav>
   );
 }
 

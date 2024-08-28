@@ -4,6 +4,7 @@ import App from './components/app';
 import { citiesData } from './constants';
 import { Provider } from 'react-redux';
 import { store } from './store';
+import { HelmetProvider } from 'react-helmet-async';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -13,9 +14,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App
-        cities={citiesData.cities}
-      />
+      <HelmetProvider>
+        <App
+          cities={citiesData.cities}
+        />
+      </HelmetProvider>
     </Provider>
   </React.StrictMode>
 );

@@ -1,7 +1,8 @@
 import { SortingType } from './types';
 
 export enum AppRoute {
-  Main = '/:city?',
+  Main = '/',
+  MainWithParams = '/:city',
   Login = '/login',
   Favorites = '/favorites',
   Offer = '/offer/:id',

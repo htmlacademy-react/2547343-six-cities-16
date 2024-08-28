@@ -1,8 +1,8 @@
 import { memo, useState } from 'react';
-import { SortingArray } from '../../constants';
 import { SortingType } from '../../types';
 import { useAppDispatch } from '../../hooks';
 import { setSortingMode } from '../../store/slices/offers-slice';
+import { SortingArray } from '../../constants';
 
 function SortingBlock() {
   const [isBlockOpened, setBlockState] = useState(false);
@@ -12,6 +12,7 @@ function SortingBlock() {
   };
 
   const dispatch = useAppDispatch();
+
   const handleSortClick = (sortMode: SortingType) => {
     setSetSortingType(sortMode);
     dispatch(setSortingMode(sortMode));
