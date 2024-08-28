@@ -79,7 +79,7 @@ function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
             <section className="offer">
               <div className="offer__gallery-container container">
                 <div className="offer__gallery">
-                  {offerData.images.map((item) => (
+                  {offerData.images.slice(0, 6).map((item) => (
                     <OfferImage
                       src={item}
                       altName="Photo studio"
