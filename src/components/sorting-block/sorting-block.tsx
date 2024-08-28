@@ -3,6 +3,7 @@ import { SortingType } from '../../types';
 import { useAppDispatch } from '../../hooks';
 import { setSortingMode } from '../../store/slices/offers-slice';
 import { SortingArray } from '../../constants';
+import cn from 'classnames';
 
 function SortingBlock() {
   const [isBlockOpened, setBlockState] = useState(false);
@@ -32,20 +33,23 @@ function SortingBlock() {
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      {isBlockOpened &&
-        <ul className="places__options places__options--custom places__options--opened">
-          {SortingArray.map((item) => (
-            <li
-              className={`places__option 
+
+      <ul className={cn(
+        'places__options places__options--custom',
+        isBlockOpened && 'places__options--opened')}
+      >
+        {SortingArray.map((item) => (
+          <li
+            className={`places__option 
               ${sorting === item ? 'places__option--active' : ''}`}
-              key={item.name}
-              onClick={() => handleSortClick(item)}
-              tabIndex={0}
-            >
-              {item.value}
-            </li>)
-          )}
-        </ul>}
+            key={item.name}
+            onClick={() => handleSortClick(item)}
+            tabIndex={0}
+          >
+            {item.value}
+          </li>)
+        )}
+      </ul>
     </form >
   );
 }

@@ -122,7 +122,7 @@ function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
                     </li>
                   </ul>
                   <div className="offer__price">
-                    <b className="offer__price-value">{offerData.price}</b>
+                    <b className="offer__price-value">€{offerData.price}</b>
                     <span className="offer__price-text">&nbsp;night</span>
                   </div>
                   <div className="offer__inside">

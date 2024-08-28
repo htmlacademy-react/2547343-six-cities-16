@@ -26,7 +26,6 @@ type FavoriteButtonType = {
   type: keyof typeof buttonsSettings;
 }
 
-
 function FavoritesButton({ offerData, type }: FavoriteButtonType): JSX.Element {
   const [isFavorite, setFavorite] = useState(offerData.isFavorite);
 

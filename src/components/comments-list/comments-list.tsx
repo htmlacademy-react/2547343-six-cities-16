@@ -26,7 +26,7 @@ function CommentsList({ comments }: CommentsListProps): JSX.Element {
 
     return (
       <section className="offer__reviews reviews">
-        <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{sortedCommentList.length > 10 ? 10 : sortedCommentList.length}</span></h2>
+        <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{sortedCommentList.length}</span></h2>
         <ul className="reviews__list">
           {list}
         </ul>

@@ -2,10 +2,9 @@ import { useRef, FormEvent, ChangeEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Header from '../components/header/header.tsx';
-import { useAppSelector, useAppDispatch } from '../hooks/index.ts';
-import { selectCity } from '../store/slices/city-slice.ts';
+import { useAppDispatch } from '../hooks/index.ts';
 import { loginAction } from '../services/api-actions.ts';
-import { AppRoute } from '../constants.ts';
+import { AppRoute, CITIES_NAME_MAP } from '../constants.ts';
 
 const warningNoteStyle: React.CSSProperties = {
   position: 'absolute',
@@ -23,9 +22,13 @@ const regexForPassword = new RegExp(/(?=.*[0-9])(?=.*[a-z])/);
 
 const passwordValidation = (pass: string): boolean => pass.length <= 2 || !regexForPassword.test(pass);
 
+const getRandomCityIndex = () => {
+  const minCeiled = Math.ceil(0);
+  const maxFloored = Math.floor(6);
+  return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled);
+};
 
 function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
-  const currentCity = useAppSelector(selectCity);
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
@@ -64,8 +67,9 @@ function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
       }
 
     }
-
   };
+
+  const randomCity: string = Object.keys(CITIES_NAME_MAP)[getRandomCityIndex()];
 
   return (
     <div className="page page--gray page--login">
@@ -117,8 +121,8 @@ function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link to={AppRoute.Main} className="locations__item-link">
-                <span>{currentCity}</span>
+              <Link to={`${AppRoute.Main}${randomCity}`} className="locations__item-link">
+                <span>{CITIES_NAME_MAP[randomCity as keyof typeof CITIES_NAME_MAP]}</span>
               </Link>
             </div>
           </section>
