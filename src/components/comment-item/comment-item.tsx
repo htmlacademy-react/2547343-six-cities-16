@@ -1,6 +1,6 @@
 
 import { CommentType } from '../../types';
-import { formatRating } from '../../utils';
+import { formatRating } from '../../utils/utils';
 
 type CommentItemProps = {
   commentData: CommentType;

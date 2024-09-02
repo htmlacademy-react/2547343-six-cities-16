@@ -7,7 +7,7 @@ export type CityLocationType = {
   };
 }
 
-type LocationType = {
+export type LocationType = {
   latitude: number;
   longitude: number;
   zoom: number;
@@ -88,6 +88,4 @@ export type CommentToSendType = {
 }
 
 export type OfferLoadingStatus = 'notLoaded' | 'loading' | 'loaded' | 'loadingError';
-
-export type OffersLoadingStatus = 'notLoaded' | 'loading' | 'loaded' | 'loadingError';
 

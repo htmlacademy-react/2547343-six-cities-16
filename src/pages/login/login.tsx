@@ -1,10 +1,10 @@
 import { useRef, FormEvent, ChangeEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import Header from '../components/header/header.tsx';
-import { useAppDispatch } from '../hooks/index.ts';
-import { loginAction } from '../services/api-actions.ts';
-import { AppRoute, CITIES_NAME_MAP } from '../constants.ts';
+import Header from '../../components/header/header.tsx';
+import { useAppDispatch } from '../../hooks/index.ts';
+import { loginAction } from '../../services/api-actions.ts';
+import { AppRoute, CITIES_NAME_MAP } from '../../constants.ts';
 
 const warningNoteStyle: React.CSSProperties = {
   position: 'absolute',
@@ -60,6 +60,9 @@ function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
+    if (loginRef.current === null && passwordRef.current === null) {
+      return;
+    }
 
     if (loginRef.current !== null
       && passwordRef.current !== null) {
@@ -73,8 +76,6 @@ function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
           password: passwordRef.current.value
         }));
         navigate(AppRoute.Main);
-      } else {
-        passwordRef.current.value = '';
       }
 
     }
@@ -118,6 +119,7 @@ function LoginScreen({ hasNavigation }: LoginScreenProps): JSX.Element {
                   name="password"
                   placeholder="Password"
                   id="password"
+                  autoComplete="on"
                   required
                   onChange={handlePasswordChange}
                 />

@@ -36,9 +36,13 @@ function CommentsList({ comments }: CommentsListProps): JSX.Element {
     );
   } else {
     return (
-      <span style={{ fontWeight: '700', marginBottom: '30px' }}>
-        No comments yet.
-      </span >);
+      <section className="offer__reviews reviews">
+        <span style={{ fontWeight: '700', marginBottom: '30px' }}>
+          No comments yet.
+        </span >
+        {isUserAuthorized === AuthorizationStatus.Auth &&
+          <CommentForm />}
+      </section >);
   }
 }
 

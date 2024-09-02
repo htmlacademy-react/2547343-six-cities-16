@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { OfferType } from '../types.ts';
-import { useAppSelector } from '../hooks/index.ts';
-import { selectFavorite, selectFavoriteLoadingStatus } from '../store/slices/favorite-slice.ts';
-import Header from '../components/header/header.tsx';
-import FavoritesCard from '../components/favorites-card/favorites-card.tsx';
-import Footer from '../components/footer/footer';
+import { OfferType } from '../../types.ts';
+import { useAppSelector } from '../../hooks/index.ts';
+import { selectFavorite, selectFavoriteLoadingStatus } from '../../store/slices/favorite-slice.ts';
+import Header from '../../components/header/header.tsx';
+import FavoritesCard from '../../components/favorites-card/favorites-card.tsx';
+import Footer from '../../components/footer/footer';
+import { AppRoute } from '../../constants.ts';
 
 type FavoriteScreenProps = {
   hasNavigation: boolean;
@@ -19,14 +20,13 @@ function FavoritesScreen({ hasNavigation }: FavoriteScreenProps): JSX.Element {
   const isFavoriteLoading = useAppSelector(selectFavoriteLoadingStatus);
 
   const list = [];
-
   for (const city in favoriteGroupedByCity) {
     if (favoriteGroupedByCity[city] !== undefined) {
       list.push(
         <li className="favorites__locations-items" key={city}>
           <div className="favorites__locations locations locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to="#">
+              <Link className="locations__item-link" to={`${AppRoute.Main}${city.toLowerCase()}`}>
                 <span>{city}</span>
               </Link>
             </div>
