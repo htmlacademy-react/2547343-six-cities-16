@@ -1,10 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { CommentType, OfferInDetailType, OfferLoadingStatus, OfferType } from '../../types';
 import { OfferStateType } from '../types';
+import { fetchCommentsAction, fetchNearbyOffersAction, fetchOfferAction } from '../../services/api-actions';
+import { LoadingStatus } from '../../constants';
 
 export const offerState: OfferStateType = {
   offer: null,
-  isOfferLoading: 'notLoaded',
+  isOfferLoading: LoadingStatus.NotLoaded,
   nearbyOffers: [],
   comments: []
 };
@@ -13,23 +14,30 @@ export const offerSlice = createSlice({
   name: 'offer',
   initialState: offerState,
   reducers: {
-    setOffer: (state, action: PayloadAction<OfferInDetailType>) => {
-      state.offer = action.payload;
-    },
-    setOfferLoadingStatus: (state, action: PayloadAction<OfferLoadingStatus>) => {
-      state.isOfferLoading = action.payload;
-    },
-    setNearbyOffers: (state, action: PayloadAction<OfferType[]>) => {
-      state.nearbyOffers = action.payload;
-    },
-    setComments: (state, action: PayloadAction<CommentType[]>) => {
-      state.comments = action.payload;
-    },
     toggleFavoriteInOffer: (state, action: PayloadAction<string>) => {
       if (state.offer?.id === action.payload) {
         state.offer.isFavorite = !state.offer.isFavorite;
       }
     }
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchOfferAction.pending, (state) => {
+        state.isOfferLoading = LoadingStatus.Loading;
+      })
+      .addCase(fetchOfferAction.fulfilled, (state, action) => {
+        state.offer = action.payload;
+        state.isOfferLoading = LoadingStatus.Loaded;
+      })
+      .addCase(fetchOfferAction.rejected, (state) => {
+        state.isOfferLoading = LoadingStatus.LoadingError;
+      })
+      .addCase(fetchCommentsAction.fulfilled, (state, action) => {
+        state.comments = action.payload;
+      })
+      .addCase(fetchNearbyOffersAction.fulfilled, (state, action) => {
+        state.nearbyOffers = action.payload;
+      });
   },
   selectors: {
     selectOffer: (state) => state.offer,
@@ -40,10 +48,6 @@ export const offerSlice = createSlice({
 });
 
 export const {
-  setOffer,
-  setOfferLoadingStatus,
-  setNearbyOffers,
-  setComments,
   toggleFavoriteInOffer
 } = offerSlice.actions;
 

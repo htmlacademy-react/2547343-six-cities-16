@@ -7,12 +7,14 @@ export const errorState: ErrorType = {
 
 export const errorSlice = createSlice({
   name: 'error',
-  initialState: errorState.error,
+  initialState: errorState,
   reducers: {
-    setError: (_, action: PayloadAction<string>) => action.payload
+    setError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
+    }
   },
   selectors: {
-    selectError: (state) => state,
+    selectError: (state) => state.error,
   }
 });
 

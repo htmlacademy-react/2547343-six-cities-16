@@ -7,12 +7,14 @@ export const cityState: CityStateType = {
 
 export const citySlice = createSlice({
   name: 'city',
-  initialState: cityState.city,
+  initialState: cityState,
   reducers: {
-    setCity: (_, action: PayloadAction<string>) => action.payload
+    setCity: (state, action: PayloadAction<string>) => {
+      state.city = action.payload;
+    }
   },
   selectors: {
-    selectCity: (state) => state,
+    selectCity: (state) => state.city,
   }
 });
 
