@@ -1,10 +1,10 @@
 import { createBrowserRouter, RouterProvider, } from 'react-router-dom';
 import { useEffect } from 'react';
-import MainScreen from '../pages/main';
-import LoginScreen from '../pages/login';
-import FavoritesScreen from '../pages/favorites';
-import OfferScreen from '../pages/offer';
-import ErrorScreen from '../pages/error';
+import MainScreen from '../pages/main/main';
+import LoginScreen from '../pages/login/login';
+import FavoritesScreen from '../pages/favorites/favorites';
+import OfferScreen from '../pages/offer/offer';
+import ErrorScreen from '../pages/error/error';
 import MainWrapper from './main-wrapper/main-wrapper';
 import FavoritePrivateRoute from './favorite-private-route/favorite-private-route';
 import LoginPublicRoute from './login-public-route/login-public-route';

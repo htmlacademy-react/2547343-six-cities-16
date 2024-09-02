@@ -1,18 +1,18 @@
-import Header from '../components/header/header.tsx';
-import MainOffers from '../components/main-offers/main-offers.tsx';
-import LocationsListMemoized from '../components/locations-list/locations-list.tsx';
-import Map from '../components/map/map.tsx';
+import Header from '../../components/header/header.tsx';
+import MainOffers from '../../components/main-offers/main-offers.tsx';
+import LocationsListMemoized from '../../components/locations-list/locations-list.tsx';
+import Map from '../../components/map/map.tsx';
 import { useParams } from 'react-router-dom';
-import { OfferType, SortingType } from '../types.ts';
+import { OfferType, SortingType } from '../../types.ts';
 import { useState, useEffect, useMemo } from 'react';
-import { MapType } from '../constants.ts';
-import { DEFAULT_CITY, CITIES_NAME_MAP } from '../constants.ts';
-import { defaultCityCoordinates } from '../mocks/city-coordinates.ts';
-import { setCity } from '../store/slices/city-slice.ts';
-import { selectOffersLoadingStatus, selectSortingMode } from '../store/slices/offers-slice.ts';
-import { useAppDispatch, useAppSelector } from '../hooks/index.ts';
-import Loading from '../components/loading/loading.tsx';
-import { selectAutorizationStatus } from '../store/slices/authorization-slice.ts';
+import { MapType } from '../../constants.ts';
+import { DEFAULT_CITY, CITIES_NAME_MAP } from '../../constants.ts';
+import { defaultCityCoordinates } from '../../constants.ts';
+import { setCity } from '../../store/slices/city-slice.ts';
+import { selectOffersLoadingStatus, selectSortingMode } from '../../store/slices/offers-slice.ts';
+import { useAppDispatch, useAppSelector } from '../../hooks/index.ts';
+import Loading from '../../components/loading/loading.tsx';
+import { selectAutorizationStatus } from '../../store/slices/authorization-slice.ts';
 import { Helmet } from 'react-helmet-async';
 
 
@@ -49,7 +49,6 @@ function MainScreen({ cities, hasNavigation, offersData }: MainScreenProps): JSX
   if (params.city !== undefined) {
     selectedCity = CITIES_NAME_MAP[cityFromParams] || selectedCity;
   }
-
   const sortingMode = useAppSelector(selectSortingMode);
   const isOffersLoading = useAppSelector(selectOffersLoadingStatus);
 

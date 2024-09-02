@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { FavoriteStateType } from '../types';
 import { OfferType } from '../../types';
-import { logoutAction } from '../../services/api-actions';
+import { fetchFavoriteAction, logoutAction } from '../../services/api-actions';
 
 export const favoriteState: FavoriteStateType = {
   favorite: [],
@@ -13,12 +13,6 @@ export const favoriteSlice = createSlice({
   name: 'favorite',
   initialState: favoriteState,
   reducers: {
-    setFavorite: (state, action: PayloadAction<OfferType[]>) => {
-      state.favorite = action.payload;
-    },
-    setFavoriteLoadingStatus: (state, action: PayloadAction<boolean>) => {
-      state.isFavoriteLoading = action.payload;
-    },
     setUserNameLoadedFor: (state, action: PayloadAction<string | null>) => {
       state.userNameLoadedFor = action.payload;
     },
@@ -40,13 +34,21 @@ export const favoriteSlice = createSlice({
       .addCase(logoutAction.fulfilled, (state) => {
         state.favorite = [];
         state.userNameLoadedFor = null;
+      })
+      .addCase(fetchFavoriteAction.pending, (state) => {
+        state.isFavoriteLoading = true;
+      })
+      .addCase(fetchFavoriteAction.fulfilled, (state, action) => {
+        state.isFavoriteLoading = false;
+        state.favorite = action.payload;
+      })
+      .addCase(fetchFavoriteAction.rejected, (state) => {
+        state.isFavoriteLoading = false;
       });
   }
 });
 
 export const {
-  setFavorite,
-  setFavoriteLoadingStatus,
   setUserNameLoadedFor,
   toggleFavoriteProperty
 } = favoriteSlice.actions;

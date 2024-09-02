@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { OfferType } from '../../types';
-import { formatRating } from '../../utils';
+import { formatRating } from '../../utils/utils';
 import FavoritesButton from '../favorite-button/favorite-button';
 
 type FavoritesCardType = {

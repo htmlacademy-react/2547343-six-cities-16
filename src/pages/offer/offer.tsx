@@ -1,18 +1,18 @@
 import { useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { useAppDispatch, useAppSelector } from '../hooks/index.ts';
-import { fetchCommentsAction, fetchNearbyOffersAction, fetchOfferAction } from '../services/api-actions.ts';
-import { selectComments, selectNearbyOffers, selectOffer, selectOfferLoadingStatus } from '../store/slices/offer-slice.ts';
-import NearOffers from '../components/near-offers/near-offers.tsx';
-import CommentsList from '../components/comments-list/comments-list.tsx';
-import Header from '../components/header/header.tsx';
-import OfferImage from '../components/offer-image/offer-image.tsx';
-import Map from '../components/map/map.tsx';
-import OfferLoading from '../components/offer-loading/offer-loading.tsx';
-import FavoritesButton from '../components/favorite-button/favorite-button.tsx';
-import { MapType, AppRoute } from '../constants.ts';
-import { formatRating } from '../utils.ts';
+import { useAppDispatch, useAppSelector } from '../../hooks/index.ts';
+import { fetchCommentsAction, fetchNearbyOffersAction, fetchOfferAction } from '../../services/api-actions.ts';
+import { selectComments, selectNearbyOffers, selectOffer, selectOfferLoadingStatus } from '../../store/slices/offer-slice.ts';
+import NearOffers from '../../components/near-offers/near-offers.tsx';
+import CommentsList from '../../components/comments-list/comments-list.tsx';
+import Header from '../../components/header/header.tsx';
+import OfferImage from '../../components/offer-image/offer-image.tsx';
+import Map from '../../components/map/map.tsx';
+import OfferLoading from '../../components/offer-loading/offer-loading.tsx';
+import FavoritesButton from '../../components/favorite-button/favorite-button.tsx';
+import { MapType, AppRoute, LoadingStatus } from '../../constants.ts';
+import { formatRating } from '../../utils/utils.ts';
 import cn from 'classnames';
 
 type OfferScreenProps = {
@@ -29,22 +29,22 @@ function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
   const dispatch = useAppDispatch();
   const offerData = useAppSelector(selectOffer);
   useEffect(() => {
-    if (offerLoadingStatus === 'notLoaded'
+    if (offerLoadingStatus === LoadingStatus.NotLoaded
       || (offerData !== null && offerData.id !== offerId)) {
       dispatch(fetchOfferAction(offerId));
       dispatch(fetchNearbyOffersAction(offerId));
       dispatch(fetchCommentsAction(offerId));
     }
 
-  }, [dispatch, offerId, offerLoadingStatus]);
+  }, [dispatch, offerData, offerId, offerLoadingStatus]);
 
-  const nearbyOffers = useAppSelector(selectNearbyOffers);
+  const nearbyOffers = useAppSelector(selectNearbyOffers).slice(0, 3);
 
-  if (offerLoadingStatus === 'notLoaded' || offerLoadingStatus === 'loading') {
+  if (offerLoadingStatus === LoadingStatus.NotLoaded || offerLoadingStatus === LoadingStatus.Loading) {
     return (
       <OfferLoading />
     );
-  } else if (offerLoadingStatus === 'loadingError') {
+  } else if (offerLoadingStatus === LoadingStatus.LoadingError) {
 
     return (
       <Navigate to={AppRoute.Error} />
@@ -64,7 +64,7 @@ function OfferScreen({ hasNavigation }: OfferScreenProps): JSX.Element {
         ? `Max ${offerData.maxAdults} adults`
         : 'Max 1 adilt';
 
-      const nearbyOffersForMap = nearbyOffers.slice(0, 3);
+      const nearbyOffersForMap = [...nearbyOffers];
       nearbyOffersForMap.push(offerData);
 
       return (

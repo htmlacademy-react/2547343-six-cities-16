@@ -1,10 +1,12 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { OffersLoadingStatus, OfferType, SortingType } from '../../types';
+import { SortingType } from '../../types';
 import { OffersStateType } from '../types';
+import { fetchOffersAction } from '../../services/api-actions';
+import { LoadingStatus } from '../../constants';
 
 export const offersState: OffersStateType = {
   offers: [],
-  isOffersLoading: 'notLoaded',
+  isOffersLoading: LoadingStatus.NotLoaded,
   sortingMode: {
     name: 'Popular',
     value: 'Popular'
@@ -15,12 +17,6 @@ export const offersSlice = createSlice({
   name: 'offers',
   initialState: offersState,
   reducers: {
-    setOffers: (state, action: PayloadAction<OfferType[]>) => {
-      state.offers = action.payload;
-    },
-    setOffersLoadingStatus: (state, action: PayloadAction<OffersLoadingStatus>) => {
-      state.isOffersLoading = action.payload;
-    },
     setSortingMode: (state, action: PayloadAction<SortingType>) => {
       state.sortingMode = action.payload;
     },
@@ -31,6 +27,19 @@ export const offersSlice = createSlice({
       }
     }
   },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchOffersAction.pending, (state) => {
+        state.isOffersLoading = LoadingStatus.Loading;
+      })
+      .addCase(fetchOffersAction.fulfilled, (state, action) => {
+        state.offers = action.payload;
+        state.isOffersLoading = LoadingStatus.Loaded;
+      })
+      .addCase(fetchOffersAction.rejected, (state) => {
+        state.isOffersLoading = LoadingStatus.LoadingError;
+      });
+  },
   selectors: {
     selectOffers: (state) => state.offers,
     selectOffersLoadingStatus: (state) => state.isOffersLoading,
@@ -39,8 +48,6 @@ export const offersSlice = createSlice({
 });
 
 export const {
-  setOffers,
-  setOffersLoadingStatus,
   setSortingMode,
   toggleFavoriteInOffers
 } = offersSlice.actions;

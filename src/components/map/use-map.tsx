@@ -40,7 +40,7 @@ function useLeafletMap(mapRef: React.MutableRefObject<null>, cityData: CityLocat
     }
 
 
-  }, [mapRef, cityData]);
+  }, [map, mapRef, cityData]);
 
   return map;
 }
